@@ -12,6 +12,7 @@ public struct CommonStrings {
     public static let close: String = "Cerrar"
     public static let emptyString: String = ""
     public static let programTurn: String = "Este turno no garantiza que seas atendido a la hora asignada, deberás esperar el llamado de este en la sucursal seleccionada"
+    public static let chatSupport: String = "Chat Support"
     public struct TextViewStrings {
         public static let ellipsis: String = "..."
         public static let seeMore: String = "Ver más"
@@ -35,5 +36,12 @@ public struct CommonStrings {
         public static let information = "information"
         public static let articles = "articles"
         public static let help = "help"
+    }
+    public struct Errors {
+        public static let routNoExist =  "La ruta no existe"
+        public static let errorGettingData =  "Error obteniendo la data"
+        public static let errorGettingDocument =  "Error al obtener el documento:"
+        public static let errorDecoding =  "Error decoding"
+        
     }
 }

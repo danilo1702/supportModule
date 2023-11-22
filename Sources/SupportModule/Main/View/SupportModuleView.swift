@@ -1,5 +1,5 @@
 //
-//  SwiftUIView.swift
+//  SupportModuleView.swift
 //
 //
 //  Created by Danilo Hernandez on 27/10/23.
@@ -10,19 +10,7 @@ import FirebaseCore
 import FirebaseStorage
 import FirebaseFirestore
 import FirebaseFirestoreSwift
-public class FirestoreManager {
-    public static let shared = FirestoreManager()
 
-
-    private lazy var firestore: Firestore = {
-        FirebaseApp.configure()
-        return Firestore.firestore()
-    }()
-
-    public func getFirestoreInstance() -> Firestore {
-        return firestore
-    }
-}
 public struct SupportModuleView: View {
     
 
@@ -35,12 +23,12 @@ public struct SupportModuleView: View {
     @State public var newConversacion: Bool = false
     public var arrayDemo =  MockInformation.cardListArray
     public var generalConfiguration: GeneralConfiguration = MockInformation.generalConfiguration
-    @StateObject public var viewModel: SupportMainViewModel
+    @StateObject public var viewModel: SupportMainViewModel = SupportMainViewModel()
     
-    public init(firestore: Firestore) {
-        
-        self._viewModel = StateObject(wrappedValue: SupportMainViewModel(dbFirestore: firestore))
-    }
+//    public init(firestore: Firestore) {
+//        
+//        self._viewModel = StateObject(wrappedValue: SupportMainViewModel(dbFirestore: firestore))
+//    }
     public var body: some View {
         GeometryReader { geometry in
             VStack {
@@ -81,15 +69,37 @@ public struct SupportModuleView: View {
             }
             .addSearchbar(textSearch: $textSearch, placeHolder: generalConfiguration.placeHolderSearchBar, title: generalConfiguration.titleModule)
             .onAppear{
-                viewModel.getArticles { result in
+                viewModel.registerUserFirebase{ result in
                     switch result {
                         case .success(let success):
-                            viewModel.convertToCardModel(articlesHelp: success)
-                        case .failure(let error):
-                            print("error getting Articles \(error)")
-                            
+                            if success {
+                                viewModel.loginFirebase { result in
+                                    switch result {
+                                        case .success((let status, let user)):
+                                            if status {
+                                                textSearch = user.user.email ?? ""
+                                                viewModel.getArticles { result in
+                                                    switch result {
+                                                        case .success(let success):
+                                                            
+                                                            viewModel.convertToCardModel(articlesHelp: success)
+                                                        case .failure(let error):
+                                                            print("error getting Articles \(error)")
+                                                    }
+                                                }
+                                            }
+                                        case .failure(let error):
+                                            print(error)
+                                        
+                                    }
+                                }
+                            }
+                        case .failure(let failure):
+                            print(failure)
                     }
                 }
+                
+                
             }
         }
     }

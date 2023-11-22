@@ -52,7 +52,7 @@ public struct ComponentDesignApi: Codable {
     public var backgroundColor: String?
     public var cornerRaiuds: String?
     
-    public init(backgroundColor: String? = "#DAF1F0", cornerRaiuds: String? = "15") {
+    public init(backgroundColor: String? = nil, cornerRaiuds: String? = nil) {
         self.backgroundColor = backgroundColor
         self.cornerRaiuds = cornerRaiuds
     }

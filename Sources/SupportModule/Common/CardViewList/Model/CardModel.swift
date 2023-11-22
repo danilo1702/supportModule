@@ -20,7 +20,7 @@ public struct CardModel: Identifiable {
     public var action: String
     
     
-    public init(id: String, image: ImageModel? = nil, link: String? = nil, titleFormat: TextViewModel, dateFormat: TextViewModel? = nil, designCard: ComponentDesign = ComponentDesign(backgroundColor: .gray.opacity(0.1), cornerRaiuds: 15.0), action: String = "link") {
+    public init(id: String, image: ImageModel? = nil, link: String? = nil, titleFormat: TextViewModel, dateFormat: TextViewModel? = nil, designCard: ComponentDesign = ComponentDesign(backgroundColor: .gray.opacity(0.1), cornerRaiuds: 15.0), action: String = "") {
         self.id = id
         self.image = image
         self.link = link
