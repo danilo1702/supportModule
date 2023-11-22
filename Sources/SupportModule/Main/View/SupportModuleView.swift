@@ -25,10 +25,8 @@ public struct SupportModuleView: View {
     public var generalConfiguration: GeneralConfiguration = MockInformation.generalConfiguration
     @StateObject public var viewModel: SupportMainViewModel = SupportMainViewModel()
     
-//    public init(firestore: Firestore) {
-//        
-//        self._viewModel = StateObject(wrappedValue: SupportMainViewModel(dbFirestore: firestore))
-//    }
+    public init() {
+    }
     public var body: some View {
         GeometryReader { geometry in
             VStack {
