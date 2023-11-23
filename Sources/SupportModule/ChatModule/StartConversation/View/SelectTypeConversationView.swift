@@ -26,12 +26,13 @@ struct SelectTypeConversationView: View {
                         Spacer()
                     }
                     showListQueries(geometry: geometry)
+                    NavigationLink(isActive: $goToChat) {
+                        ChatView(toUUID: supportId)
+                    } label: {
+                        EmptyView()
+                    }
                 }.padding()
-                NavigationLink(isActive: $goToChat) {
-                    ChatView(toUUID: supportId)
-                } label: {
-                    EmptyView()
-                }
+                
             }
         }
     }
