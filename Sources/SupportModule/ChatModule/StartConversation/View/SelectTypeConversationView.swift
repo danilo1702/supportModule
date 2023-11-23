@@ -20,19 +20,21 @@ struct SelectTypeConversationView: View {
             if isLoading {
                 ProgressView()
             } else {
-                VStack {
-                    HStack {
-                        Text("Selecciona una categoria")
-                        Spacer()
-                    }
-                    showListQueries(geometry: geometry)
-                    NavigationLink(isActive: $goToChat) {
-                        ChatView(toUUID: supportId)
-                    } label: {
-                        EmptyView()
-                    }
-                }.padding()
-                
+                NavigationView {
+                    VStack {
+                        HStack {
+                            Text("Selecciona una categoria")
+                            Spacer()
+                        }
+                        showListQueries(geometry: geometry)
+                       
+                        NavigationLink(isActive: $goToChat) {
+                            ChatView(toUUID: supportId)
+                        } label: {
+                            EmptyView()
+                        }
+                    }.padding()
+                }
             }
         }
     }
@@ -60,6 +62,7 @@ struct SelectTypeConversationView: View {
             }
         }
     }
+
 }
 
 //#Preview {
