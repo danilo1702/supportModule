@@ -9,6 +9,7 @@ import SwiftUI
 
 public struct TextFieldMessageView: View {
     @State public var textToSend: String = ""
+    public var completion: (_ text: String)->()
 
     public var body: some View {
         
@@ -33,7 +34,9 @@ public struct TextFieldMessageView: View {
                             .frame(width: UIScreen.main.bounds.width * 0.07, height: UIScreen.main.bounds.width * 0.07, alignment: .center)
                     })
                 } else {
-                    Button(action: {}, label: {
+                    Button(action: {
+                        completion(textToSend)
+                    }, label: {
                         Image(systemName: "paperplane.circle.fill")
                             .resizable()
                             .frame(width: UIScreen.main.bounds.width * 0.07, height: UIScreen.main.bounds.width * 0.07, alignment: .center)
@@ -48,6 +51,9 @@ public struct TextFieldMessageView: View {
 }
 
 #Preview {
-    TextFieldMessageView()
+    TextFieldMessageView(completion:
+                            {text in 
+      print("Envia mensaje: \(text)")
+    })
 }
 

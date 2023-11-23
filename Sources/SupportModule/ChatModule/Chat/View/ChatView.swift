@@ -9,29 +9,35 @@ import SwiftUI
 
 public struct ChatView: View {
     
-    @State var messageToSend: String = ""
+    @StateObject var viewModel: ChatViewModel
 
+    public init(toUUID: String) {
+        self._viewModel = StateObject(wrappedValue: ChatViewModel(toUUID: toUUID))
+    }
     public var body: some View {
         GeometryReader { geometry in
             VStack {
                 ScrollView {
-                    
-                    ForEach(MockInformation.messages, id: \.uiniqueId) { message in
-
-                        if let specialMessage =  message.specialMessage {
-                            MessageBubble(messageStruct: message, view:  SelectOptionView(messageModel: specialMessage).toAnyView(), geometry: geometry)
-                        } else {
-                            MessageBubble(messageStruct: message, geometry: geometry)
-                        }
-                    }
+                    ForEach(viewModel.messages, id: \.id) { message in
+                        BumbleChat(message: message)
+                    }  
                 }
-                TextFieldMessageView()
+                TextFieldMessageView( completion: { text in 
+                    viewModel.sendMessage(message: text)
+                })
                     .navigationTitle(CommonStrings.chatSupport)
+            }
+            .onAppear{
+                
+                DispatchQueue.main.async {
+                    viewModel.fetchingMessages()
+                }
+                
             }
         }
     }
 }
 
-#Preview {
-    ChatView()
-}
+//#Preview {
+//    ChatView()
+//}

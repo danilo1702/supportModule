@@ -117,13 +117,13 @@ public struct SupportModuleView: View {
         VStack {
             
          NavigationLink(
-            destination: ChatView(),
+            destination: EmptyView(),
             isActive: $navigationChat,
             label: {
                 EmptyView()
             })
         NavigationLink(
-            destination: StartConversationView(queryTypesModel: MockInformation.queryTypesModelArray),
+            destination: SelectTypeConversationView(queryTypesModel: MockInformation.queryTypesModelArray),
             isActive: $newConversacion,
             label: {
                 EmptyView()
