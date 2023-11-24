@@ -118,7 +118,7 @@ public struct SupportModuleView: View {
     
     @ViewBuilder
     func navigationLinks() -> some View{
-        let toUUID = (viewModel.recentMessage.count > 0 ? viewModel.recentMessage[0].toUUID ?? "" ==  Auth.auth().currentUser?.uid ? viewModel.recentMessage[0].fromUUID ?? "" : Auth.auth().currentUser?.uid : "") ?? ""
+        let toUUID = (viewModel.recentMessage.count > 0 ? viewModel.recentMessage[0].toUUID ?? "" ==  Auth.auth().currentUser?.uid ? viewModel.recentMessage[0].fromUUID ?? "" : viewModel.recentMessage[0].toUUID ?? "" : "")
         VStack {
             
          NavigationLink(
