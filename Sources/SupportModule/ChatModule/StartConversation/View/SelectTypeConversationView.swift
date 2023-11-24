@@ -39,7 +39,7 @@ struct SelectTypeConversationView: View {
                             switch result {
                                 case .success(let result):
                                     supportId = result
-                                    isLoading.toggle()
+                                    //isLoading.toggle()
                                     goToChat.toggle()
                                     
                                 case .failure(let error):
