@@ -6,10 +6,11 @@
 //
 
 import Foundation
+import FirebaseFirestoreSwift
 import FirebaseFirestore
 
 public struct MessageModel: Codable {
-    
+    @DocumentID var id: String?
     let message: String
     let fromUUID: String
     let toUUID: String

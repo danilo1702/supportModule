@@ -34,7 +34,7 @@ public struct SupportModuleView: View {
                     .padding(.horizontal)
                     .frame(width: .infinity, height: geometry.size.height * 0.4, alignment: .center)
                 
-                if lastChat {
+                if viewModel.recentMessage.count > 0 {
                     VStack {
                         HStack{
                             TextView(informationModel: generalConfiguration.titleLastChat)
@@ -42,7 +42,7 @@ public struct SupportModuleView: View {
                             Spacer()
                         }.padding(19)
                         
-                        CardView(information: lastChatInformation, activeNavigation: $navigationChat) {}
+                        CardView(information: viewModel.recentMessage[0], activeNavigation: $navigationChat) {}
                             .padding(.horizontal)
                        //Text("Historial de chats")
                     }
@@ -75,7 +75,9 @@ public struct SupportModuleView: View {
                                     switch result {
                                         case .success((let status, let user)):
                                             if status {
-                                                textSearch = user.user.email ?? ""
+                                                DispatchQueue.main.async {
+                                                viewModel.getLastChats()
+                                                    
                                                 viewModel.getArticles { result in
                                                     switch result {
                                                         case .success(let success):
@@ -84,6 +86,7 @@ public struct SupportModuleView: View {
                                                         case .failure(let error):
                                                             print("error getting Articles \(error)")
                                                     }
+                                                }
                                                 }
                                             }
                                         case .failure(let error):

@@ -15,6 +15,7 @@ import FirebaseAuth
 public class SupportMainViewModel: ObservableObject {
     @Published public var dbFirestore: Firestore = Firestore.firestore()
     @Published public var articles: [CardModel] = []
+    @Published public var recentMessage: [CardModel] = []
     var informationDevice = InformationDevice()
     
 //    public init(dbFirestore: Firestore) {
@@ -50,6 +51,30 @@ public class SupportMainViewModel: ObservableObject {
         }
     }
     
+    func getLastChats() {
+        
+        guard let userUUID = Auth.auth().currentUser?.uid else { return }
+        let reference = dbFirestore.collection(FirebaseConstants.lastMessages)
+            .document(userUUID)
+            .collection(FirebaseConstants.messages)
+        
+        reference.addSnapshotListener { [weak self] querySnapshot, error in
+            
+            guard let self = self, let querySnapshot = querySnapshot, error == nil else { return }
+            
+            querySnapshot.documentChanges.forEach { change in
+                
+                let documentId = change.document.documentID
+                if let index = self.recentMessage.firstIndex(where: { $0.id == documentId}) {
+                    self.recentMessage.remove(at: index)
+                }
+                if let message = try? change.document.data(as: MessageModel.self) {
+                    print("el id del documento: \(message.id ?? "NO TIENE") */-/*-*/-/*-/*-/-*/*-/*--/*-*/-/*/*-/*--*//*-*-//*--*/-/**-/*-/")
+                    self.recentMessage.insert(CardModel(id: "d", titleFormat: TextViewModel(text: message.message, foregroundColor: .black, font: .system(size: 14), expandable: true), designCard: ComponentDesign(backgroundColor: .gray.opacity(0.1), cornerRaiuds: 15), action: ""), at: 0)
+                }
+            }
+        }
+    }
     func loginFirebase(completion: @escaping (Result<(Bool,AuthDataResult), Error>) -> ()) {
         
         Auth.auth().signIn(withEmail: informationDevice.email, password: informationDevice.deviceUUID) {  authResult, error in
@@ -86,7 +111,7 @@ public class SupportMainViewModel: ObservableObject {
             }
         }
     }
-
+    
     func convertToCardModel(articlesHelp: [InformationCardApi]) {
         
         articlesHelp.forEach { information in
