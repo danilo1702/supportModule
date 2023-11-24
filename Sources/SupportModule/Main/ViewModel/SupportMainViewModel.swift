@@ -50,6 +50,7 @@ public class SupportMainViewModel: ObservableObject {
           print("Error writing the user to Firestore: \(error)")
         }
     }
+
     
     func getLastChats() {
         

@@ -47,6 +47,7 @@ class ChatViewModel: ObservableObject {
             }
         }
     }
+
     
     func sendMessage(message: String) {
         
@@ -78,5 +79,30 @@ class ChatViewModel: ObservableObject {
         DispatchQueue.main.async {
             self.count += 1
         }
+        saveLastMessage(toUUID: toUUID, message: message)
+    }
+    func saveLastMessage(toUUID: String, message: [String: Any]) {
+        guard let fromUUID = Auth.auth().currentUser?.uid else { return }
+        
+        let reference = dbFirestore.collection(FirebaseConstants.lastMessages)
+            .document(fromUUID)
+            .collection(FirebaseConstants.messages)
+            .document(toUUID)
+        reference.setData(message) { error in
+            if error == nil {
+                print("Message saved -*//*-/*-/*-*-/*-/")
+            }
+        }
+        let referenceReceiver = dbFirestore.collection(FirebaseConstants.lastMessages)
+            .document(toUUID)
+            .collection(FirebaseConstants.messages)
+            .document(fromUUID)
+        referenceReceiver.setData(message) { error in
+            if error == nil {
+                print("message saved receiver */-/*-/*-")
+            }
+        }
+        
+        
     }
 }
