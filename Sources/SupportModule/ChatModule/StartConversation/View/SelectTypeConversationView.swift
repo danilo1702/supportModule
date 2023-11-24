@@ -17,9 +17,9 @@ struct SelectTypeConversationView: View {
     var body: some View {
         
         GeometryReader { geometry in
-            if isLoading {
-                ProgressView()
-            } else {
+//            if isLoading {
+//                ProgressView()
+//            } else {
                 NavigationView {
                     VStack {
                         HStack {
@@ -28,14 +28,27 @@ struct SelectTypeConversationView: View {
                         }
                         showListQueries(geometry: geometry)
                        
-                        NavigationLink(isActive: $goToChat) {
-                            ChatView(toUUID: supportId)
-                        } label: {
-                            EmptyView()
-                        }
+//                        NavigationLink {
+//                            ChatView(toUUID: supportId)
+//                        } label: {
+//                            EmptyView()
+//                        }
                     }.padding()
                 }
-            }
+            //}
+                .onAppear {
+                    viewModel.getAvailableSupports { result in
+                        switch result {
+                            case .success(let result):
+                                supportId = result
+                                isLoading.toggle()
+                                goToChat.toggle()
+                                
+                            case .failure(let error):
+                                print(error)
+                        }
+                    }
+                }
         }
     }
     
@@ -43,7 +56,10 @@ struct SelectTypeConversationView: View {
     func showListQueries(geometry: GeometryProxy) -> some View {
         ScrollView(showsIndicators: true) {
             ForEach(queryTypesModel) { query in
-                
+                NavigationLink {
+                    ChatView(toUUID: supportId)
+                } label: {
+                                 
                 CardView(information: CardModel(id: query.id, titleFormat: query.title, action: "chat"), activeNavigation: $goToChat) {
                     isLoading.toggle()
                     viewModel.getAvailableSupports { result in
@@ -59,6 +75,7 @@ struct SelectTypeConversationView: View {
                     }
                 }
                 .frame(width: .infinity, height: geometry.size.height * 0.5 , alignment: .center)
+                }
             }
         }
     }
