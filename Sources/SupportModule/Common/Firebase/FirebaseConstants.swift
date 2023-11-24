@@ -14,4 +14,5 @@ struct FirebaseConstants {
     static let timestamp = "timestamp"
     static let messages = "messages"
     static let lastMessages = "lastMessages"
+    static let users = "users"
 }

@@ -45,7 +45,7 @@ public class SupportMainViewModel: ObservableObject {
         let information = PersonalInformationUser(email: informationDevice.email, uuid: uuid)
 
         do {
-            try dbFirestore.collection("users").document(uuid).setData(from: information)
+            try dbFirestore.collection(FirebaseConstants.users).document(uuid).setData(from: information)
         } catch let error {
           print("Error writing the user to Firestore: \(error)")
         }
@@ -69,8 +69,8 @@ public class SupportMainViewModel: ObservableObject {
                     self.recentMessage.remove(at: index)
                 }
                 if let message = try? change.document.data(as: MessageModel.self) {
-                    print("el id del documento: \(message.id ?? "NO TIENE") */-/*-*/-/*-/*-/-*/*-/*--/*-*/-/*/*-/*--*//*-*-//*--*/-/**-/*-/")
-                    self.recentMessage.insert(CardModel(id: "d", titleFormat: TextViewModel(text: message.message, foregroundColor: .black, font: .system(size: 14), expandable: true), designCard: ComponentDesign(backgroundColor: .gray.opacity(0.1), cornerRaiuds: 15), action: ""), at: 0)
+                    
+                    self.recentMessage.insert(CardModel(id: message.id ?? "1", titleFormat: TextViewModel(text: message.message, foregroundColor: .black, font: .system(size: 14), expandable: false), designCard: ComponentDesign(backgroundColor: .gray.opacity(0.1), cornerRaiuds: 15),toUUID: message.toUUID, action: ""), at: 0)
                 }
             }
         }
