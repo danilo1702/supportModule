@@ -35,7 +35,9 @@ public struct TextFieldMessageView: View {
                     })
                 } else {
                     Button(action: {
+                        
                         completion(textToSend)
+                        textToSend = ""
                     }, label: {
                         Image(systemName: "paperplane.circle.fill")
                             .resizable()

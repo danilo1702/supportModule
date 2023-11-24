@@ -15,14 +15,14 @@ public struct ChatView: View {
         self._viewModel = StateObject(wrappedValue: ChatViewModel(toUUID: toUUID))
     }
     public var body: some View {
-        
-            VStack {
-                ScrollView {
+       
+        ScrollView {
+                VStack {
                     ForEach(viewModel.messages, id: \.timestamp) { message in
                         BumbleChat(message: message)
                     }  
                 }
-                TextFieldMessageView( completion: { text in 
+                TextFieldMessageView( completion: {text in 
                     viewModel.sendMessage(message: text)
                 })
                     .navigationTitle(CommonStrings.chatSupport)
