@@ -28,7 +28,9 @@ class ChatViewModel: ObservableObject {
             .order(by: FirebaseConstants.timestamp)
         
         reference.addSnapshotListener { documentSnapshot, error in
-            guard let documentSnapshot = documentSnapshot, error == nil else { return }
+            guard let documentSnapshot = documentSnapshot, error == nil else { 
+                print("/*-/*-*-/-*//*-/-*/*-/*-/*-/*-/*-/*--/*/*-/* hay error fetching- \(String(describing: error))")
+                return }
             
             documentSnapshot.documentChanges.forEach { change in
                 if change.type == .added {
