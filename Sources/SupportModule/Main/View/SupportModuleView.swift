@@ -120,7 +120,7 @@ public struct SupportModuleView: View {
         VStack {
             
          NavigationLink(
-            destination: ChatView(toUUID: viewModel.recentMessage[0].toUUID ?? ""),
+            destination: ChatView(toUUID: viewModel.recentMessage.count > 0 ? viewModel.recentMessage[0].toUUID ?? "" : ""),
             isActive: $navigationChat,
             label: {
                 EmptyView()
