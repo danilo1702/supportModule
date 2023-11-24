@@ -17,38 +17,38 @@ struct SelectTypeConversationView: View {
     var body: some View {
         
         GeometryReader { geometry in
-//            if isLoading {
-//                ProgressView()
-//            } else {
-                NavigationView {
-                    VStack {
-                        HStack {
-                            Text("Selecciona una categoria")
-                            Spacer()
-                        }
-                        //showListQueries(geometry: geometry)
-                       
-                        NavigationLink {
-                            ChatView(toUUID: supportId)
-                        } label: {
-                            Text("Hola a todos").padding()
-                        }
-                    }.padding()
-                }
-            //}
-                .onAppear {
-                    viewModel.getAvailableSupports { result in
-                        switch result {
-                            case .success(let result):
-                                supportId = result
-                                isLoading.toggle()
-                                goToChat.toggle()
-                                
-                            case .failure(let error):
-                                print(error)
+            if isLoading {
+                ProgressView()
+            } else {
+                
+                VStack {
+                    HStack {
+                        Text("Selecciona una categoria")
+                        Spacer()
+                    }
+                    //showListQueries(geometry: geometry)
+                    
+                    NavigationLink {
+                        ChatView(toUUID: supportId)
+                    } label: {
+                        Text("Hola a todos").padding()
+                    }
+                }.padding()
+                    .onAppear {
+                        viewModel.getAvailableSupports { result in
+                            switch result {
+                                case .success(let result):
+                                    supportId = result
+                                    isLoading.toggle()
+                                    goToChat.toggle()
+                                    
+                                case .failure(let error):
+                                    print(error)
+                            }
                         }
                     }
-                }
+            }
+                
         }
     }
     

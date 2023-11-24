@@ -15,7 +15,7 @@ public struct ChatView: View {
         self._viewModel = StateObject(wrappedValue: ChatViewModel(toUUID: toUUID))
     }
     public var body: some View {
-        GeometryReader { geometry in
+        
             VStack {
                 ScrollView {
                     ForEach(viewModel.messages, id: \.id) { message in
@@ -26,15 +26,16 @@ public struct ChatView: View {
                     viewModel.sendMessage(message: text)
                 })
                     .navigationTitle(CommonStrings.chatSupport)
+                    .onAppear{
+                        
+                        DispatchQueue.main.async {
+                            viewModel.fetchingMessages()
+                        }
+                        
+                    }
             }
-            .onAppear{
-                
-                DispatchQueue.main.async {
-                    viewModel.fetchingMessages()
-                }
-                
-            }
-        }
+            
+        
     }
 }
 
