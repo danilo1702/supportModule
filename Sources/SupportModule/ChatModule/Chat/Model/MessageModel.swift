@@ -8,8 +8,8 @@
 import Foundation
 import FirebaseFirestore
 
-public struct MessageModel: Codable, Identifiable {
-    public var id: UUID = UUID()
+public struct MessageModel: Codable {
+    
     let message: String
     let fromUUID: String
     let toUUID: String

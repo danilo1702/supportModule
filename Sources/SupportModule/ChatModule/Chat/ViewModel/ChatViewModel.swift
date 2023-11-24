@@ -38,6 +38,8 @@ class ChatViewModel: ObservableObject {
                     if let cm = try? change.document.data(as: MessageModel.self) {
                         self.messages.append(cm)
                         print("Appending chatMessage in Chat: \(Date())")
+                    }else {
+                        print("Error decoding *//*-/*-*-/-*/-/**-/*-/")
                     }
                 }
             }
