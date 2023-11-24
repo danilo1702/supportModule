@@ -26,13 +26,13 @@ struct SelectTypeConversationView: View {
                             Text("Selecciona una categoria")
                             Spacer()
                         }
-                        showListQueries(geometry: geometry)
+                        //showListQueries(geometry: geometry)
                        
-//                        NavigationLink {
-//                            ChatView(toUUID: supportId)
-//                        } label: {
-//                            EmptyView()
-//                        }
+                        NavigationLink {
+                            ChatView(toUUID: supportId)
+                        } label: {
+                            Text("Hola a todos").padding()
+                        }
                     }.padding()
                 }
             //}
