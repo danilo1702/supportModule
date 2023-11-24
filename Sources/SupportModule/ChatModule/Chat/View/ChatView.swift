@@ -16,8 +16,8 @@ public struct ChatView: View {
     }
     public var body: some View {
        
-        ScrollView {
-                VStack {
+        VStack {
+                ScrollView{
                     ForEach(viewModel.messages, id: \.timestamp) { message in
                         BumbleChat(message: message)
                     }  
