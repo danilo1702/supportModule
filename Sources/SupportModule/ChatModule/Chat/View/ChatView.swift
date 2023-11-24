@@ -10,6 +10,7 @@ import SwiftUI
 public struct ChatView: View {
     
     @StateObject var viewModel: ChatViewModel
+    var scrollBottom = "scrollBottom"
 
     public init(toUUID: String) {
         self._viewModel = StateObject(wrappedValue: ChatViewModel(toUUID: toUUID))
@@ -18,9 +19,21 @@ public struct ChatView: View {
        
         VStack {
                 ScrollView{
-                    ForEach(viewModel.messages, id: \.timestamp) { message in
-                        BumbleChat(message: message)
-                    }  
+                    ScrollViewReader { scrollViewProxy in
+                        VStack{
+                            ForEach(viewModel.messages, id: \.timestamp) { message in
+                                BumbleChat(message: message)
+                            }
+                            HStack {
+                                Spacer()
+                            }.id(scrollBottom)
+                        }.onReceive(viewModel.$count, perform: { _ in
+                            withAnimation(.smooth) {
+                                scrollViewProxy.scrollTo(scrollBottom, anchor: .bottom)
+                            }
+                        })
+                    }
+                      
                 }
                 TextFieldMessageView( completion: {text in 
                     viewModel.sendMessage(message: text)

@@ -13,6 +13,7 @@ class ChatViewModel: ObservableObject {
     let dbFirestore = Firestore.firestore()
     let toUUID: String
     @Published var messages: [MessageModel] = []
+    @Published var count: Int = 0
     
     public init(toUUID: String) {
         self.toUUID = toUUID
@@ -40,6 +41,9 @@ class ChatViewModel: ObservableObject {
                         print("Error decoding *//*-/*-*-/-*/-/**-/*-/")
                     }
                 }
+            }
+            DispatchQueue.main.async {
+                self.count += 1
             }
         }
     }
@@ -70,6 +74,9 @@ class ChatViewModel: ObservableObject {
                 return
             }
             print(message)
+        }
+        DispatchQueue.main.async {
+            self.count += 1
         }
     }
 }
