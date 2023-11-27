@@ -22,6 +22,7 @@ public struct SupportModuleView: View {
     @State public var lastChatInformation: CardModel =  MockInformation.cardModelChatHistory
     @State public var showAlert: Bool = false
     @State public var newConversacion: Bool = false
+    @State public var chatHistory: Bool = false
     public var arrayDemo =  MockInformation.cardListArray
     public var generalConfiguration: GeneralConfiguration = MockInformation.generalConfiguration
     @StateObject public var viewModel: SupportMainViewModel = SupportMainViewModel()
@@ -41,6 +42,10 @@ public struct SupportModuleView: View {
                             TextView(informationModel: generalConfiguration.titleLastChat)
                                 .shadow(radius: 7)
                             Spacer()
+                            Button(action: {chatHistory.toggle()}, label: {
+                                Text("Historial")
+                            })
+                                
                         }.padding(19)
                         
                         CardView(information: viewModel.recentMessage[0], activeNavigation: $navigationChat) {}
@@ -82,7 +87,7 @@ public struct SupportModuleView: View {
                                                 viewModel.getArticles { result in
                                                     switch result {
                                                         case .success(let success):
-                                                            
+                                                
                                                             viewModel.convertToCardModel(articlesHelp: success)
                                                         case .failure(let error):
                                                             print("error getting Articles \(error)")
@@ -133,6 +138,12 @@ public struct SupportModuleView: View {
             label: {
                 EmptyView()
             })
+            NavigationLink(
+                destination: Text("ChatHistory"),
+                isActive: $chatHistory,
+                label: {
+                    EmptyView()
+                })
         }
     }
 }
