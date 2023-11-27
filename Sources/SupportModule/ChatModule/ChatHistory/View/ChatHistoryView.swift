@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct ChatHistoryView: View {
     @State var goToChat: Bool = false
@@ -14,13 +15,7 @@ struct ChatHistoryView: View {
         ScrollView{
             VStack {
                 ForEach(viewModel.historyMessages) { message in
-                    NavigationLink(isActive: $goToChat) {
-                        ChatView(toUUID: message.toUUID ?? "")
-                    } label: {
-                        CardView(information: message) {
-                            goToChat.toggle()
-                        }
-                    }
+                   showMessages(message)
                 }
             }
             .onAppear{
@@ -28,6 +23,18 @@ struct ChatHistoryView: View {
             }
         }
         
+    }
+    @ViewBuilder
+    func showMessages(_ message: CardModel) -> some View {
+        let toUUID = (message.toUUID ?? "" ==  Auth.auth().currentUser?.uid ? message.fromUUID ?? "" : message.toUUID ?? "")
+        
+        NavigationLink(isActive: $goToChat) {
+            ChatView(toUUID: toUUID )
+        } label: {
+            CardView(information: message) {
+                goToChat.toggle()
+            }
+        }
     }
 }
 
