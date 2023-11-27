@@ -139,7 +139,7 @@ public struct SupportModuleView: View {
                 EmptyView()
             })
             NavigationLink(
-                destination: Text("ChatHistory"),
+                destination: ChatHistoryView(),
                 isActive: $chatHistory,
                 label: {
                     EmptyView()
