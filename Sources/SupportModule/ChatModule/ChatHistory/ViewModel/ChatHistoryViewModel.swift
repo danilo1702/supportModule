@@ -48,6 +48,7 @@ public class ChatHistoryViewModel: ObservableObject {
                             case .failure(let error):
                                 print("ERROR GETTING SUPPORT INFORMATION \(error)")
                         }
+                        dispatchGroup.leave()
                     }
                 }
                     
