@@ -14,7 +14,7 @@ import Combine
 public class ChatHistoryViewModel: ObservableObject {
     private var dbFirestore = Firestore.firestore()
     @Published var historyMessages: [CardModel] = []
-    var supportInformation = PersonalInformationUser(email: "", uuid: "")
+    var supportInformation = PersonalInformationUser(email: "", uuid: "", name: "")
     
     func gettingChatHistory() {
         guard let uuid = Auth.auth().currentUser?.uid else { return }

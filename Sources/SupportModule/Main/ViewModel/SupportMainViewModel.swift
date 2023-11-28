@@ -17,7 +17,7 @@ public class SupportMainViewModel: ObservableObject {
     @Published public var articles: [CardModel] = []
     @Published public var recentMessage: [CardModel] = []
     var deviceInformation = InformationDevice()
-    @Published public var supportInformation = PersonalInformationUser(email: "", uuid: "")
+    @Published public var supportInformation = PersonalInformationUser(email: "", uuid: "", name: "")
 //    public init(dbFirestore: Firestore) {
 //        self.dbFirestore = dbFirestore
 //    }
@@ -42,7 +42,7 @@ public class SupportMainViewModel: ObservableObject {
         }
     }
     func registerInfoUser(uuid: String) {
-        let information = PersonalInformationUser(email: deviceInformation.email, uuid: uuid)
+        let information = PersonalInformationUser(email: deviceInformation.email, uuid: uuid, name: "")
 
         do {
             try dbFirestore.collection(FirebaseConstants.users).document(uuid).setData(from: information)

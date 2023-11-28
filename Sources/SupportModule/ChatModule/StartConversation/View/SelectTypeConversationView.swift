@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SelectTypeConversationView: View {
     public var queryTypesModel: [QueryTypesModel]
-    @State var supportInfo: PersonalInformationUser = PersonalInformationUser(email: "", uuid: "")
+    @State var supportInfo: PersonalInformationUser = PersonalInformationUser(email: "", uuid: "", name: "")
     @StateObject var viewModel = StartConversationViewModel()
     @State var goToChat: Bool = false
     @State var isLoading: Bool = false
