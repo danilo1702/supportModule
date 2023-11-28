@@ -26,11 +26,11 @@ public class ChatHistoryViewModel: ObservableObject {
             guard let self = self, let querySnapshot, error == nil else { return }
             
             
-            querySnapshot.documentChanges.forEach {  change in
+            querySnapshot.documentChanges.forEach { change in
                 
                 guard  let messageModel = try? change.document.data(as: MessageModel.self) else { return }
                 
-                self.getName(messageModel: messageModel)
+                let name = self.getName(messageModel: messageModel)
                 let documentID = change.document.documentID
                 let message = self.converToCardModel(message: messageModel)
                 
