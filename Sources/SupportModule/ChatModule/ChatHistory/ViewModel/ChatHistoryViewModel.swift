@@ -9,16 +9,15 @@ import Foundation
 import FirebaseFirestoreSwift
 import FirebaseFirestore
 import FirebaseAuth
-import Combine
 
 public class ChatHistoryViewModel: ObservableObject {
     private var dbFirestore = Firestore.firestore()
     @Published var historyMessages: [CardModel] = []
-    var supportInformation = PersonalInformationUser(email: "", uuid: "", name: "")
+    var supportInformation = PersonalInformationUser(email: "", uuid: "")
     
     func gettingChatHistory() {
         guard let uuid = Auth.auth().currentUser?.uid else { return }
-
+        
         let reference = dbFirestore.collection("lastMessages")
             .document(uuid)
             .collection("messages")
@@ -28,10 +27,15 @@ public class ChatHistoryViewModel: ObservableObject {
             
             
             querySnapshot.documentChanges.forEach {  change in
+                
                 guard  let messageModel = try? change.document.data(as: MessageModel.self) else { return }
                 
+                
                 let toUUID = (messageModel.toUUID ==  Auth.auth().currentUser?.uid ? messageModel.fromUUID : messageModel.toUUID )
+                  
                     let referenceSupportInformation = self.dbFirestore.collection("supports").document(toUUID)
+  
+              
                     referenceSupportInformation.getDocument(as: PersonalInformationUser.self) { result in
                         
                         switch result {
@@ -67,6 +71,6 @@ public class ChatHistoryViewModel: ObservableObject {
     }
     
     func converToCardModel(message: MessageModel) -> CardModel  {
-        CardModel(id: message.id ?? "1", titleFormat: TextViewModel(text: message.message, foregroundColor: .black, font: .system(size: 14), expandable: false),dateFormat: TextViewModel(text: "\(message.timestamp.dateValue().formatted(date: .numeric, time: .shortened))", foregroundColor: .gray, font: .system(size: 11),  expandable: false), nameFormat: self.supportInformation.name != nil ? TextViewModel(text: self.supportInformation.name!, foregroundColor: .black, font: .system(size: 13, weight: .bold), expandable: false) : nil, designCard: ComponentDesign(backgroundColor: .gray.opacity(0.1), cornerRaiuds: 15),fromUUID: message.fromUUID , supportInformation: supportInformation, action: "chat")
+        CardModel(id: message.id ?? "1", titleFormat: TextViewModel(text: message.message, foregroundColor: .black, font: .system(size: 14), expandable: false),dateFormat: TextViewModel(text: "\(message.timestamp.dateValue().formatted(date: .numeric, time: .shortened))", foregroundColor: .gray, font: .system(size: 11),  expandable: false), nameFormat: self.supportInformation.name != nil ? TextViewModel(text: self.supportInformation.name!, foregroundColor: .black, font: .system(size: 13, weight: .bold), expandable: false) : nil, designCard: ComponentDesign(backgroundColor: .gray.opacity(0.1), cornerRaiuds: 15),fromUUID: message.fromUUID ,toUUID: message.toUUID, action: "chat")
     }
 }

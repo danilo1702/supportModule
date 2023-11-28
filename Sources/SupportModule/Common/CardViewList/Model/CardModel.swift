@@ -18,13 +18,12 @@ public struct CardModel: Identifiable {
     public var dateFormat: TextViewModel?
     public var nameFormat: TextViewModel?
     public var designCard: ComponentDesign
-    public var supportInformation: PersonalInformationUser?
     public var action: String
     public var fromUUID: String?
-
+    public var toUUID: String?
     
     
-    public init(id: String, image: ImageModel? = nil, link: String? = nil, titleFormat: TextViewModel, dateFormat: TextViewModel? = nil, nameFormat: TextViewModel? = nil, designCard: ComponentDesign = ComponentDesign(backgroundColor: .gray.opacity(0.1), cornerRaiuds: 15.0), fromUUID: String? = nil, supportInformation: PersonalInformationUser? = nil, action: String = "") {
+    public init(id: String, image: ImageModel? = nil, link: String? = nil, titleFormat: TextViewModel, dateFormat: TextViewModel? = nil, nameFormat: TextViewModel? = nil, designCard: ComponentDesign = ComponentDesign(backgroundColor: .gray.opacity(0.1), cornerRaiuds: 15.0), fromUUID: String? = nil, toUUID: String? = nil, action: String = "") {
         self.id = id
         self.image = image
         self.link = link
@@ -33,7 +32,7 @@ public struct CardModel: Identifiable {
         self.nameFormat = nameFormat
         self.designCard = designCard
         self.fromUUID = fromUUID
-        self.supportInformation = supportInformation
+        self.toUUID = toUUID
         self.action = action
     }
     

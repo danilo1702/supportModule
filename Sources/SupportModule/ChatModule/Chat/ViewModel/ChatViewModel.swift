@@ -11,12 +11,12 @@ import FirebaseFirestore
 
 class ChatViewModel: ObservableObject {
     let dbFirestore = Firestore.firestore()
-    let supportInfo: PersonalInformationUser
+    let toUUID: String
     @Published var messages: [MessageModel] = []
     @Published var count: Int = 0
     
-    public init(supportInfo: PersonalInformationUser) {
-        self.supportInfo = supportInfo
+    public init(toUUID: String) {
+        self.toUUID = toUUID
     }
     
     func fetchingMessages() {
@@ -25,7 +25,7 @@ class ChatViewModel: ObservableObject {
         
         let reference = dbFirestore.collection(FirebaseConstants.messages)
             .document(fromUUID)
-            .collection(supportInfo.uuid)
+            .collection(toUUID)
             .order(by: FirebaseConstants.timestamp)
         
         reference.addSnapshotListener { documentSnapshot, error in
@@ -54,10 +54,10 @@ class ChatViewModel: ObservableObject {
         guard let fromUUID = Auth.auth().currentUser?.uid else { return }
         let referenceSender = dbFirestore.collection(FirebaseConstants.messages)
             .document(fromUUID)
-            .collection(supportInfo.uuid)
+            .collection(toUUID)
             .document()
         
-        let message = ["message": message, "fromUUID": fromUUID, "toUUID": supportInfo.uuid, "timestamp": Timestamp()] as [String: Any]
+        let message = ["message": message, "fromUUID": fromUUID, "toUUID": toUUID, "timestamp": Timestamp()] as [String: Any]
         referenceSender.setData(message) { error in
             if error != nil {
                 print("Errro sending de message ")
@@ -66,7 +66,7 @@ class ChatViewModel: ObservableObject {
         }
         
         let referenceReceiver = dbFirestore.collection(FirebaseConstants.messages)
-            .document(supportInfo.uuid)
+            .document(toUUID)
             .collection(fromUUID)
             .document()
         referenceReceiver.setData(message) { error in
@@ -79,7 +79,7 @@ class ChatViewModel: ObservableObject {
         DispatchQueue.main.async {
             self.count += 1
         }
-        saveLastMessage(toUUID: supportInfo.uuid, message: message)
+        saveLastMessage(toUUID: toUUID, message: message)
     }
     func saveLastMessage(toUUID: String, message: [String: Any]) {
         guard let fromUUID = Auth.auth().currentUser?.uid else { return }

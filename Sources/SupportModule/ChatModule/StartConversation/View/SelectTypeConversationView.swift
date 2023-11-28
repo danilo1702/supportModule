@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SelectTypeConversationView: View {
     public var queryTypesModel: [QueryTypesModel]
-    @State var supportInfo: PersonalInformationUser = PersonalInformationUser(email: "", uuid: "", name: "")
+    @State var supportId: String = ""
     @StateObject var viewModel = StartConversationViewModel()
     @State var goToChat: Bool = false
     @State var isLoading: Bool = false
@@ -29,7 +29,7 @@ struct SelectTypeConversationView: View {
                         showListQueries(geometry: geometry)
                        
                         NavigationLink(isActive: $goToChat) {
-                            ChatView(supportInfo: supportInfo)
+                            ChatView(toUUID: supportId)
                         } label: {
                             EmptyView()
                         }
@@ -49,7 +49,7 @@ struct SelectTypeConversationView: View {
                     viewModel.getAvailableSupports { result in
                         switch result {
                             case .success(let result):
-                                supportInfo = result
+                                supportId = result
                                 isLoading.toggle()
                                 goToChat.toggle()
                                 
