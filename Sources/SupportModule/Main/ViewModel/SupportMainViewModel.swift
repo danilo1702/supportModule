@@ -16,15 +16,15 @@ public class SupportMainViewModel: ObservableObject {
     @Published public var dbFirestore: Firestore = Firestore.firestore()
     @Published public var articles: [CardModel] = []
     @Published public var recentMessage: [CardModel] = []
-    var informationDevice = InformationDevice()
-    
+    var deviceInformation = InformationDevice()
+    var supportInformation = PersonalInformationUser(email: "", uuid: "")
 //    public init(dbFirestore: Firestore) {
 //        self.dbFirestore = dbFirestore
 //    }
     func registerUserFirebase(completion: @escaping(Result<Bool, Error>)-> ()) {
-        informationDevice.returnInformation()
+        deviceInformation.returnInformation()
 
-        Auth.auth().createUser(withEmail: informationDevice.email, password: informationDevice.deviceUUID) {  authResult, error in
+        Auth.auth().createUser(withEmail: deviceInformation.email, password: deviceInformation.deviceUUID) {  authResult, error in
 
             guard let user = authResult?.user, error == nil else {
                 if let nsError = error as? NSError, let error = AuthErrorCode.Code(rawValue: nsError.code)  {
@@ -42,7 +42,7 @@ public class SupportMainViewModel: ObservableObject {
         }
     }
     func registerInfoUser(uuid: String) {
-        let information = PersonalInformationUser(email: informationDevice.email, uuid: uuid)
+        let information = PersonalInformationUser(email: deviceInformation.email, uuid: uuid)
 
         do {
             try dbFirestore.collection(FirebaseConstants.users).document(uuid).setData(from: information)
@@ -70,15 +70,24 @@ public class SupportMainViewModel: ObservableObject {
                     self.recentMessage.remove(at: index)
                 }
                 if let message = try? change.document.data(as: MessageModel.self) {
+                    let referenceSupportInformation = self.dbFirestore.collection("supports").document(documentId)
                     
-                    self.recentMessage.insert(CardModel(id: message.id ?? "1", titleFormat: TextViewModel(text: message.message, foregroundColor: .black, font: .system(size: 14), expandable: false), dateFormat: TextViewModel(text: "\(message.timestamp.dateValue().formatted(date: .numeric, time: .shortened))", foregroundColor: .gray, font: .system(size: 11), expandable: false), nameFormat: message.fromName != nil ? TextViewModel(text: message.fromName!, foregroundColor: .black, font: .system(size: 13, weight: .bold), expandable: false) : nil, designCard: ComponentDesign(backgroundColor: .gray.opacity(0.1), cornerRaiuds: 15),fromUUID: message.fromUUID ,toUUID: message.toUUID, action: "chat"), at: 0)
+                    referenceSupportInformation.getDocument(as: PersonalInformationUser.self) { result in
+                        switch result {
+                            case .success(let information):
+                                self.supportInformation = information
+                            case .failure(let error):
+                                print("ERROR GETTING SUPPOR INFORMATION \(error)")
+                        }
+                    }
+                    self.recentMessage.insert(CardModel(id: message.id ?? "1", titleFormat: TextViewModel(text: message.message, foregroundColor: .black, font: .system(size: 14), expandable: false), dateFormat: TextViewModel(text: "\(message.timestamp.dateValue().formatted(date: .numeric, time: .shortened))", foregroundColor: .gray, font: .system(size: 11), expandable: false), nameFormat: self.supportInformation.name != nil ? TextViewModel(text: self.supportInformation.name!, foregroundColor: .black, font: .system(size: 13, weight: .bold), expandable: false) : nil, designCard: ComponentDesign(backgroundColor: .gray.opacity(0.1), cornerRaiuds: 15),fromUUID: message.fromUUID ,toUUID: message.toUUID, action: "chat"), at: 0)
                 }
             }
         }
     }
     func loginFirebase(completion: @escaping (Result<(Bool,AuthDataResult), Error>) -> ()) {
         
-        Auth.auth().signIn(withEmail: informationDevice.email, password: informationDevice.deviceUUID) {  authResult, error in
+        Auth.auth().signIn(withEmail: deviceInformation.email, password: deviceInformation.deviceUUID) {  authResult, error in
             guard let user = authResult, error == nil else {
                 completion(.failure(error ?? NSError(domain: "Error with sign In firebase", code: 504)))
                 return }
