@@ -30,9 +30,7 @@ public class ChatHistoryViewModel: ObservableObject {
                 
                 guard  let messageModel = try? change.document.data(as: MessageModel.self) else { return }
                 
-                DispatchQueue.main.asyncAndWait {
-                    
-              
+                
                 let toUUID = (messageModel.toUUID ==  Auth.auth().currentUser?.uid ? messageModel.fromUUID : messageModel.toUUID )
                   
                     let referenceSupportInformation = self.dbFirestore.collection("supports").document(toUUID)
@@ -49,8 +47,7 @@ public class ChatHistoryViewModel: ObservableObject {
                         }
                         
                     }
-                    
-                }
+                
                 let documentID = change.document.documentID
                 let message = self.converToCardModel(message: messageModel)
                
