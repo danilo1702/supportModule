@@ -19,10 +19,9 @@ struct ChatHistoryView: View {
                 }
             }
             .onAppear{
-                DispatchQueue.main.async {
-                    viewModel.gettingChatHistory()
-                }
                 
+                    viewModel.gettingChatHistory()
+
             }
         }
         

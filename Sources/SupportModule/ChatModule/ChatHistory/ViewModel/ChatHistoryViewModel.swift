@@ -52,7 +52,7 @@ public class ChatHistoryViewModel: ObservableObject {
                     }
                 }
                     
-                dispatchGroup.wait()
+               
                 
                 let documentID = change.document.documentID
                 let message = self.converToCardModel(message: messageModel)
