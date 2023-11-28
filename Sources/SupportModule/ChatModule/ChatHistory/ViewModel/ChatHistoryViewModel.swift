@@ -24,39 +24,16 @@ public class ChatHistoryViewModel: ObservableObject {
         
         reference.getDocuments { [weak self] querySnapshot, error in
             guard let self = self, let querySnapshot, error == nil else { return }
-            let dispatchGroup = DispatchGroup()
+            
             
             querySnapshot.documentChanges.forEach {  change in
                 
                 guard  let messageModel = try? change.document.data(as: MessageModel.self) else { return }
                 
-                let toUUID = (messageModel.toUUID ==  Auth.auth().currentUser?.uid ? messageModel.fromUUID : messageModel.toUUID )
-                
-
-                
-                    let referenceSupportInformation = self.dbFirestore.collection("supports").document(toUUID)
-                    
-                dispatchGroup.enter()
-                   
-                DispatchQueue.global(qos: .default).async {
-                    referenceSupportInformation.getDocument(as: PersonalInformationUser.self) { result in
-                        
-                        switch result {
-                            case .success(let information):
-                                self.supportInformation = information
-                                
-                            case .failure(let error):
-                                print("ERROR GETTING SUPPORT INFORMATION \(error)")
-                        }
-                        dispatchGroup.leave()
-                    }
-                }
-                    
-               
-                
+                self.getName(messageModel: messageModel)
                 let documentID = change.document.documentID
                 let message = self.converToCardModel(message: messageModel)
-               
+                
                 
                 if let index = self.historyMessages.firstIndex(where: { $0.id == documentID}) {
                     self.historyMessages.remove(at: index)
@@ -72,6 +49,22 @@ public class ChatHistoryViewModel: ObservableObject {
                         self.historyMessages.remove(at: index)
                     }
                 }
+            }
+        }
+    }
+    
+    func getName(messageModel: MessageModel) {
+        
+        let toUUID = (messageModel.toUUID ==  Auth.auth().currentUser?.uid ? messageModel.fromUUID : messageModel.toUUID )
+        let referenceSupportInformation = self.dbFirestore.collection("supports").document(toUUID)
+        referenceSupportInformation.getDocument(as: PersonalInformationUser.self) { result in
+            
+            switch result {
+                case .success(let information):
+                    self.supportInformation = information
+                    
+                case .failure(let error):
+                    print("ERROR GETTING SUPPORT INFORMATION \(error)")
             }
         }
     }
