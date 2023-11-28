@@ -15,10 +15,4 @@ public struct PersonalInformationUser: Codable {
     public let name: String?
     @ServerTimestamp public var createdAt: Timestamp?
     
-    public init(email: String, uuid: String, name: String? = nil, createdAt: Timestamp? = nil) {
-        self.email = email
-        self.uuid = uuid
-        self.name = name
-        self.createdAt = createdAt
-    }
 }
