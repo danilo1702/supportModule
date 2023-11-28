@@ -29,9 +29,7 @@ public class ChatHistoryViewModel: ObservableObject {
                 
                 guard  let messageModel = try? change.document.data(as: MessageModel.self) else { return }
                 
-                let documentID = change.document.documentID
-                let message = self.converToCardModel(message: messageModel)
-                let toUUID = (message.toUUID ?? "" ==  Auth.auth().currentUser?.uid ? message.fromUUID ?? "" : message.toUUID ?? "")
+                let toUUID = (messageModel.toUUID ==  Auth.auth().currentUser?.uid ? messageModel.fromUUID : messageModel.toUUID )
                 let referenceSupportInformation = self.dbFirestore.collection("supports").document(toUUID)
                 
                
@@ -40,26 +38,29 @@ public class ChatHistoryViewModel: ObservableObject {
                     switch result {
                         case .success(let information):
                             self.supportInformation = information
-                            if let index = self.historyMessages.firstIndex(where: { $0.id == documentID}) {
-                                self.historyMessages.remove(at: index)
-                            }
-                            if change.type == .added {
-                                self.historyMessages.insert(message, at: 0)
-                            } else if change.type == .modified {
-                                if let index = self.historyMessages.firstIndex(where: { $0.id ==  documentID }) {
-                                    self.historyMessages.insert(message, at: index)
-                                }
-                            } else if change.type == .removed {
-                                if let index = self.historyMessages.firstIndex(where: { $0.id ==  documentID }) {
-                                    self.historyMessages.remove(at: index)
-                                }
-                            }
-                            print(self.historyMessages)
                         case .failure(let error):
                             print("ERROR GETTING SUPPORT INFORMATION \(error)")
                     }
                 }
+                
+                let documentID = change.document.documentID
+                let message = self.converToCardModel(message: messageModel)
                
+                
+                if let index = self.historyMessages.firstIndex(where: { $0.id == documentID}) {
+                    self.historyMessages.remove(at: index)
+                }
+                if change.type == .added {
+                    self.historyMessages.insert(message, at: 0)
+                } else if change.type == .modified {
+                    if let index = self.historyMessages.firstIndex(where: { $0.id ==  documentID }) {
+                        self.historyMessages.insert(message, at: index)
+                    }
+                } else if change.type == .removed {
+                    if let index = self.historyMessages.firstIndex(where: { $0.id ==  documentID }) {
+                        self.historyMessages.remove(at: index)
+                    }
+                }
             }
         }
     }
