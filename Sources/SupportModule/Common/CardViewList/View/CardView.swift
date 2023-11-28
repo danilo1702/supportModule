@@ -53,14 +53,9 @@ public struct CardView: View {
                     view
                 } else {
                     VStack(alignment: information.imageUrl != nil ? .leading : .center) {
-                        HStack {
-                            TextView(informationModel: information.titleFormat)
-                                .padding()
-                            if information.toUUID != nil {
-                                Spacer()
-                            }
-                        }
                         
+                        TextView(informationModel: information.titleFormat)
+                            .padding()
                         HStack {
                             Spacer()
                             TextView(informationModel: information.dateFormat ?? TextViewModel(text: CommonStrings.emptyString))

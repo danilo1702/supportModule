@@ -31,7 +31,7 @@ struct ChatHistoryView: View {
         NavigationLink(isActive: $goToChat) {
             ChatView(toUUID: toUUID )
         } label: {
-            CardView(information: message) {
+            CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
                 goToChat.toggle()
             }
         }

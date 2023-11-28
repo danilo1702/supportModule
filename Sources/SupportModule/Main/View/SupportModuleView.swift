@@ -48,7 +48,7 @@ public struct SupportModuleView: View {
                                 
                         }.padding(19)
                         
-                        CardView(information: viewModel.recentMessage[0], activeNavigation: $navigationChat) {}
+                        CardView(information: viewModel.recentMessage[0], activeNavigation: $navigationChat, view: CardRecentMessageView(information: viewModel.recentMessage[0]).toAnyView()) {}
                             .padding(.horizontal)
                        //Text("Historial de chats")
                     }

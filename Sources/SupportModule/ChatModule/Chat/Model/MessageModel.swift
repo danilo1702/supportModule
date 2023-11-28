@@ -14,6 +14,17 @@ public struct MessageModel: Codable {
     let message: String
     let fromUUID: String
     let toUUID: String
+    let fromName: String?
     let timestamp: Timestamp
+    
+    
+    public init(id: String? = nil, message: String, fromUUID: String, toUUID: String, fromName: String? = nil, timestamp: Timestamp) {
+        self.id = id
+        self.message = message
+        self.fromUUID = fromUUID
+        self.toUUID = toUUID
+        self.fromName = fromName
+        self.timestamp = timestamp
+    }
     
 }
