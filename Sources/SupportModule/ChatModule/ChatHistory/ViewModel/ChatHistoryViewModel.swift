@@ -30,16 +30,21 @@ public class ChatHistoryViewModel: ObservableObject {
                 guard  let messageModel = try? change.document.data(as: MessageModel.self) else { return }
                 
                 let toUUID = (messageModel.toUUID ==  Auth.auth().currentUser?.uid ? messageModel.fromUUID : messageModel.toUUID )
-                let referenceSupportInformation = self.dbFirestore.collection("supports").document(toUUID)
                 
-               
-                referenceSupportInformation.getDocument(as: PersonalInformationUser.self) { result in
+                
+                DispatchQueue.main.asyncAndWait {
+                    let referenceSupportInformation = self.dbFirestore.collection("supports").document(toUUID)
                     
-                    switch result {
-                        case .success(let information):
-                            self.supportInformation = information
-                        case .failure(let error):
-                            print("ERROR GETTING SUPPORT INFORMATION \(error)")
+                   
+                    referenceSupportInformation.getDocument(as: PersonalInformationUser.self) { result in
+                        
+                        switch result {
+                            case .success(let information):
+                                self.supportInformation = information
+                                
+                            case .failure(let error):
+                                print("ERROR GETTING SUPPORT INFORMATION \(error)")
+                        }
                     }
                 }
                 
