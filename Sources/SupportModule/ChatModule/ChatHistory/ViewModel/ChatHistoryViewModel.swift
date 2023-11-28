@@ -24,6 +24,7 @@ public class ChatHistoryViewModel: ObservableObject {
         
         reference.getDocuments { [weak self] querySnapshot, error in
             guard let self = self, let querySnapshot, error == nil else { return }
+            let dispatchGroup = DispatchGroup()
             
             querySnapshot.documentChanges.forEach {  change in
                 
@@ -31,11 +32,13 @@ public class ChatHistoryViewModel: ObservableObject {
                 
                 let toUUID = (messageModel.toUUID ==  Auth.auth().currentUser?.uid ? messageModel.fromUUID : messageModel.toUUID )
                 
+
                 
-                DispatchQueue.main.asyncAndWait {
                     let referenceSupportInformation = self.dbFirestore.collection("supports").document(toUUID)
                     
+                dispatchGroup.enter()
                    
+                DispatchQueue.global(qos: .default).async {
                     referenceSupportInformation.getDocument(as: PersonalInformationUser.self) { result in
                         
                         switch result {
@@ -47,6 +50,8 @@ public class ChatHistoryViewModel: ObservableObject {
                         }
                     }
                 }
+                    
+                dispatchGroup.wait()
                 
                 let documentID = change.document.documentID
                 let message = self.converToCardModel(message: messageModel)
