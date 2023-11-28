@@ -96,8 +96,7 @@ public struct SupportModuleView: View {
                                                 }
                                             }
                                         case .failure(let error):
-                                            print(error)
-                                        
+                                            print(error)   
                                     }
                                 }
                             }
