@@ -12,8 +12,8 @@ public struct ChatView: View {
     @StateObject var viewModel: ChatViewModel
     var scrollBottom = "scrollBottom"
 
-    public init(toUUID: String) {
-        self._viewModel = StateObject(wrappedValue: ChatViewModel(toUUID: toUUID))
+    public init(supportInfo: PersonalInformationUser) {
+        self._viewModel = StateObject(wrappedValue: ChatViewModel(supportInfo: supportInfo))
     }
     public var body: some View {
        

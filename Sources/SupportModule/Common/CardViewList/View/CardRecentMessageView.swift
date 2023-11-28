@@ -22,7 +22,7 @@ public struct CardRecentMessageView: View {
             HStack {
                 TextView(informationModel: information.titleFormat)
                     .padding()
-                if information.toUUID != nil {
+                if information.supportInformation?.uuid != nil {
                     Spacer()
                 }
             }

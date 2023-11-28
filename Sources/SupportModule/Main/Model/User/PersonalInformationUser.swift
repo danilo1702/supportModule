@@ -8,14 +8,14 @@
 import Foundation
 import FirebaseFirestore
 
-struct PersonalInformationUser: Codable {
+public struct PersonalInformationUser: Codable {
     
-    let email: String
-    let uuid: String
-    let name: String?
-    @ServerTimestamp var createdAt: Timestamp?
+    public let email: String
+    public let uuid: String
+    public let name: String?
+    @ServerTimestamp public var createdAt: Timestamp?
     
-    init(email: String, uuid: String, name: String? = nil, createdAt: Timestamp? = nil) {
+    public init(email: String, uuid: String, name: String? = nil, createdAt: Timestamp? = nil) {
         self.email = email
         self.uuid = uuid
         self.name = name
