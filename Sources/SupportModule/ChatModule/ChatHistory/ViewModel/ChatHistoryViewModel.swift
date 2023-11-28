@@ -34,29 +34,32 @@ public class ChatHistoryViewModel: ObservableObject {
                 let toUUID = (message.toUUID ?? "" ==  Auth.auth().currentUser?.uid ? message.fromUUID ?? "" : message.toUUID ?? "")
                 let referenceSupportInformation = self.dbFirestore.collection("supports").document(toUUID)
                 
+               
                 referenceSupportInformation.getDocument(as: PersonalInformationUser.self) { result in
                     
                     switch result {
                         case .success(let information):
                             self.supportInformation = information
+                            if let index = self.historyMessages.firstIndex(where: { $0.id == documentID}) {
+                                self.historyMessages.remove(at: index)
+                            }
+                            if change.type == .added {
+                                self.historyMessages.insert(message, at: 0)
+                            } else if change.type == .modified {
+                                if let index = self.historyMessages.firstIndex(where: { $0.id ==  documentID }) {
+                                    self.historyMessages.insert(message, at: index)
+                                }
+                            } else if change.type == .removed {
+                                if let index = self.historyMessages.firstIndex(where: { $0.id ==  documentID }) {
+                                    self.historyMessages.remove(at: index)
+                                }
+                            }
+                            print(self.historyMessages)
                         case .failure(let error):
                             print("ERROR GETTING SUPPORT INFORMATION \(error)")
                     }
                 }
-                if let index = self.historyMessages.firstIndex(where: { $0.id == documentID}) {
-                    self.historyMessages.remove(at: index)
-                }
-                if change.type == .added {
-                    self.historyMessages.insert(message, at: 0)
-                } else if change.type == .modified {
-                    if let index = self.historyMessages.firstIndex(where: { $0.id ==  documentID }) {
-                        self.historyMessages.insert(message, at: index)
-                    }
-                } else if change.type == .removed {
-                    if let index = self.historyMessages.firstIndex(where: { $0.id ==  documentID }) {
-                        self.historyMessages.remove(at: index)
-                    }
-                }
+               
             }
         }
     }

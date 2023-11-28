@@ -76,6 +76,7 @@ public class SupportMainViewModel: ObservableObject {
                         switch result {
                             case .success(let information):
                                 self.supportInformation = information
+                                print(self.recentMessage)
                             case .failure(let error):
                                 print("ERROR GETTING SUPPOR INFORMATION \(error)")
                         }
