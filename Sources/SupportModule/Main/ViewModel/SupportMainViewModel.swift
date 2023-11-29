@@ -17,7 +17,7 @@ public class SupportMainViewModel: ObservableObject {
     @Published public var articles: [CardModel] = []
     @Published public var recentMessage: [CardModel] = []
     var deviceInformation = InformationDevice()
-    var supportInformation = PersonalInformationUser(email: "", uuid: "", name: "")
+    @Published public var supportInformation = PersonalInformationUser(email: "", uuid: "", name: "")
 //    public init(dbFirestore: Firestore) {
 //        self.dbFirestore = dbFirestore
 //    }

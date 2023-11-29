@@ -29,7 +29,7 @@ struct SelectTypeConversationView: View {
                         showListQueries(geometry: geometry)
                        
                         NavigationLink(isActive: $goToChat) {
-                            ChatView(toUUID: supportId.uuid)
+                            ChatView(supportInfo: supportId)
                         } label: {
                             EmptyView()
                         }

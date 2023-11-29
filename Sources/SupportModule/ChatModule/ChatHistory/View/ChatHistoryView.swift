@@ -19,9 +19,7 @@ struct ChatHistoryView: View {
                 }
             }
             .onAppear{
-                
                     viewModel.gettingChatHistory()
-
             }
         }
         
@@ -31,7 +29,7 @@ struct ChatHistoryView: View {
         let toUUID = (message.toUUID ?? "" ==  Auth.auth().currentUser?.uid ? message.fromUUID ?? "" : message.toUUID ?? "")
         
         NavigationLink(isActive: $goToChat) {
-            ChatView(toUUID: toUUID )
+            ChatView(supportInfo: viewModel.supportInformation)
         } label: {
             CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
                 goToChat.toggle()
