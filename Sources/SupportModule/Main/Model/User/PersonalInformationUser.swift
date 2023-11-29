@@ -12,10 +12,10 @@ struct PersonalInformationUser: Codable {
     
     let email: String
     let uuid: String
-    let name: String?
+    let name: String
     @ServerTimestamp var createdAt: Timestamp?
     
-    init(email: String, uuid: String, name: String? = nil, createdAt: Timestamp? = nil) {
+    init(email: String, uuid: String, name: String, createdAt: Timestamp? = nil) {
         self.email = email
         self.uuid = uuid
         self.name = name

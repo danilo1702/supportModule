@@ -13,7 +13,7 @@ import FirebaseAuth
 public class ChatHistoryViewModel: ObservableObject {
     private var dbFirestore = Firestore.firestore()
     @Published var historyMessages: [CardModel] = []
-    var supportInformation = PersonalInformationUser(email: "", uuid: "")
+    @Published var supportInformation = PersonalInformationUser(email: "", uuid: "", name: "")
     
     func gettingChatHistory() {
         guard let uuid = Auth.auth().currentUser?.uid else { return }
@@ -71,6 +71,6 @@ public class ChatHistoryViewModel: ObservableObject {
     }
     
     func converToCardModel(message: MessageModel) -> CardModel  {
-        CardModel(id: message.id ?? "1", titleFormat: TextViewModel(text: message.message, foregroundColor: .black, font: .system(size: 14), expandable: false),dateFormat: TextViewModel(text: "\(message.timestamp.dateValue().formatted(date: .numeric, time: .shortened))", foregroundColor: .gray, font: .system(size: 11),  expandable: false), nameFormat: self.supportInformation.name != nil ? TextViewModel(text: self.supportInformation.name!, foregroundColor: .black, font: .system(size: 13, weight: .bold), expandable: false) : nil, designCard: ComponentDesign(backgroundColor: .gray.opacity(0.1), cornerRaiuds: 15),fromUUID: message.fromUUID ,toUUID: message.toUUID, action: "chat")
+        CardModel(id: message.id ?? "1", titleFormat: TextViewModel(text: message.message, foregroundColor: .black, font: .system(size: 14), expandable: false),dateFormat: TextViewModel(text: "\(message.timestamp.dateValue().formatted(date: .numeric, time: .shortened))", foregroundColor: .gray, font: .system(size: 11),  expandable: false), nameFormat:  TextViewModel(text: self.supportInformation.name, foregroundColor: .black, font: .system(size: 13, weight: .bold), expandable: false), designCard: ComponentDesign(backgroundColor: .gray.opacity(0.1), cornerRaiuds: 15),fromUUID: message.fromUUID ,toUUID: message.toUUID, action: "chat")
     }
 }
