@@ -18,7 +18,7 @@ class ChatViewModel: ObservableObject {
     
     public init(supportInfo: MessageModel) {
         let fromUUID = Auth.auth().currentUser?.uid
-        let toUUID = fromUUID != nil ? fromUUID == supportInfo.fromUUID ? supportInfo.toUUID : fromUUID! : ""
+        let toUUID = fromUUID != nil ? fromUUID == supportInfo.fromUUID ? supportInfo.fromUUID : supportInfo.toUUID : ""
         self.supportInfo = supportInfo
         self.toUUID = toUUID
     }
