@@ -11,14 +11,14 @@ import FirebaseFirestore
 
 class ChatViewModel: ObservableObject {
     let dbFirestore = Firestore.firestore()
-    var supportInfo: PersonalInformationUser
+    var supportInfo: MessageModel
     var toUUID: String
     @Published var messages: [MessageModel] = []
     @Published var count: Int = 0
     
-    public init(supportInfo: PersonalInformationUser) {
+    public init(supportInfo: MessageModel) {
         let fromUUID = Auth.auth().currentUser?.uid
-        let toUUID = fromUUID != nil ? fromUUID == supportInfo.uuid ? fromUUID! : supportInfo.uuid : ""
+        let toUUID = fromUUID != nil ? fromUUID == supportInfo.fromUUID ? supportInfo.toUUID : fromUUID! : ""
         self.supportInfo = supportInfo
         self.toUUID = toUUID
     }

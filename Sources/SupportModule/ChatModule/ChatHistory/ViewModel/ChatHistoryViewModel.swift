@@ -13,7 +13,7 @@ import FirebaseAuth
 public class ChatHistoryViewModel: ObservableObject {
     private var dbFirestore = Firestore.firestore()
     @Published var historyMessages: [CardModel] = []
-    @Published var supportInformation = PersonalInformationUser(email: "", uuid: "", name: "")
+    @Published var supportInformation = MessageModel(message: "", fromUUID: "", toUUID: "", fromName: "")
     
     func gettingChatHistory() {
         guard let uuid = Auth.auth().currentUser?.uid else { return }
@@ -34,6 +34,7 @@ public class ChatHistoryViewModel: ObservableObject {
                 let toUUID = (messageModel.toUUID ==  Auth.auth().currentUser?.uid ? messageModel.fromUUID : messageModel.toUUID )
                   
                 let documentID = change.document.documentID
+                self.supportInformation = MessageModel(message: messageModel.message, fromUUID: messageModel.fromUUID, toUUID: messageModel.toUUID, fromName: messageModel.fromName)
                 let message = self.converToCardModel(message: messageModel)
                
                 
@@ -56,6 +57,6 @@ public class ChatHistoryViewModel: ObservableObject {
     }
     
     func converToCardModel(message: MessageModel) -> CardModel  {
-        CardModel(id: message.id ?? "1", titleFormat: TextViewModel(text: message.message, foregroundColor: .black, font: .system(size: 14), expandable: false),dateFormat: TextViewModel(text: "\(message.timestamp.dateValue().formatted(date: .numeric, time: .shortened))", foregroundColor: .gray, font: .system(size: 11),  expandable: false), nameFormat:  TextViewModel(text: message.fromName, foregroundColor: .black, font: .system(size: 13, weight: .bold), expandable: false), designCard: ComponentDesign(backgroundColor: .gray.opacity(0.1), cornerRaiuds: 15),fromUUID: message.fromUUID ,toUUID: message.toUUID, action: "chat")
+        CardModel(id: message.id ?? "1", titleFormat: TextViewModel(text: message.message, foregroundColor: .black, font: .system(size: 14), expandable: false),dateFormat: TextViewModel(text: "\(message.timestamp!.dateValue().formatted(date: .numeric, time: .shortened))", foregroundColor: .gray, font: .system(size: 11),  expandable: false), nameFormat:  TextViewModel(text: message.fromName, foregroundColor: .black, font: .system(size: 13, weight: .bold), expandable: false), designCard: ComponentDesign(backgroundColor: .gray.opacity(0.1), cornerRaiuds: 15),fromUUID: message.fromUUID ,toUUID: message.toUUID, action: "chat")
     }
 }
