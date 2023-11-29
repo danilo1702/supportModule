@@ -16,5 +16,6 @@ public struct MessageModel: Codable {
     let fromUUID: String
     let toUUID: String
     let timestamp: Timestamp
+    let name: String
 
 }

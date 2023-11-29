@@ -33,21 +33,6 @@ public class ChatHistoryViewModel: ObservableObject {
                 
                 let toUUID = (messageModel.toUUID ==  Auth.auth().currentUser?.uid ? messageModel.fromUUID : messageModel.toUUID )
                   
-                    let referenceSupportInformation = self.dbFirestore.collection("supports").document(toUUID)
-  
-              
-                    referenceSupportInformation.getDocument(as: PersonalInformationUser.self) { result in
-                        
-                        switch result {
-                            case .success(let information):
-                                self.supportInformation = information
-                                
-                            case .failure(let error):
-                                print("ERROR GETTING SUPPORT INFORMATION \(error)")
-                        }
-                        
-                    }
-                
                 let documentID = change.document.documentID
                 let message = self.converToCardModel(message: messageModel)
                
@@ -71,6 +56,6 @@ public class ChatHistoryViewModel: ObservableObject {
     }
     
     func converToCardModel(message: MessageModel) -> CardModel  {
-        CardModel(id: message.id ?? "1", titleFormat: TextViewModel(text: message.message, foregroundColor: .black, font: .system(size: 14), expandable: false),dateFormat: TextViewModel(text: "\(message.timestamp.dateValue().formatted(date: .numeric, time: .shortened))", foregroundColor: .gray, font: .system(size: 11),  expandable: false), nameFormat:  TextViewModel(text: self.supportInformation.name, foregroundColor: .black, font: .system(size: 13, weight: .bold), expandable: false), designCard: ComponentDesign(backgroundColor: .gray.opacity(0.1), cornerRaiuds: 15),fromUUID: message.fromUUID ,toUUID: message.toUUID, action: "chat")
+        CardModel(id: message.id ?? "1", titleFormat: TextViewModel(text: message.message, foregroundColor: .black, font: .system(size: 14), expandable: false),dateFormat: TextViewModel(text: "\(message.timestamp.dateValue().formatted(date: .numeric, time: .shortened))", foregroundColor: .gray, font: .system(size: 11),  expandable: false), nameFormat:  TextViewModel(text: message.name, foregroundColor: .black, font: .system(size: 13, weight: .bold), expandable: false), designCard: ComponentDesign(backgroundColor: .gray.opacity(0.1), cornerRaiuds: 15),fromUUID: message.fromUUID ,toUUID: message.toUUID, action: "chat")
     }
 }
