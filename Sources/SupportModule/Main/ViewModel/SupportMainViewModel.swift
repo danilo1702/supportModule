@@ -42,7 +42,7 @@ public class SupportMainViewModel: ObservableObject {
         }
     }
     func registerInfoUser(uuid: String) {
-        let information = PersonalInformationUser(email: deviceInformation.email, uuid: uuid, name: UIDevice.current.model)
+        let information = PersonalInformationUser(email: deviceInformation.email, uuid: uuid, name: UIDevice.modelName)
 
         do {
             try dbFirestore.collection(FirebaseConstants.users).document(uuid).setData(from: information)
