@@ -70,17 +70,7 @@ public class SupportMainViewModel: ObservableObject {
                     self.recentMessage.remove(at: index)
                 }
                 if let message = try? change.document.data(as: MessageModel.self) {
-                    let referenceSupportInformation = self.dbFirestore.collection("supports").document(documentId)
                     
-                    referenceSupportInformation.getDocument(as: PersonalInformationUser.self) { result in
-                        switch result {
-                            case .success(let information):
-                                self.supportInformation = information
-                                print(self.recentMessage)
-                            case .failure(let error):
-                                print("ERROR GETTING SUPPOR INFORMATION \(error)")
-                        }
-                    }
                     self.recentMessage.insert(CardModel(id: message.id ?? "1", titleFormat: TextViewModel(text: message.message, foregroundColor: .black, font: .system(size: 14), expandable: false), dateFormat: TextViewModel(text: "\(message.timestamp.dateValue().formatted(date: .numeric, time: .shortened))", foregroundColor: .gray, font: .system(size: 11), expandable: false), nameFormat:  TextViewModel(text: message.fromName, foregroundColor: .black, font: .system(size: 13, weight: .bold), expandable: false) , designCard: ComponentDesign(backgroundColor: .gray.opacity(0.1), cornerRaiuds: 15),fromUUID: message.fromUUID ,toUUID: message.toUUID, action: "chat"), at: 0)
                 }
             }
