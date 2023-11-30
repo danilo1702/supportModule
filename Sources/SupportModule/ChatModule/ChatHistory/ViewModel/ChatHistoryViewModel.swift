@@ -35,7 +35,7 @@ public class ChatHistoryViewModel: ObservableObject {
                   
                 let documentID = change.document.documentID
                 self.supportInformation = MessageModel(message: messageModel.message, fromUUID: messageModel.fromUUID, toUUID: messageModel.toUUID, fromName: messageModel.fromName)
-                let message = self.converToCardModel(message: messageModel)
+                let message = self.converToCardModel(message: messageModel, userUUID: uuid)
                
                 
                 if let index = self.historyMessages.firstIndex(where: { $0.id == documentID}) {
@@ -56,7 +56,7 @@ public class ChatHistoryViewModel: ObservableObject {
         }
     }
     
-    func converToCardModel(message: MessageModel) -> CardModel  {
-        CardModel(id: message.id ?? "1", titleFormat: TextViewModel(text: message.message, foregroundColor: .black, font: .system(size: 14), expandable: false),dateFormat: TextViewModel(text: "\(message.timestamp!.dateValue().formatted(date: .numeric, time: .shortened))", foregroundColor: .gray, font: .system(size: 11),  expandable: false), nameFormat:  TextViewModel(text: message.fromName, foregroundColor: .black, font: .system(size: 13, weight: .bold), expandable: false), designCard: ComponentDesign(backgroundColor: .gray.opacity(0.1), cornerRaiuds: 15),fromUUID: message.fromUUID ,toUUID: message.toUUID, action: "chat")
+    func converToCardModel(message: MessageModel, userUUID: String) -> CardModel  {
+        CardModel(id: message.id ?? "1", titleFormat: TextViewModel(text: message.message, foregroundColor: .black, font: .system(size: 14), expandable: false),dateFormat: TextViewModel(text: "\(message.timestamp!.dateValue().formatted(date: .numeric, time: .shortened))", foregroundColor: .gray, font: .system(size: 11),  expandable: false), nameFormat:  TextViewModel(text: userUUID == message.fromUUID ? "Tú:" : message.fromName, foregroundColor: .black, font: .system(size: 13, weight: .bold), expandable: false), designCard: ComponentDesign(backgroundColor: .gray.opacity(0.1), cornerRaiuds: 15),fromUUID: message.fromUUID ,toUUID: message.toUUID, action: "chat")
     }
 }

@@ -54,6 +54,7 @@ public struct CardView: View {
                 } else {
                     VStack(alignment: information.imageUrl != nil ? .leading : .center) {
                         
+                        
                         TextView(informationModel: information.titleFormat)
                             .padding()
                         HStack {

@@ -15,13 +15,17 @@ public struct CardRecentMessageView: View {
         VStack(alignment: information.imageUrl != nil ? .leading : .center) {
             
             if information.nameFormat != nil {
-                TextView(informationModel: information.nameFormat!)
-                    .padding(EdgeInsets(top: 15, leading: 15, bottom: 0, trailing: 0))
+                HStack {
+                    TextView(informationModel: information.nameFormat!)
+                        .padding(EdgeInsets(top: 15, leading: 15, bottom: 0, trailing: 0))
+                    Spacer()
+                }
+                
             }
             
             HStack {
                 TextView(informationModel: information.titleFormat)
-                    .padding()
+                    .padding(EdgeInsets(top: 5, leading: 15, bottom: 10, trailing: 0))
                 if information.toUUID != nil {
                     Spacer()
                 }
