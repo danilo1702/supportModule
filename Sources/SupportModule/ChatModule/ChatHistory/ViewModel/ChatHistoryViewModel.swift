@@ -21,8 +21,8 @@ public class ChatHistoryViewModel: ObservableObject {
             .document(uuid)
             .collection("messages")
         
-        reference.getDocuments { querySnapshot, error in
-            guard let querySnapshot, error == nil else { return }
+        reference.getDocuments { [weak self] querySnapshot, error in
+            guard let self = self , let querySnapshot = querySnapshot, error == nil else { return }
             
             
             querySnapshot.documentChanges.forEach {  change in
