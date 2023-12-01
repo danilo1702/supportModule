@@ -52,7 +52,9 @@ class ChatViewModel: ObservableObject {
         }
     }
 
-    
+    func test(message: String) {
+        print(message)
+    }
     func sendMessage(message: String) {
         
         guard let fromUUID = Auth.auth().currentUser?.uid else { return }
