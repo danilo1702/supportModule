@@ -13,7 +13,6 @@ import FirebaseAuth
 public class ChatHistoryViewModel: ObservableObject {
     private var dbFirestore = Firestore.firestore()
     @Published var historyMessages: [CardModel] = []
-    @Published var supportInformation = MessageModel(message: "", fromUUID: "", toUUID: "", fromName: "")
     
     func gettingChatHistory() {
         guard let uuid = Auth.auth().currentUser?.uid else { return }
@@ -31,7 +30,7 @@ public class ChatHistoryViewModel: ObservableObject {
                 guard  let messageModel = try? change.document.data(as: MessageModel.self) else { return }
                   
                 let documentID = change.document.documentID
-                self.supportInformation = MessageModel(message: messageModel.message, fromUUID: messageModel.fromUUID, toUUID: messageModel.toUUID, fromName: messageModel.fromName)
+
                 let message = self.converToCardModel(message: messageModel, userUUID: uuid)
                
                 if let index = self.historyMessages.firstIndex(where: { $0.id == documentID}) {

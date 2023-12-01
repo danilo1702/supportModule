@@ -35,12 +35,12 @@ public struct ChatView: View {
                     }
                       
                 }
-            showTextField()
-//                TextFieldMessageView( completion: { text in
-//                    DispatchQueue.main.async {
-//                        viewModel.sendMessage(message: text)
-//                    }                                    
-//                })
+           
+                TextFieldMessageView( completion: { text in
+                    DispatchQueue.main.async {
+                        viewModel.sendMessage(message: text)
+                    }                                    
+                })
                     .navigationTitle(CommonStrings.chatSupport)
                     .onAppear{
                         
@@ -53,45 +53,7 @@ public struct ChatView: View {
             
         
     }
-    @ViewBuilder
-    func showTextField() -> some View {
-        HStack(alignment: .bottom){
-            
-            Button(action: {}, label: {
-                Image(systemName: "photo.badge.plus.fill")
-                    .resizable()
-                    .frame(width: UIScreen.main.bounds.width * 0.07, height: UIScreen.main.bounds.width * 0.07, alignment: .bottomLeading)
-                    .foregroundStyle(.blue)
-            })
-            
-                TextEditor(text: $textToSend)
-                    .frame(minHeight: 35)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .clipShape(RoundedRectangle(cornerRadius: 15))
-
-                if textToSend.isEmpty {
-                    Button(action: {}, label: {
-                        Image(systemName: "mic.circle.fill")
-                            .resizable()
-                            .frame(width: UIScreen.main.bounds.width * 0.07, height: UIScreen.main.bounds.width * 0.07, alignment: .center)
-                    })
-                } else {
-                    Button(action: {
-                        
-                        viewModel.sendMessage(message: textToSend)
-                        textToSend = ""
-                    }, label: {
-                        Image(systemName: "paperplane.circle.fill")
-                            .resizable()
-                            .frame(width: UIScreen.main.bounds.width * 0.07, height: UIScreen.main.bounds.width * 0.07, alignment: .center)
-                            .rotationEffect(.degrees(45))
-                            
-                    })
-                }
-           
-        }.padding()
-            .background(.gray.opacity(0.1))
-    }
+  
 }
 
 //#Preview {
