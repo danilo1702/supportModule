@@ -93,11 +93,11 @@ class ChatViewModel: ObservableObject {
             .collection(FirebaseConstants.messages)
             .document(toUUID)
         
-        reference.setData(message) { error in
-            if error == nil {
-                print("Message saved -*//*-/*-/*-*-/*-/")
-            }
-        }
+//        reference.setData(message) { error in
+//            if error == nil {
+//                print("Message saved -*//*-/*-/*-*-/*-/")
+//            }
+//        }
 //        let referenceReceiver = dbFirestore.collection(FirebaseConstants.lastMessages)
 //            .document(toUUID)
 //            .collection(FirebaseConstants.messages)
