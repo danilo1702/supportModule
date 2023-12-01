@@ -80,9 +80,9 @@ class ChatViewModel: ObservableObject {
             }
             print(message)
         }
-//        DispatchQueue.main.async {
-//            self.count += 1
-//        }
+        DispatchQueue.main.async {
+            self.count += 1
+        }
         saveLastMessage(toUUID: toUUID, message: message)
     }
     func saveLastMessage(toUUID: String, message: [String: Any]) {
@@ -92,6 +92,7 @@ class ChatViewModel: ObservableObject {
             .document(fromUUID)
             .collection(FirebaseConstants.messages)
             .document(toUUID)
+        
         reference.setData(message) { error in
             if error == nil {
                 print("Message saved -*//*-/*-/*-*-/*-/")
@@ -104,6 +105,7 @@ class ChatViewModel: ObservableObject {
         referenceReceiver.setData(message) { error in
             if error == nil {
                 print("message saved receiver */-/*-/*-")
+                return
             }
         }
         
