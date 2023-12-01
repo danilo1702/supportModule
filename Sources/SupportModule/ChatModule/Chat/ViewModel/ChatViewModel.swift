@@ -88,26 +88,27 @@ class ChatViewModel: ObservableObject {
     func saveLastMessage(toUUID: String, message: [String: Any]) {
         guard let fromUUID = Auth.auth().currentUser?.uid else { return }
         
-        let reference = dbFirestore.collection(FirebaseConstants.lastMessages)
+        let senderReference = dbFirestore.collection(FirebaseConstants.lastMessages)
             .document(fromUUID)
             .collection(FirebaseConstants.messages)
             .document(toUUID)
         
-//        reference.setData(message) { error in
-//            if error == nil {
-//                print("Message saved -*//*-/*-/*-*-/*-/")
-//            }
-//        }
-//        let referenceReceiver = dbFirestore.collection(FirebaseConstants.lastMessages)
-//            .document(toUUID)
-//            .collection(FirebaseConstants.messages)
-//            .document(fromUUID)
-//        referenceReceiver.setData(message) { error in
-//            if error == nil {
-//                print("message saved receiver */-/*-/*-")
-//            }
-//        }
+        let receiverReference = dbFirestore.collection(FirebaseConstants.lastMessages)
+            .document(toUUID)
+            .collection(FirebaseConstants.messages)
+            .document(fromUUID)
         
+        let batch = dbFirestore.batch()
         
+        batch.setData(message, forDocument: senderReference)
+        batch.setData(message, forDocument: receiverReference)
+        
+        batch.commit { error in
+            if let error = error {
+                print("Error saving last message: \(error.localizedDescription)")
+            } else {
+                print("Last message saved successfully")
+            }
+        }
     }
 }
