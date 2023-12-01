@@ -50,7 +50,7 @@ public struct ChatView: View {
                         }
                         
                     }
-            }
+        }.navigationBarBackButtonHidden(true)
             
         
     }

@@ -105,7 +105,6 @@ class ChatViewModel: ObservableObject {
         referenceReceiver.setData(message) { error in
             if error == nil {
                 print("message saved receiver */-/*-/*-")
-                return
             }
         }
         
