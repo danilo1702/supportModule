@@ -12,15 +12,15 @@ import FirebaseFirestore
 class ChatViewModel: ObservableObject {
     let dbFirestore = Firestore.firestore()
     var supportInfo: MessageModel
-    var toUUID: String
+    var toUUID: String = "3fHB9VlipBe0GmA6EADilylVn803"
     @Published var messages: [MessageModel] = []
     @Published var count: Int = 0
     
     public init(supportInfo: MessageModel) {
-        let fromUUID = Auth.auth().currentUser?.uid
-        let toUUID = fromUUID != nil ? fromUUID == supportInfo.fromUUID ? supportInfo.toUUID : supportInfo.fromUUID : ""
+//        let fromUUID = Auth.auth().currentUser?.uid
+//        let toUUID = fromUUID != nil ? fromUUID == supportInfo.fromUUID ? supportInfo.toUUID : supportInfo.fromUUID : ""
         self.supportInfo = supportInfo
-        self.toUUID = toUUID
+//        self.toUUID = toUUID
     }
     
     func fetchingMessages() {
@@ -55,7 +55,8 @@ class ChatViewModel: ObservableObject {
     
     func sendMessage(message: String) {
         
-        guard let fromUUID = Auth.auth().currentUser?.uid else { return }
+        //guard let fromUUID = Auth.auth().currentUser?.uid else { return }
+        let fromUUID = "HooWqWbwIeTm5oI9sGsGsOpS5Pw1"
         let referenceSender = dbFirestore.collection(FirebaseConstants.messages)
             .document(fromUUID)
             .collection(toUUID)
