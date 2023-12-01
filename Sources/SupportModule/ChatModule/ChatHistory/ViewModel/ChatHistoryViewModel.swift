@@ -29,15 +29,11 @@ public class ChatHistoryViewModel: ObservableObject {
             querySnapshot.documentChanges.forEach {  change in
                 
                 guard  let messageModel = try? change.document.data(as: MessageModel.self) else { return }
-                
-                
-                let toUUID = (messageModel.toUUID ==  Auth.auth().currentUser?.uid ? messageModel.fromUUID : messageModel.toUUID )
                   
                 let documentID = change.document.documentID
                 self.supportInformation = MessageModel(message: messageModel.message, fromUUID: messageModel.fromUUID, toUUID: messageModel.toUUID, fromName: messageModel.fromName)
                 let message = self.converToCardModel(message: messageModel, userUUID: uuid)
                
-                
                 if let index = self.historyMessages.firstIndex(where: { $0.id == documentID}) {
                     self.historyMessages.remove(at: index)
                 }

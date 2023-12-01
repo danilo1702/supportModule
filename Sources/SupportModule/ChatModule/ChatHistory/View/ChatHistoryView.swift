@@ -24,6 +24,7 @@ struct ChatHistoryView: View {
         }
         
     }
+    
     @ViewBuilder
     func showMessages(_ message: CardModel) -> some View {
         let toUUID = (message.toUUID ?? "" ==  Auth.auth().currentUser?.uid ? message.fromUUID ?? "" : message.toUUID ?? "")
