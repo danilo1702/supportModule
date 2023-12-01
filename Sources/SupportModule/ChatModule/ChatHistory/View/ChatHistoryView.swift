@@ -12,15 +12,17 @@ struct ChatHistoryView: View {
     @State var goToChat: Bool = false
     @StateObject var viewModel = ChatHistoryViewModel()
     var body: some View {
-        VStack{
-            VStack {
-                ForEach(viewModel.historyMessages) { message in
-                   showMessages(message)
+        NavigationView{
+            ScrollView{
+                VStack {
+                    ForEach(viewModel.historyMessages) { message in
+                       showMessages(message)
+                    }
                 }
-            }
-            .onAppear{
-                DispatchQueue.global().async {
-                        viewModel.gettingChatHistory()
+                .onAppear{
+                    DispatchQueue.global().async {
+                            viewModel.gettingChatHistory()
+                    }
                 }
             }
         }
