@@ -33,9 +33,10 @@ struct ChatHistoryView: View {
         NavigationLink {
             ChatView(supportInfo: MessageModel(message: "", fromUUID: message.fromUUID ?? "", toUUID: message.toUUID ?? "", fromName: message.nameFormat?.text ?? ""))
         } label: {
-            CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
-                goToChat.toggle()
-            }
+            Text("Vamos")
+//            CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
+//                goToChat.toggle()
+//            }
         }
     }
 }
