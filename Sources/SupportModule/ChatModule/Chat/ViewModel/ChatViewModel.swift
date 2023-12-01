@@ -83,7 +83,7 @@ class ChatViewModel: ObservableObject {
 //        DispatchQueue.main.async {
 //            self.count += 1
 //        }
-        //saveLastMessage(toUUID: toUUID, message: message)
+        saveLastMessage(toUUID: toUUID, message: message)
     }
     func saveLastMessage(toUUID: String, message: [String: Any]) {
         guard let fromUUID = Auth.auth().currentUser?.uid else { return }
