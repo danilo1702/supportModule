@@ -24,12 +24,15 @@ class ChatViewModel: ObservableObject {
     }
     
     func fetchingMessages() {
+        DispatchQueue.main.async {
+            
+        
         
         guard let fromUUID = Auth.auth().currentUser?.uid else { return }
         
-        let reference = dbFirestore.collection(FirebaseConstants.messages)
+            let reference = self.dbFirestore.collection(FirebaseConstants.messages)
             .document(fromUUID)
-            .collection(toUUID)
+            .collection(self.toUUID)
             .order(by: FirebaseConstants.timestamp)
         
         reference.addSnapshotListener { documentSnapshot, error in
@@ -50,20 +53,20 @@ class ChatViewModel: ObservableObject {
                 self.count += 1
             }
         }
+        }
     }
 
-    func test(message: String) {
-        print(message)
-    }
     func sendMessage(message: String) {
-        
+        DispatchQueue.main.async {
+            
+       
         guard let fromUUID = Auth.auth().currentUser?.uid else { return }
-        let referenceSender = dbFirestore.collection(FirebaseConstants.messages)
+            let referenceSender = self.dbFirestore.collection(FirebaseConstants.messages)
             .document(fromUUID)
-            .collection(toUUID)
+            .collection(self.toUUID)
             .document()
         
-        let message = ["message": message, "fromUUID": fromUUID, "toUUID": toUUID, "timestamp": Timestamp(), "fromName": UIDevice.modelName] as [String: Any]
+            let message = ["message": message, "fromUUID": fromUUID, "toUUID": self.toUUID, "timestamp": Timestamp(), "fromName": UIDevice.modelName] as [String: Any]
         referenceSender.setData(message) { error in
             if error != nil {
                 print("Errro sending de message ")
@@ -71,8 +74,8 @@ class ChatViewModel: ObservableObject {
             }
         }
         
-        let referenceReceiver = dbFirestore.collection(FirebaseConstants.messages)
-            .document(toUUID)
+            let referenceReceiver = self.dbFirestore.collection(FirebaseConstants.messages)
+                .document(self.toUUID)
             .collection(fromUUID)
             .document()
         referenceReceiver.setData(message) { error in
@@ -85,12 +88,16 @@ class ChatViewModel: ObservableObject {
         DispatchQueue.main.async {
             self.count += 1
         }
-        saveLastMessage(toUUID: toUUID, message: message)
+            self.saveLastMessage(toUUID: self.toUUID, message: message)
+        }
     }
     func saveLastMessage(toUUID: String, message: [String: Any]) {
+        DispatchQueue.main.async {
+            
+      
         guard let fromUUID = Auth.auth().currentUser?.uid else { return }
         
-        let reference = dbFirestore.collection(FirebaseConstants.lastMessages)
+            let reference = self.dbFirestore.collection(FirebaseConstants.lastMessages)
             .document(fromUUID)
             .collection(FirebaseConstants.messages)
             .document(toUUID)
@@ -99,7 +106,7 @@ class ChatViewModel: ObservableObject {
                 print("Message saved -*//*-/*-/*-*-/*-/")
             }
         }
-        let referenceReceiver = dbFirestore.collection(FirebaseConstants.lastMessages)
+            let referenceReceiver = self.dbFirestore.collection(FirebaseConstants.lastMessages)
             .document(toUUID)
             .collection(FirebaseConstants.messages)
             .document(fromUUID)
@@ -108,7 +115,7 @@ class ChatViewModel: ObservableObject {
                 print("message saved receiver */-/*-/*-")
             }
         }
-        
+        }
         
     }
 }
