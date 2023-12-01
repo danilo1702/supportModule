@@ -17,10 +17,10 @@ class ChatViewModel: ObservableObject {
     @Published var count: Int = 0
     
     public init(supportInfo: MessageModel) {
-//        let fromUUID = Auth.auth().currentUser?.uid
-//        let toUUID = fromUUID != nil ? fromUUID == supportInfo.fromUUID ? supportInfo.toUUID : supportInfo.fromUUID : ""
+        let fromUUID = Auth.auth().currentUser?.uid
+        let toUUID = fromUUID != nil ? fromUUID == supportInfo.fromUUID ? supportInfo.toUUID : supportInfo.fromUUID : ""
         self.supportInfo = supportInfo
-//        self.toUUID = toUUID
+        self.toUUID = toUUID
     }
     
     func fetchingMessages() {
@@ -55,8 +55,7 @@ class ChatViewModel: ObservableObject {
     
     func sendMessage(message: String) {
         
-        //guard let fromUUID = Auth.auth().currentUser?.uid else { return }
-        let fromUUID = "HooWqWbwIeTm5oI9sGsGsOpS5Pw1"
+        guard let fromUUID = Auth.auth().currentUser?.uid else { return }
         let referenceSender = dbFirestore.collection(FirebaseConstants.messages)
             .document(fromUUID)
             .collection(toUUID)
