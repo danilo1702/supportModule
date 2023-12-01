@@ -12,7 +12,7 @@ import FirebaseFirestore
 class ChatViewModel: ObservableObject {
     let dbFirestore = Firestore.firestore()
     var supportInfo: MessageModel
-    var toUUID: String = "3fHB9VlipBe0GmA6EADilylVn803"
+    var toUUID: String
     @Published var messages: [MessageModel] = []
     @Published var count: Int = 0
     
