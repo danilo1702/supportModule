@@ -27,10 +27,9 @@ struct ChatHistoryView: View {
     
     @ViewBuilder
     func showMessages(_ message: CardModel) -> some View {
-        let toUUID = (message.toUUID ?? "" ==  Auth.auth().currentUser?.uid ? message.fromUUID ?? "" : message.toUUID ?? "")
         
         NavigationLink(isActive: $goToChat) {
-            ChatView(supportInfo: viewModel.supportInformation)
+            ChatView(supportInfo: MessageModel(message: "", fromUUID: message.fromUUID ?? "", toUUID: message.toUUID ?? "", fromName: message.nameFormat?.text ?? ""))
         } label: {
             CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
                 goToChat.toggle()
