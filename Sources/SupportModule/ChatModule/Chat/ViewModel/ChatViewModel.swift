@@ -98,15 +98,15 @@ class ChatViewModel: ObservableObject {
                 print("Message saved -*//*-/*-/*-*-/*-/")
             }
         }
-        let referenceReceiver = dbFirestore.collection(FirebaseConstants.lastMessages)
-            .document(toUUID)
-            .collection(FirebaseConstants.messages)
-            .document(fromUUID)
-        referenceReceiver.setData(message) { error in
-            if error == nil {
-                print("message saved receiver */-/*-/*-")
-            }
-        }
+//        let referenceReceiver = dbFirestore.collection(FirebaseConstants.lastMessages)
+//            .document(toUUID)
+//            .collection(FirebaseConstants.messages)
+//            .document(fromUUID)
+//        referenceReceiver.setData(message) { error in
+//            if error == nil {
+//                print("message saved receiver */-/*-/*-")
+//            }
+//        }
         
         
     }
