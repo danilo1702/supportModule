@@ -28,21 +28,13 @@ struct ChatHistoryView: View {
     @ViewBuilder
     func showMessages(_ message: CardModel) -> some View {
         
-        NavigationLink(
-           destination: ChatView(supportInfo: MessageModel(message: "", fromUUID: message.fromUUID ?? "", toUUID: message.toUUID ?? "", fromName: message.nameFormat?.text ?? "")),
-           isActive: $goToChat,
-           label: {
-               CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
-                   goToChat = true
-               }
-           })
-//        NavigationLink(isActive: $goToChat) {
-//            ChatView(supportInfo: MessageModel(message: "", fromUUID: message.fromUUID ?? "", toUUID: message.toUUID ?? "", fromName: message.nameFormat?.text ?? ""))
-//        } label: {
-//            CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
-//                goToChat = true
-//            }
-//        }
+        NavigationLink(isActive: $goToChat) {
+            ChatView(supportInfo: MessageModel(message: "", fromUUID: message.fromUUID ?? "", toUUID: message.toUUID ?? "", fromName: message.nameFormat?.text ?? ""))
+        } label: {
+            CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
+                goToChat.toggle()
+            }
+        }
     }
 }
 
