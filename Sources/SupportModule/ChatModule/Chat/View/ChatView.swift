@@ -37,6 +37,7 @@ public struct ChatView: View {
                 }
                 TextFieldMessageView( completion: {text in 
                     //viewModel.sendMessage(message: text)
+                    print("Hola")
                 })
                     .navigationTitle(CommonStrings.chatSupport)
                     .onAppear{
