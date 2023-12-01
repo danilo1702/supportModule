@@ -12,7 +12,7 @@ import FirebaseFirestore
 class ChatViewModel: ObservableObject {
     let dbFirestore = Firestore.firestore()
     var supportInfo: MessageModel
-    var toUUID: String 
+    var toUUID: String
     @Published var messages: [MessageModel] = []
     @Published var count: Int = 0
     
@@ -80,10 +80,10 @@ class ChatViewModel: ObservableObject {
             }
             print(message)
         }
-        DispatchQueue.main.async {
-            self.count += 1
-        }
-        saveLastMessage(toUUID: toUUID, message: message)
+//        DispatchQueue.main.async {
+//            self.count += 1
+//        }
+        //saveLastMessage(toUUID: toUUID, message: message)
     }
     func saveLastMessage(toUUID: String, message: [String: Any]) {
         guard let fromUUID = Auth.auth().currentUser?.uid else { return }
