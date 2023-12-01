@@ -10,7 +10,6 @@ import FirebaseAuth
 
 struct ChatHistoryView: View {
     @State var goToChat: Bool = false
-    @State var selectedIndex: Int?
     @StateObject var viewModel = ChatHistoryViewModel()
     var body: some View {
         ScrollView{
@@ -29,14 +28,12 @@ struct ChatHistoryView: View {
     @ViewBuilder
     func showMessages(_ message: CardModel) -> some View {
         
-       
-        NavigationLink {
+        NavigationLink(isActive: $goToChat) {
             ChatView(supportInfo: MessageModel(message: "", fromUUID: message.fromUUID ?? "", toUUID: message.toUUID ?? "", fromName: message.nameFormat?.text ?? ""))
         } label: {
-            Text("Vamos")
-//            CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
-//                goToChat.toggle()
-//            }
+            CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
+                goToChat.toggle()
+            }
         }
     }
 }

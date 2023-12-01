@@ -46,7 +46,7 @@ public struct ChatView: View {
                     .onAppear{
                         
                         DispatchQueue.main.async {
-                            viewModel.fetchingMessages()
+                           // viewModel.fetchingMessages()
                         }
                         
                     }
