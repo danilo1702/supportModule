@@ -83,9 +83,16 @@ class ChatViewModel: ObservableObject {
         DispatchQueue.main.async {
             self.count += 1
         }
-        saveLastMessage(toUUID: toUUID, message: message)
+        saveLastMessage(toUUID: toUUID, message: message) { result in
+            switch result {
+                case .success(let success):
+                    print("Success \(success)")
+                case .failure(let failure):
+                    print("error saving \(failure)")
+            }
+        }
     }
-    func saveLastMessage(toUUID: String, message: [String: Any]) {
+    func saveLastMessage(toUUID: String, message: [String: Any], completion: @escaping (Result<Bool, Error>) -> ()) {
         guard let fromUUID = Auth.auth().currentUser?.uid else { return }
         
         let senderReference = dbFirestore.collection(FirebaseConstants.lastMessages)
@@ -106,8 +113,10 @@ class ChatViewModel: ObservableObject {
         batch.commit { error in
             if let error = error {
                 print("Error saving last message: \(error.localizedDescription)")
+                completion(.failure(error))
             } else {
                 print("Last message saved successfully")
+                completion(.success(true))
             }
         }
     }
