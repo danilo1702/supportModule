@@ -13,23 +13,25 @@ struct ChatHistoryView: View {
     @StateObject var viewModel = ChatHistoryViewModel()
     var body: some View {
         
-        ScrollView{
-            VStack {
-                ForEach(viewModel.historyMessages) { message in
-                    NavigationLink(isActive: $goToChat) {
-                        ChatView(supportInfo: MessageModel(message: "", fromUUID: message.fromUUID ?? "", toUUID: message.toUUID ?? "", fromName: message.nameFormat?.text ?? ""))
-                    } label: {
-                        CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
-                            goToChat.toggle()
+        NavigationView{
+            ScrollView{
+                VStack {
+                    ForEach(viewModel.historyMessages) { message in
+                        NavigationLink(isActive: $goToChat) {
+                            ChatView(supportInfo: MessageModel(message: "", fromUUID: message.fromUUID ?? "", toUUID: message.toUUID ?? "", fromName: message.nameFormat?.text ?? ""))
+                        } label: {
+                            CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
+                                goToChat.toggle()
+                            }
                         }
                     }
                 }
-            }
-            .onAppear{
-                DispatchQueue.global().async {
-                    viewModel.gettingChatHistory()
+                .onAppear{
+                    DispatchQueue.global().async {
+                        viewModel.gettingChatHistory()
+                    }
                 }
-            }
+            }.navigationBarBackButtonHidden(true)
         }
     }
     
