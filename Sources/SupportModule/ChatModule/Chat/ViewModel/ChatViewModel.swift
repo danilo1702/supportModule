@@ -107,21 +107,19 @@ class ChatViewModel: ObservableObject {
             .collection(FirebaseConstants.messages)
             .document(fromUUID)
         
-        self.dbFirestore.collection(FirebaseConstants.lastMessages)
-            .document(fromUUID)
-            .collection(FirebaseConstants.messages)
-            .document(toUUID).setData(message)
-        DispatchQueue.global().asyncAfter(deadline: .now() + 2){
-            
         do {
-            self.dbFirestore.collection(FirebaseConstants.lastMessages)
+//             dbFirestore.collection(FirebaseConstants.lastMessages)
+//                .document(toUUID)
+//                .collection(FirebaseConstants.messages)
+//                .document(fromUUID).setData(message)
+            
+            dbFirestore.collection(FirebaseConstants.lastMessages)
                 .document(toUUID)
                 .collection(FirebaseConstants.messages)
                 .document(fromUUID).setData(message)
 
         }catch  let error{
             print("Error saving message")
-        }
         }
         
 //        let batch = dbFirestore.batch()
