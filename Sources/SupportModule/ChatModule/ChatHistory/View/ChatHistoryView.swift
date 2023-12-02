@@ -13,7 +13,7 @@ struct ChatHistoryView: View {
     @StateObject var viewModel = ChatHistoryViewModel()
     var body: some View {
         
-        NavigationView{
+      
             ScrollView{
                 VStack {
                     ForEach(viewModel.historyMessages) { message in
@@ -31,8 +31,7 @@ struct ChatHistoryView: View {
                         viewModel.gettingChatHistory()
                     }
                 }
-                
-            }
+           
         }
     }
     

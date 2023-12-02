@@ -41,7 +41,6 @@ public struct ChatView: View {
                     viewModel.sendMessage(message: text)
                 }
             })
-            .navigationTitle(CommonStrings.chatSupport)
             .onAppear{
                 
                 DispatchQueue.main.async {
@@ -49,6 +48,7 @@ public struct ChatView: View {
                 }
                 
             }
+            .navigationTitle(CommonStrings.chatSupport)
         }
         
         
