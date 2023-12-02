@@ -31,7 +31,8 @@ struct ChatHistoryView: View {
                         viewModel.gettingChatHistory()
                     }
                 }
-            }.navigationBarBackButtonHidden(true)
+                .navigationBarBackButtonHidden(true)
+            }
         }
     }
     
