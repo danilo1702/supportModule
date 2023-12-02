@@ -108,10 +108,10 @@ class ChatViewModel: ObservableObject {
             .document(fromUUID)
         
         do {
-             dbFirestore.collection(FirebaseConstants.lastMessages)
-                .document(toUUID)
+            dbFirestore.collection(FirebaseConstants.lastMessages)
+                .document(fromUUID)
                 .collection(FirebaseConstants.messages)
-                .document(fromUUID).setData(message)
+                .document(toUUID).setData(message)
             
             dbFirestore.collection(FirebaseConstants.lastMessages)
                 .document(toUUID)
