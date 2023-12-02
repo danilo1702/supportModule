@@ -31,47 +31,49 @@ public struct SupportModuleView: View {
     }
     public var body: some View {
         GeometryReader { geometry in
-            VStack {
-                showListArticles()
-                    .padding(.horizontal)
-                    .frame(width: .infinity, height: geometry.size.height * 0.4, alignment: .center)
-                
-                if viewModel.recentMessage.count > 0 {
-                    VStack {
-                        HStack{
-                            TextView(informationModel: generalConfiguration.titleLastChat)
-                                .shadow(radius: 7)
-                            Spacer()
-                            Button(action: {chatHistory.toggle()}, label: {
-                                Text("Historial")
-                            })
-                                
-                        }.padding(19)
-                        
-                        CardView(information: viewModel.recentMessage[0], activeNavigation: $navigationChat, view: CardRecentMessageView(information: viewModel.recentMessage[0]).toAnyView()) {}
-                            .padding(.horizontal)
-                       
+            NavigationView{
+                VStack {
+                    showListArticles()
+                        .padding(.horizontal)
+                        .frame(width: .infinity, height: geometry.size.height * 0.4, alignment: .center)
+                    
+                    if viewModel.recentMessage.count > 0 {
+                        VStack {
+                            HStack{
+                                TextView(informationModel: generalConfiguration.titleLastChat)
+                                    .shadow(radius: 7)
+                                Spacer()
+                                Button(action: {chatHistory.toggle()}, label: {
+                                    Text("Historial")
+                                })
+                                    
+                            }.padding(19)
+                            
+                            CardView(information: viewModel.recentMessage[0], activeNavigation: $navigationChat, view: CardRecentMessageView(information: viewModel.recentMessage[0]).toAnyView()) {}
+                                .padding(.horizontal)
+                           
+                        }
                     }
+                    Spacer()
+                    ButtonView(informationButton:ButtonModel(designButton: ComponentDesign(backgroundColor: .blue, cornerRaiuds: 15), title: TextViewModel(text: "Agendar turno", foregroundColor: .white, font: .system(size: 14), expandable: false)) ) {
+                            showAlert.toggle()
+                    }
+                    .sheet(isPresented: $showAlert, content: {
+                        ProgramTurnView()
+                    })
+                    
+                    
+                    ButtonView(informationButton: generalConfiguration.buttonInformationStartChat) {
+                        newConversacion.toggle()
+                    }
+                    .padding()
+                    .frame(alignment: .center)
+                    
+                    .shadow(radius: 5)
+                   navigationLinks()
                 }
-                Spacer()
-                ButtonView(informationButton:ButtonModel(designButton: ComponentDesign(backgroundColor: .blue, cornerRaiuds: 15), title: TextViewModel(text: "Agendar turno", foregroundColor: .white, font: .system(size: 14), expandable: false)) ) {
-                        showAlert.toggle()
-                }
-                .sheet(isPresented: $showAlert, content: {
-                    ProgramTurnView()
-                })
-                
-                
-                ButtonView(informationButton: generalConfiguration.buttonInformationStartChat) {
-                    newConversacion.toggle()
-                }
-                .padding()
-                .frame(alignment: .center)
-                
-                .shadow(radius: 5)
-               navigationLinks()
+                .addSearchbar(textSearch: $textSearch, placeHolder: generalConfiguration.placeHolderSearchBar, title: generalConfiguration.titleModule)
             }
-            .addSearchbar(textSearch: $textSearch, placeHolder: generalConfiguration.placeHolderSearchBar, title: generalConfiguration.titleModule)
             .onAppear{
                 viewModel.registerUserFirebase{ result in
                     switch result {
