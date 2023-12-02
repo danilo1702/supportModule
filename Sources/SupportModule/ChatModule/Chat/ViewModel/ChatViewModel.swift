@@ -83,12 +83,38 @@ class ChatViewModel: ObservableObject {
         DispatchQueue.main.async {
             self.count += 1
         }
-        saveLastMessage(toUUID: toUUID, message: message) { result in
-            switch result {
-                case .success(let success):
-                    print("Success \(success)")
-                case .failure(let failure):
-                    print("error saving \(failure)")
+//        saveLastMessage(toUUID: toUUID, message: message) { result in
+//            switch result {
+//                case .success(let success):
+//                    print("Success \(success)")
+//                case .failure(let failure):
+//                    print("error saving \(failure)")
+//            }
+//        }
+        guard let fromUUID = Auth.auth().currentUser?.uid else { return }
+        
+        let senderReference = dbFirestore.collection(FirebaseConstants.lastMessages)
+            .document(fromUUID)
+            .collection(FirebaseConstants.messages)
+            .document(toUUID)
+        
+        let receiverReference = dbFirestore.collection(FirebaseConstants.lastMessages)
+            .document(toUUID)
+            .collection(FirebaseConstants.messages)
+            .document(fromUUID)
+        
+        let batch = dbFirestore.batch()
+        
+        batch.setData(message, forDocument: senderReference)
+        batch.setData(message, forDocument: receiverReference)
+        
+        batch.commit { error in
+            if let error = error {
+                print("Error saving last message: \(error.localizedDescription)")
+                
+            } else {
+                print("Last message saved successfully")
+               
             }
         }
     }
