@@ -107,15 +107,13 @@ class ChatViewModel: ObservableObject {
             .collection(FirebaseConstants.messages)
             .document(fromUUID)
         
-        DispatchQueue.global().async {
+        self.dbFirestore.collection(FirebaseConstants.lastMessages)
+            .document(fromUUID)
+            .collection(FirebaseConstants.messages)
+            .document(toUUID).setData(message)
+        DispatchQueue.global().asyncAfter(deadline: .now() + 2){
             
-       
         do {
-            self.dbFirestore.collection(FirebaseConstants.lastMessages)
-                .document(fromUUID)
-                .collection(FirebaseConstants.messages)
-                .document(toUUID).setData(message)
-            
             self.dbFirestore.collection(FirebaseConstants.lastMessages)
                 .document(toUUID)
                 .collection(FirebaseConstants.messages)
@@ -126,19 +124,19 @@ class ChatViewModel: ObservableObject {
         }
         }
         
-//        let batch = dbFirestore.batch()
-//        
-//        batch.setData(message, forDocument: senderReference)
-//        batch.setData(message, forDocument: receiverReference)
-//        
-//        batch.commit { error in
-//            if let error = error {
-//                print("Error saving last message: \(error.localizedDescription)")
-//                completion(.failure(error))
-//            } else {
-//                print("Last message saved successfully")
-//                completion(.success(true))
-//            }
-//        }
+        let batch = dbFirestore.batch()
+        
+        batch.setData(message, forDocument: senderReference)
+        batch.setData(message, forDocument: receiverReference)
+        
+        batch.commit { error in
+            if let error = error {
+                print("Error saving last message: \(error.localizedDescription)")
+                completion(.failure(error))
+            } else {
+                print("Last message saved successfully")
+                completion(.success(true))
+            }
+        }
     }
 }
