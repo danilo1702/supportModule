@@ -18,7 +18,7 @@ struct ChatHistoryView: View {
                 VStack {
                     ForEach(viewModel.historyMessages) { message in
                         NavigationLink(isActive: $goToChat) {
-                            ChatView(supportInfo: MessageModel(message: "", fromUUID: message.fromUUID ?? "", toUUID: message.toUUID ?? "", fromName: message.nameFormat?.text ?? ""))
+                            ChatView(supportInfo: MessageModel(message: "", fromUUID: "6WGRA6SLvucx1jxXShfQMQJPdbE3", toUUID: "V1RfRkJiCNVKl45yb81wqroAsQS2", fromName: "Simulator iPhone 15 Pro"))
                         } label: {
                             CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
                                 goToChat.toggle()
@@ -39,7 +39,7 @@ struct ChatHistoryView: View {
     func showMessages(_ message: CardModel) -> some View {
         
         NavigationLink(isActive: $goToChat) {
-            ChatView(supportInfo: MessageModel(message: "", fromUUID: message.fromUUID ?? "", toUUID: message.toUUID ?? "", fromName: message.nameFormat?.text ?? ""))
+            ChatView(supportInfo: MessageModel(message: "", fromUUID: "6WGRA6SLvucx1jxXShfQMQJPdbE3", toUUID: "V1RfRkJiCNVKl45yb81wqroAsQS2", fromName: "Simulator iPhone 15 Pro"))
         } label: {
             CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
                 goToChat.toggle()
