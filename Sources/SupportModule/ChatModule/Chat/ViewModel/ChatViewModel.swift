@@ -83,18 +83,11 @@ class ChatViewModel: ObservableObject {
         DispatchQueue.main.async {
             self.count += 1
         }
-        saveLastMessage(toUUID: toUUID, message: message) { result in
-            switch result {
-                case .success(let success):
-                    print("Success \(success)")
-                case .failure(let failure):
-                    print("error saving \(failure)")
-            }
-        }
+        saveLastMessage(toUUID: toUUID, message: message)
     }
     
     
-    func saveLastMessage(toUUID: String, message: [String: Any], completion: @escaping (Result<Bool, Error>) -> ()) {
+    func saveLastMessage(toUUID: String, message: [String: Any]) {
         
         guard let fromUUID = Auth.auth().currentUser?.uid else { return }
         print("TO UUID SAVE LAST\(toUUID)")
@@ -111,15 +104,15 @@ class ChatViewModel: ObservableObject {
             .document(fromUUID)
         
         do {
-//             dbFirestore.collection(FirebaseConstants.lastMessages)
-//                .document(toUUID)
-//                .collection(FirebaseConstants.messages)
-//                .document(fromUUID).setData(message)
+             dbFirestore.collection(FirebaseConstants.lastMessages)
+                .document(toUUID)
+                .collection(FirebaseConstants.messages)
+                .document(fromUUID).setData(message)
             
-            dbFirestore.collection(FirebaseConstants.lastMessages)
-               .document(fromUUID)
-               .collection(FirebaseConstants.messages)
-               .document(toUUID).setData(message)
+//            dbFirestore.collection(FirebaseConstants.lastMessages)
+//               .document(fromUUID)
+//               .collection(FirebaseConstants.messages)
+//               .document(toUUID).setData(message)
 
         }catch  let error{
             print("Error saving message")
@@ -139,5 +132,8 @@ class ChatViewModel: ObservableObject {
 //                completion(.success(true))
 //            }
 //        }
+    }
+    func saveReceiverMessage(toUUID: String, fromUUID: String, message: [String: Any]) {
+        
     }
 }
