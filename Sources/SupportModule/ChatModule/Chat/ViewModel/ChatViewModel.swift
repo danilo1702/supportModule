@@ -104,16 +104,15 @@ class ChatViewModel: ObservableObject {
             .document(fromUUID)
         
         do {
-//             dbFirestore.collection(FirebaseConstants.lastMessages)
-//                .document(toUUID)
-//                .collection(FirebaseConstants.messages)
-//                .document(fromUUID).setData(message)
-            print("TO UUID SAVE LAST\(toUUID)")
-            print("from UUID save last \(fromUUID)")
-            dbFirestore.collection(FirebaseConstants.lastMessages)
-               .document("6WGRA6SLvucx1jxXShfQMQJPdbE3")
-               .collection(FirebaseConstants.messages)
-               .document("V1RfRkJiCNVKl45yb81wqroAsQS2").setData(message)
+             dbFirestore.collection(FirebaseConstants.lastMessages)
+                .document(toUUID)
+                .collection(FirebaseConstants.messages)
+                .document(fromUUID).setData(message)
+            
+//            dbFirestore.collection(FirebaseConstants.lastMessages)
+//               .document(fromUUID)
+//               .collection(FirebaseConstants.messages)
+//               .document(toUUID).setData(message)
 
         }catch  let error{
             print("Error saving message")
