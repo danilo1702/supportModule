@@ -95,7 +95,10 @@ class ChatViewModel: ObservableObject {
     
     
     func saveLastMessage(toUUID: String, message: [String: Any], completion: @escaping (Result<Bool, Error>) -> ()) {
+        
         guard let fromUUID = Auth.auth().currentUser?.uid else { return }
+        print("TO UUID SAVE LAST\(toUUID)")
+        print("from UUID save last \(fromUUID)")
         
         let senderReference = dbFirestore.collection(FirebaseConstants.lastMessages)
             .document(fromUUID)
