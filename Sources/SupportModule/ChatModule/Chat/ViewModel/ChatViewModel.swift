@@ -39,12 +39,18 @@ class ChatViewModel: ObservableObject {
             documentSnapshot.documentChanges.forEach { change in
                 if change.type == .added {
                     
-                    if let cm = try? change.document.data(as: MessageModel.self) {
+                    do {
+                       let cm =  try change.document.data(as: MessageModel.self)
                         self.messages.append(cm)
-                        print("Appending chatMessage in Chat: \(Date())")
-                    }else {
-                        print("Error decoding *//*-/*-*-/-*/-/**-/*-/")
+                    }catch {
+                        print("error CHAT VIEW: \(error)")
                     }
+//                    if let cm = try? change.document.data(as: MessageModel.self) {
+//                        self.messages.append(cm)
+//                        print("Appending chatMessage in Chat: \(Date())")
+//                    }else {
+//                        print("Error decoding *//*-/*-*-/-*/-/**-/*-/")
+//                    }
                 }
             }
             DispatchQueue.main.async {
@@ -101,17 +107,6 @@ class ChatViewModel: ObservableObject {
             .collection(FirebaseConstants.messages)
             .document(fromUUID)
             
-      
-//             dbFirestore.collection(FirebaseConstants.lastMessages)
-//                .document(toUUID)
-//                .collection(FirebaseConstants.messages)
-//                .document(fromUUID).setData(message)
-        
-            
-//            dbFirestore.collection(FirebaseConstants.lastMessages)
-//               .document(fromUUID)
-//               .collection(FirebaseConstants.messages)
-//               .document(toUUID).setData(message)
 
         let batch = dbFirestore.batch()
         
