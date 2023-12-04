@@ -94,22 +94,13 @@ class ChatViewModel: ObservableObject {
             .collection(FirebaseConstants.messages)
             .document(toUUID)
         
-        senderReference.updateData(message) { error in
-            if error != nil {
-                print("Save sender message")
-            }
-        }
+        
         
         let receiverReference = dbFirestore.collection(FirebaseConstants.lastMessages)
             .document(toUUID)
             .collection(FirebaseConstants.messages)
             .document(fromUUID)
             
-        receiverReference.updateData(message) { error in
-            if error != nil {
-                print("Save receiver message")
-            }
-        }
       
 //             dbFirestore.collection(FirebaseConstants.lastMessages)
 //                .document(toUUID)
@@ -122,17 +113,17 @@ class ChatViewModel: ObservableObject {
 //               .collection(FirebaseConstants.messages)
 //               .document(toUUID).setData(message)
 
-//        let batch = dbFirestore.batch()
-//        
-//        batch.setData(message, forDocument: senderReference)
-//        batch.setData(message, forDocument: receiverReference)
-//        
-//        batch.commit { error in
-//            if let error = error {
-//                print("Error saving last message: \(error.localizedDescription)")
-//            } else {
-//                print("Last message saved successfully")
-//            }
-//        }
+        let batch = dbFirestore.batch()
+        
+        batch.setData(message, forDocument: senderReference)
+        batch.setData(message, forDocument: receiverReference)
+        
+        batch.commit { error in
+            if let error = error {
+                print("Error saving last message: \(error.localizedDescription)")
+            } else {
+                print("Last message saved successfully")
+            }
+        }
     }
 }
