@@ -19,7 +19,7 @@ public class StartConversationViewModel: ObservableObject {
             
             guard let queryDocument = querySnapshot, let fromUUID = Auth.auth().currentUser?.uid, error == nil else { return }
             if let support = try? queryDocument.documentChanges.first?.document.data(as: PersonalInformationUser.self) {
-                completion(.success(MessageModel(message: "", fromUUID: fromUUID, toUUID: support.uuid,timestamp: support.createdAt, fromName: support.name)))
+                completion(.success(MessageModel(message: "", fromUUID: fromUUID, toUUID: support.uuid,timestamp: "\(support.createdAt)", fromName: support.name)))
             }else {
                 completion(.failure(NSError(domain: "There isn't a support user", code: 204)))
             }

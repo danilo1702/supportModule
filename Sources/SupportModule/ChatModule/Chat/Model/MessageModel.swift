@@ -16,9 +16,9 @@ public struct MessageModel: Codable, Identifiable {
     let message: String
     let fromUUID: String
     let toUUID: String
-    let timestamp: Timestamp?
+    let timestamp: String?
     let fromName: String
-    public init(id: String? = nil, message: String, fromUUID: String, toUUID: String, timestamp: Timestamp? = nil, fromName: String) {
+    public init(id: String? = nil, message: String, fromUUID: String, toUUID: String, timestamp: String? = nil, fromName: String) {
         self.id = id
         self.message = message
         self.fromUUID = fromUUID
