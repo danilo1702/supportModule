@@ -17,13 +17,7 @@ struct ChatHistoryView: View {
             ScrollView{
                 VStack {
                     ForEach(viewModel.historyMessages) { message in
-                        NavigationLink(isActive: $goToChat) {
-                            ChatView(supportInfo: MessageModel(message: "", fromUUID: "6WGRA6SLvucx1jxXShfQMQJPdbE3", toUUID: "V1RfRkJiCNVKl45yb81wqroAsQS2", fromName: "Simulator iPhone 15 Pro"))
-                        } label: {
-                            CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
-                                goToChat.toggle()
-                            }
-                        }
+                        showMessages(message)
                     }
                 }
                 .onAppear{
@@ -37,12 +31,14 @@ struct ChatHistoryView: View {
     
     @ViewBuilder
     func showMessages(_ message: CardModel) -> some View {
-        
-        NavigationLink(isActive: $goToChat) {
-            ChatView(supportInfo: MessageModel(message: "", fromUUID: "6WGRA6SLvucx1jxXShfQMQJPdbE3", toUUID: "V1RfRkJiCNVKl45yb81wqroAsQS2", fromName: "Simulator iPhone 15 Pro"))
-        } label: {
-            CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
-                goToChat.toggle()
+        if let fromUUID = message.fromUUID, let toUUID = message.toUUID, let fromName = message.nameFormat?.text {
+            
+            NavigationLink(isActive: $goToChat) {
+                ChatView(supportInfo: MessageModel(message: "", fromUUID: fromUUID, toUUID: toUUID, fromName: fromName))
+            } label: {
+                CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
+                    goToChat.toggle()
+                }
             }
         }
     }
