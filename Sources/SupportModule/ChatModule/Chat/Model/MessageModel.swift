@@ -9,9 +9,10 @@ import Foundation
 import FirebaseFirestoreSwift
 import FirebaseFirestore
 
-public struct MessageModel: Codable {
+public struct MessageModel: Codable, Identifiable {
     
-    @DocumentID var id: String?
+    public var uniqueID: UUID = UUID()
+    @DocumentID public var id: String?
     let message: String
     let fromUUID: String
     let toUUID: String

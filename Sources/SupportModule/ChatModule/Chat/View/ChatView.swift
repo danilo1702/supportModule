@@ -21,7 +21,7 @@ public struct ChatView: View {
             ScrollView{
                 ScrollViewReader { scrollViewProxy in
                     VStack{
-                        ForEach(viewModel.messages, id: \.timestamp) { message in
+                        ForEach(viewModel.messages, id: \.uniqueID) { message in
                             BumbleChat(message: message)
                         }
                         HStack {
