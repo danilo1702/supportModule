@@ -102,35 +102,36 @@ class ChatViewModel: ObservableObject {
             .document(toUUID)
             .collection(FirebaseConstants.messages)
             .document(fromUUID)
-//        
-//        do {
-//             dbFirestore.collection(FirebaseConstants.lastMessages)
-//                .document(toUUID)
-//                .collection(FirebaseConstants.messages)
-//                .document(fromUUID).setData(message)
-//            
-//            dbFirestore.collection(FirebaseConstants.lastMessages)
-//               .document(fromUUID)
-//               .collection(FirebaseConstants.messages)
-//               .document(toUUID).setData(message)
-//
-//        }catch  let error{
-//            print("Error saving message")
-//        }
         
-        let batch = dbFirestore.batch()
-        
-        batch.setData(message, forDocument: senderReference)
-        batch.setData(message, forDocument: receiverReference)
-        
-        batch.commit { error in
-            if let error = error {
-                print("Error saving last message: \(error.localizedDescription)")
+        do {
+             dbFirestore.collection(FirebaseConstants.lastMessages)
+                .document(toUUID)
+                .collection(FirebaseConstants.messages)
+                .document(fromUUID).setData(message)
+            
+            dbFirestore.collection(FirebaseConstants.lastMessages)
+               .document(fromUUID)
+               .collection(FirebaseConstants.messages)
+               .document(toUUID).setData(message)
 
-            } else {
-                print("Last message saved successfully")
-            }
+        }catch  let error{
+            print("Error saving message")
         }
+        
+//        let batch = dbFirestore.batch()
+//        
+//        batch.setData(message, forDocument: senderReference)
+//        batch.setData(message, forDocument: receiverReference)
+//        
+//        batch.commit { error in
+//            if let error = error {
+//                print("Error saving last message: \(error.localizedDescription)")
+//                completion(.failure(error))
+//            } else {
+//                print("Last message saved successfully")
+//                completion(.success(true))
+//            }
+//        }
     }
     func saveReceiverMessage(toUUID: String, fromUUID: String, message: [String: Any]) {
         
