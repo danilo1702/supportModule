@@ -22,7 +22,8 @@ public struct ChatView: View {
                 ScrollViewReader { scrollViewProxy in
                     VStack{
                         ForEach(viewModel.messages, id: \.uniqueID) { message in
-                            BumbleChat(message: message)
+                            //BumbleChat(message: message)
+                            Text("Hola")
                         }
                         HStack {
                             Spacer()
