@@ -26,5 +26,13 @@ public struct MessageModel: Codable, Identifiable {
         self.timestamp = timestamp
         self.fromName = fromName
     }
+    enum CodingKeys: CodingKey {
+        case id
+        case message
+        case fromUUID
+        case toUUID
+        case timestamp
+        case fromName
+    }
 
 }
