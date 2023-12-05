@@ -12,9 +12,6 @@ struct ChatHistoryView: View {
     @State var goToChat: Bool = false
     @StateObject var viewModel = ChatHistoryViewModel()
     var body: some View {
-        
-      
-            
                 ScrollView{
                     VStack {
                         ForEach(viewModel.historyMessages, id: \.uniqueId) { message in
@@ -30,8 +27,6 @@ struct ChatHistoryView: View {
                             viewModel.gettingChatHistory()
                         }
                     }
-               
-            
             }
     }
     
