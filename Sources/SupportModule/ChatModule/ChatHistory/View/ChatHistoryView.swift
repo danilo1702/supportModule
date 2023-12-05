@@ -10,7 +10,6 @@ import FirebaseAuth
 
 struct ChatHistoryView: View {
     @State var goToChat: Bool = false
-    @State var isVisible: Bool = true
     
     @StateObject var viewModel = ChatHistoryViewModel()
     var body: some View {
@@ -25,16 +24,9 @@ struct ChatHistoryView: View {
                         }
                     }
                     .onAppear{
-                        DispatchQueue.global().async {
-                            isVisible  = true
-                           if isVisible == true {
-                                viewModel.gettingChatHistory(isVisible: isVisible)
-                            }
-                            
+                        DispatchQueue.main.async {
+                            viewModel.gettingChatHistory()
                         }
-                    }
-                    .onDisappear {
-                        isVisible = false
                     }
             }
         
