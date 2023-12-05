@@ -9,11 +9,11 @@ import SwiftUI
 
 public struct ChatView: View {
     
-    @StateObject var viewModel: ChatViewModel
+   // @StateObject var viewModel: ChatViewModel
     var scrollBottom = "scrollBottom"
     @State public var textToSend: String = ""
     public init(supportInfo: MessageModel) {
-        self._viewModel = StateObject(wrappedValue: ChatViewModel(supportInfo: supportInfo))
+        //self._viewModel = StateObject(wrappedValue: ChatViewModel(supportInfo: supportInfo))
     }
     public var body: some View {
         
@@ -40,7 +40,7 @@ public struct ChatView: View {
             TextField("Hey", text: $textToSend).padding()
                 .background(.gray.opacity(0.2))
             Button(action: {
-                viewModel.sendMessage(message: textToSend)
+               // viewModel.sendMessage(message: textToSend)
             }, label: {
                 Text("Enviar")
             })
