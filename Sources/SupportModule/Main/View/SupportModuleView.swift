@@ -30,8 +30,9 @@ public struct SupportModuleView: View {
     public init() {
     }
     public var body: some View {
-        GeometryReader { geometry in
+        
             NavigationView{
+                GeometryReader { geometry in
                 VStack {
                     showListArticles()
                         .padding(.horizontal)
@@ -73,7 +74,7 @@ public struct SupportModuleView: View {
                    navigationLinks()
                 }
                 .addSearchbar(textSearch: $textSearch, placeHolder: generalConfiguration.placeHolderSearchBar, title: generalConfiguration.titleModule)
-            }.navigationViewStyle(.columns)
+                }
             .onAppear{
                 viewModel.registerUserFirebase{ result in
                     switch result {
@@ -109,7 +110,7 @@ public struct SupportModuleView: View {
                 
                 
             }
-        }
+        }.navigationViewStyle(.stack)
     }
     
     @ViewBuilder
