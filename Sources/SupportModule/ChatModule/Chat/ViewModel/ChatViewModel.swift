@@ -64,7 +64,7 @@ class ChatViewModel: ObservableObject {
             .collection(toUUID)
             .document()
 
-        let message = ["message": "message", "fromUUID": "fromUUID", "toUUID": toUUID, "timestamp": date, "fromName": "UIDevice.modelName"] as [String: Any]
+        let message = ["message": message, "fromUUID": "fromUUID", "toUUID": toUUID, "timestamp": date, "fromName": "UIDevice.modelName"] as [String: Any]
         referenceSender.setData(message) { error in
             if error != nil {
                 print("Errro sending de message ")
