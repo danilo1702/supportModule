@@ -35,7 +35,7 @@ public struct SupportModuleView: View {
                 VStack {
                     showListArticles()
                         .padding(.horizontal)
-                        .frame(width: .infinity, height: geometry.size.height * 0.4, alignment: .center)
+                        .frame(width: geometry.size.width, height: geometry.size.height * 0.4, alignment: .center)
                     
                     if viewModel.recentMessage.count > 0 {
                         VStack {
