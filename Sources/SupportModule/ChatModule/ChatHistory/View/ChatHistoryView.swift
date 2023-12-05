@@ -14,7 +14,7 @@ struct ChatHistoryView: View {
     var body: some View {
         
       
-            NavigationView{
+            
                 ScrollView{
                     VStack {
                         ForEach(viewModel.historyMessages, id: \.uniqueId) { message in
@@ -31,7 +31,7 @@ struct ChatHistoryView: View {
                         }
                     }
                
-            }
+            
             }
     }
     
@@ -43,7 +43,7 @@ struct ChatHistoryView: View {
                 ChatView(supportInfo: MessageModel(message: "", fromUUID: fromUUID, toUUID: toUUID, fromName: fromName))
             } label: {
                 CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
-                    goToChat.toggle()
+                    goToChat = true
                 }
             }
         }
