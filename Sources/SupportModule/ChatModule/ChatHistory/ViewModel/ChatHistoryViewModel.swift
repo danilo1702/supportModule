@@ -14,8 +14,8 @@ public class ChatHistoryViewModel: ObservableObject {
     private var dbFirestore = Firestore.firestore()
     @Published var historyMessages: [CardModel] = []
     
-    func gettingChatHistory() {
-        guard let uuid = Auth.auth().currentUser?.uid else { return }
+    func gettingChatHistory(isVisible: Bool) {
+        guard let uuid = Auth.auth().currentUser?.uid, isVisible else { return }
         
         let reference = dbFirestore.collection("lastMessages")
             .document(uuid)
