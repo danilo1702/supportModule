@@ -73,7 +73,7 @@ public struct SupportModuleView: View {
                    navigationLinks()
                 }
                 .addSearchbar(textSearch: $textSearch, placeHolder: generalConfiguration.placeHolderSearchBar, title: generalConfiguration.titleModule)
-            }.ignoresSafeArea(.keyboard)
+            }
             .onAppear{
                 viewModel.registerUserFirebase{ result in
                     switch result {
@@ -109,7 +109,7 @@ public struct SupportModuleView: View {
                 
                 
             }
-        }
+        }.ignoresSafeArea(.keyboard)
     }
     
     @ViewBuilder
