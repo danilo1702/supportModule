@@ -18,26 +18,26 @@ public struct ChatView: View {
     public var body: some View {
         
         VStack {
-            ScrollView{
-                ScrollViewReader { scrollViewProxy in
-                    VStack{
-                        ForEach(viewModel.messages, id: \.uniqueID) { message in
-                            
-                           BumbleChat(message: message)
-                        }
-                        HStack {
-                            Spacer()
-                        }.id(scrollBottom)
-                    }.onReceive(viewModel.$count, perform: { _ in
-                        withAnimation(.smooth) {
-                            scrollViewProxy.scrollTo(scrollBottom, anchor: .bottom)
-                        }
-                    })
-                }
-                
-            }
+//            ScrollView{
+//                ScrollViewReader { scrollViewProxy in
+//                    VStack{
+//                        ForEach(viewModel.messages, id: \.uniqueID) { message in
+//                            
+//                           BumbleChat(message: message)
+//                        }
+//                        HStack {
+//                            Spacer()
+//                        }.id(scrollBottom)
+//                    }.onReceive(viewModel.$count, perform: { _ in
+//                        withAnimation(.smooth) {
+//                            scrollViewProxy.scrollTo(scrollBottom, anchor: .bottom)
+//                        }
+//                    })
+//                }
+//                
+//            }
             
-            TextField("", text: $textToSend).padding()
+            TextField("Hey", text: $textToSend).padding()
                 .background(.gray.opacity(0.2))
             Button(action: {
                 viewModel.sendMessage(message: textToSend)
@@ -50,14 +50,14 @@ public struct ChatView: View {
 //                    viewModel.sendMessage(message: text)
 //                }
 //            })
-            .onAppear{
-                
-                DispatchQueue.main.async {
-                    viewModel.fetchingMessages()
-                }
-                
-            }
-            .navigationTitle(CommonStrings.chatSupport)
+//            .onAppear{
+//                
+//                DispatchQueue.main.async {
+//                    viewModel.fetchingMessages()
+//                }
+//                
+//            }
+            //.navigationTitle(CommonStrings.chatSupport)
         }
         
         
