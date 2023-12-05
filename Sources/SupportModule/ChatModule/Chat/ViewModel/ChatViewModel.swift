@@ -39,18 +39,13 @@ class ChatViewModel: ObservableObject {
             documentSnapshot.documentChanges.forEach { change in
                 if change.type == .added {
                     
-                    do {
-                       let cm =  try change.document.data(as: MessageModel.self)
+                
+                    if let cm = try? change.document.data(as: MessageModel.self) {
                         self.messages.append(cm)
-                    }catch {
-                        print("error CHAT VIEW: \(error)")
+                        print("Appending chatMessage in Chat")
+                    }else {
+                        print("Error decoding *//*-/*-*-/-*/-/**-/*-/")
                     }
-//                    if let cm = try? change.document.data(as: MessageModel.self) {
-//                        self.messages.append(cm)
-//                        print("Appending chatMessage in Chat: \(Date())")
-//                    }else {
-//                        print("Error decoding *//*-/*-*-/-*/-/**-/*-/")
-//                    }
                 }
             }
             DispatchQueue.main.async {
@@ -62,12 +57,13 @@ class ChatViewModel: ObservableObject {
     func sendMessage(message: String) {
         
         guard let fromUUID = Auth.auth().currentUser?.uid else { return }
+        let date = Date().description
         let referenceSender = dbFirestore.collection(FirebaseConstants.messages)
             .document(fromUUID)
             .collection(toUUID)
             .document()
         
-        let message = ["message": message, "fromUUID": fromUUID, "toUUID": toUUID, "timestamp": Date().description, "fromName": UIDevice.modelName] as [String: Any]
+        let message = ["message": message, "fromUUID": fromUUID, "toUUID": toUUID, "timestamp": "\(date)", "fromName": UIDevice.modelName] as [String: Any]
         referenceSender.setData(message) { error in
             if error != nil {
                 print("Errro sending de message ")
