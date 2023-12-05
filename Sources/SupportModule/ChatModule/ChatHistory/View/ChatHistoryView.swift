@@ -14,23 +14,25 @@ struct ChatHistoryView: View {
     var body: some View {
         
       
-            ScrollView{
-                VStack {
-                    ForEach(viewModel.historyMessages, id: \.uniqueId) { message in
-                        VStack{
-                            Text("From + \(message.fromUUID ?? "")")
-                            Text("to \(message.toUUID ?? "")")
-                            showMessages(message)
+            NavigationView{
+                ScrollView{
+                    VStack {
+                        ForEach(viewModel.historyMessages, id: \.uniqueId) { message in
+                            VStack{
+                                Text("From + \(message.fromUUID ?? "")")
+                                Text("to \(message.toUUID ?? "")")
+                                showMessages(message)
+                            }
                         }
                     }
-                }
-                .onAppear{
-                    DispatchQueue.global().async {
-                        viewModel.gettingChatHistory()
+                    .onAppear{
+                        DispatchQueue.global().async {
+                            viewModel.gettingChatHistory()
+                        }
                     }
-                }
-           
-        }
+               
+            }
+            }
     }
     
     @ViewBuilder
