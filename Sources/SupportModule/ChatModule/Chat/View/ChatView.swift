@@ -37,12 +37,19 @@ public struct ChatView: View {
                 
             }
             
-            
-            TextFieldMessageView( completion: { text in
-                DispatchQueue.main.async {
-                    viewModel.sendMessage(message: text)
-                }
+            TextField("", text: $textToSend).padding()
+                .background(.gray.opacity(0.2))
+            Button(action: {
+                viewModel.sendMessage(message: textToSend)
+            }, label: {
+                Text("Enviar")
             })
+            
+//            TextFieldMessageView( completion: { text in
+//                DispatchQueue.main.async {
+//                    viewModel.sendMessage(message: text)
+//                }
+//            })
             .onAppear{
                 
                 DispatchQueue.main.async {
