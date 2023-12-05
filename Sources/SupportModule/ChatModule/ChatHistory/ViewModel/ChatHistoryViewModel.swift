@@ -24,35 +24,31 @@ public class ChatHistoryViewModel: ObservableObject {
         reference.getDocuments { [weak self] querySnapshot, error in
             guard let self = self , let querySnapshot = querySnapshot, error == nil else { return }
             
-            if let messageModel = try?  querySnapshot.documents[0].data(as: MessageModel.self) {
-                let message = self.converToCardModel(message: messageModel, userUUID: uuid)
-               
-                self.historyMessages.insert(message, at: 0)
-            }
             
-//            querySnapshot.documentChanges.forEach {  change in
-//                
-//                guard  let messageModel = try? change.document.data(as: MessageModel.self) else { return }
-//                  
-//                let documentID = change.document.documentID
-//
-//                let message = self.converToCardModel(message: messageModel, userUUID: uuid)
-//               
-//                if let index = self.historyMessages.firstIndex(where: { $0.id == documentID}) {
-//                    self.historyMessages.remove(at: index)
-//                }
-//                if change.type == .added {
-//                    self.historyMessages.insert(message, at: 0)
-//                } else if change.type == .modified {
-//                    if let index = self.historyMessages.firstIndex(where: { $0.id ==  documentID }) {
-//                        self.historyMessages.insert(message, at: index)
-//                    }
-//                } else if change.type == .removed {
-//                    if let index = self.historyMessages.firstIndex(where: { $0.id ==  documentID }) {
-//                        self.historyMessages.remove(at: index)
-//                    }
-//                }
-//            }
+            querySnapshot.documentChanges.forEach {  change in
+                
+                if let messageModel = try? change.document.data(as: MessageModel.self) {
+                    
+                    let documentID = change.document.documentID
+                    
+                    let message = self.converToCardModel(message: messageModel, userUUID: uuid)
+                    
+                    if let index = self.historyMessages.firstIndex(where: { $0.id == documentID}) {
+                        self.historyMessages.remove(at: index)
+                    }
+                    if change.type == .added {
+                        self.historyMessages.insert(message, at: 0)
+                    } else if change.type == .modified {
+                        if let index = self.historyMessages.firstIndex(where: { $0.id ==  documentID }) {
+                            self.historyMessages.insert(message, at: index)
+                        }
+                    } else if change.type == .removed {
+                        if let index = self.historyMessages.firstIndex(where: { $0.id ==  documentID }) {
+                            self.historyMessages.remove(at: index)
+                        }
+                    }
+                }
+            }
         }
     }
     
