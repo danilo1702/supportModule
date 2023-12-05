@@ -58,13 +58,13 @@ class ChatViewModel: ObservableObject {
         
         guard let fromUUID = Auth.auth().currentUser?.uid else { return }
         
-        //let date = String(DateFormatter.localizedString(from: Date(), dateStyle: .medium, timeStyle: .short))
+        let date = String(DateFormatter.localizedString(from: Date(), dateStyle: .medium, timeStyle: .short))
         let referenceSender = dbFirestore.collection(FirebaseConstants.messages)
             .document(fromUUID)
             .collection(toUUID)
             .document()
-        let a = "asdasd"
-        let message = ["message": message, "fromUUID": fromUUID, "toUUID": toUUID, "timestamp": "\(a)", "fromName": UIDevice.modelName] as [String: Any]
+
+        let message = ["message": "message", "fromUUID": "fromUUID", "toUUID": "toUUID", "timestamp": "\(date)", "fromName": "UIDevice.modelName"] as [String: Any]
         referenceSender.setData(message) { error in
             if error != nil {
                 print("Errro sending de message ")
