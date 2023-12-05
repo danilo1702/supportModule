@@ -18,39 +18,31 @@ public struct ChatView: View {
     public var body: some View {
         
         VStack {
+            ScrollView{
+                ScrollViewReader { scrollViewProxy in
+                    VStack{
+                        ForEach(viewModel.messages, id: \.uniqueID) { message in
+                            
+                           BumbleChat(message: message)
+                        }
+                        HStack {
+                            Spacer()
+                        }.id(scrollBottom)
+                    }.onReceive(viewModel.$count, perform: { _ in
+                        withAnimation(.smooth) {
+                            scrollViewProxy.scrollTo(scrollBottom, anchor: .bottom)
+                        }
+                    })
+                }
+                
+            }
+            
+            
             TextFieldMessageView( completion: { text in
                 DispatchQueue.main.async {
                     viewModel.sendMessage(message: text)
                 }
             })
-            ForEach(viewModel.messages, id: \.uniqueID) { message in
-                
-               BumbleChat(message: message)
-            }
-//            ScrollView{
-//                ScrollViewReader { scrollViewProxy in
-//                    VStack{
-//                        ForEach(viewModel.messages, id: \.uniqueID) { message in
-//                            
-//                           BumbleChat(message: message)
-//                        }
-//                        HStack {
-//                            Spacer()
-//                        }.id(scrollBottom)
-//                    }.onReceive(viewModel.$count, perform: { _ in
-//                        withAnimation(.smooth) {
-//                            scrollViewProxy.scrollTo(scrollBottom, anchor: .bottom)
-//                        }
-//                    })
-//                }
-//                
-//            }
-            
-//            TextFieldMessageView( completion: { text in
-//                DispatchQueue.main.async {
-//                    viewModel.sendMessage(message: text)
-//                }
-//            })
             .onAppear{
                 
                 DispatchQueue.main.async {
