@@ -18,6 +18,11 @@ public struct ChatView: View {
     public var body: some View {
         
         VStack {
+            TextFieldMessageView( completion: { text in
+                DispatchQueue.main.async {
+                    viewModel.sendMessage(message: text)
+                }
+            })
             ForEach(viewModel.messages, id: \.uniqueID) { message in
                 
                BumbleChat(message: message)
@@ -41,11 +46,11 @@ public struct ChatView: View {
 //                
 //            }
             
-            TextFieldMessageView( completion: { text in
-                DispatchQueue.main.async {
-                    viewModel.sendMessage(message: text)
-                }
-            })
+//            TextFieldMessageView( completion: { text in
+//                DispatchQueue.main.async {
+//                    viewModel.sendMessage(message: text)
+//                }
+//            })
             .onAppear{
                 
                 DispatchQueue.main.async {
