@@ -73,7 +73,7 @@ public struct SupportModuleView: View {
                    navigationLinks()
                 }
                 .addSearchbar(textSearch: $textSearch, placeHolder: generalConfiguration.placeHolderSearchBar, title: generalConfiguration.titleModule)
-            }
+            }.navigationViewStyle(StackNavigationViewStyle())
             .onAppear{
                 viewModel.registerUserFirebase{ result in
                     switch result {
