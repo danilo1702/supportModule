@@ -57,7 +57,8 @@ class ChatViewModel: ObservableObject {
     func sendMessage(message: String) {
         
         guard let fromUUID = Auth.auth().currentUser?.uid else { return }
-        let date = Date().description
+        
+        let date = String(DateFormatter.localizedString(from: Date(), dateStyle: .medium, timeStyle: .short))
         let referenceSender = dbFirestore.collection(FirebaseConstants.messages)
             .document(fromUUID)
             .collection(toUUID)
