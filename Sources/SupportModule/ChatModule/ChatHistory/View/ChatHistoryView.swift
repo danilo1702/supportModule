@@ -38,7 +38,7 @@ struct ChatHistoryView: View {
                 ChatView(supportInfo: MessageModel(message: "", fromUUID: fromUUID, toUUID: toUUID, fromName: fromName))
             } label: {
                 CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
-                    goToChat = true
+                    goToChat.toggle()
                 }
             }
         }
