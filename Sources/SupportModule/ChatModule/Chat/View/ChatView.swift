@@ -37,27 +37,19 @@ public struct ChatView: View {
                 
             }
             
-            TextField("Hey", text: $textToSend).padding()
-                .background(.gray.opacity(0.2))
-            Button(action: {
-                viewModel.sendMessage(message: textToSend)
-            }, label: {
-                Text("Enviar")
+            TextFieldMessageView( completion: { text in
+                DispatchQueue.main.async {
+                    viewModel.sendMessage(message: text)
+                }
             })
-            
-//            TextFieldMessageView( completion: { text in
-//                DispatchQueue.main.async {
-//                    viewModel.sendMessage(message: text)
-//                }
-//            })
-//            .onAppear{
-//                
-//                DispatchQueue.main.async {
-//                    viewModel.fetchingMessages()
-//                }
-//                
-//            }
-            //.navigationTitle(CommonStrings.chatSupport)
+            .onAppear{
+                
+                DispatchQueue.main.async {
+                    viewModel.fetchingMessages()
+                }
+                
+            }
+            .navigationTitle(CommonStrings.chatSupport)
         }
         
         

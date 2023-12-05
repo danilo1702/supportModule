@@ -27,25 +27,24 @@ public class ChatHistoryViewModel: ObservableObject {
             
             querySnapshot.documentChanges.forEach {  change in
                 
-                if let messageModel = try? change.document.data(as: MessageModel.self) {
-                    
-                    let documentID = change.document.documentID
-                    
-                    let message = self.converToCardModel(message: messageModel, userUUID: uuid)
-                    
-                    if let index = self.historyMessages.firstIndex(where: { $0.id == documentID}) {
-                        self.historyMessages.remove(at: index)
+                guard  let messageModel = try? change.document.data(as: MessageModel.self) else { return }
+                  
+                let documentID = change.document.documentID
+
+                let message = self.converToCardModel(message: messageModel, userUUID: uuid)
+               
+                if let index = self.historyMessages.firstIndex(where: { $0.id == documentID}) {
+                    self.historyMessages.remove(at: index)
+                }
+                if change.type == .added {
+                    self.historyMessages.insert(message, at: 0)
+                } else if change.type == .modified {
+                    if let index = self.historyMessages.firstIndex(where: { $0.id ==  documentID }) {
+                        self.historyMessages.insert(message, at: index)
                     }
-                    if change.type == .added {
-                        self.historyMessages.insert(message, at: 0)
-                    } else if change.type == .modified {
-                        if let index = self.historyMessages.firstIndex(where: { $0.id ==  documentID }) {
-                            self.historyMessages.insert(message, at: index)
-                        }
-                    } else if change.type == .removed {
-                        if let index = self.historyMessages.firstIndex(where: { $0.id ==  documentID }) {
-                            self.historyMessages.remove(at: index)
-                        }
+                } else if change.type == .removed {
+                    if let index = self.historyMessages.firstIndex(where: { $0.id ==  documentID }) {
+                        self.historyMessages.remove(at: index)
                     }
                 }
             }
