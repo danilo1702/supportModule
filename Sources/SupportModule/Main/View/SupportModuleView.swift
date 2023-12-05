@@ -110,7 +110,7 @@ public struct SupportModuleView: View {
                 
                 
             }
-        }.navigationViewStyle(.stack)
+        }.navigationViewStyle(.columns)
     }
     
     @ViewBuilder
