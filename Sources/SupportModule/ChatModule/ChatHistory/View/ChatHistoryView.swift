@@ -17,7 +17,11 @@ struct ChatHistoryView: View {
             ScrollView{
                 VStack {
                     ForEach(viewModel.historyMessages, id: \.uniqueId) { message in
-                        showMessages(message)
+                        VStack{
+                            Text("From + \(message.fromUUID ?? "")")
+                            Text("to \(message.toUUID ?? "")")
+                            showMessages(message)
+                        }
                     }
                 }
                 .onAppear{
