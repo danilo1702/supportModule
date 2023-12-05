@@ -30,13 +30,13 @@ public struct SupportModuleView: View {
     public init() {
     }
     public var body: some View {
-        GeometryReader { geometry in
+        VStack {
             NavigationView{
                 VStack {
-                    showListArticles()
-                        .padding(.horizontal)
-                        .frame(width: geometry.size.width, height: geometry.size.height * 0.4, alignment: .center)
-                    
+//                    showListArticles()
+//                        .padding(.horizontal)
+//                        .frame(width: geometry.size.width, height: geometry.size.height * 0.4, alignment: .center)
+//                    
                     if viewModel.recentMessage.count > 0 {
                         VStack {
                             HStack{
