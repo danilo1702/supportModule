@@ -54,32 +54,6 @@ class ChatViewModel: ObservableObject {
             }
         }
     }
-
-    func tryThis(text: String) {
-        guard let fromUUID = Auth.auth().currentUser?.uid else { return }
-        let date = String(DateFormatter.localizedString(from: Date(), dateStyle: .medium, timeStyle: .short))
-        let senderReference = dbFirestore.collection(FirebaseConstants.lastMessages)
-           .document("\(fromUUID)")
-            .collection(FirebaseConstants.messages)
-            .document("\(toUUID)")
-        
-        let receiverReference = dbFirestore.collection(FirebaseConstants.lastMessages)
-           .document("\(toUUID)")
-            .collection(FirebaseConstants.messages)
-            .document("\(fromUUID)")
-        
-        let bath = dbFirestore.batch()
-        
-        bath.setData(["Mensaje": text,"fromUUID": fromUUID ,"toUUID": toUUID, "fromName": UIDevice.modelName, "timestamp": date], forDocument: senderReference)
-        bath.setData(["Mensaje": text,"fromUUID": fromUUID,"toUUID": toUUID, "fromName": UIDevice.modelName, "timestamp": date], forDocument: receiverReference)
-        bath.commit { error in
-            if error == nil {
-            print("Guardado")
-            } else {
-                print("error saving \(String(describing: error))")
-            }
-        }
-    }
     
     func sendMessage(message: String) {
         
@@ -112,25 +86,22 @@ class ChatViewModel: ObservableObject {
         }
         DispatchQueue.main.async {
             self.count += 1
-            self.tryThis(text: "pedro")
-            //self.saveLastMessage(toUUID: self.toUUID,fromUUID: fromUUID, message: message)
+           
+            self.saveLastMessage(toUUID: self.toUUID,fromUUID: fromUUID, message: message)
         }
     }
     
     func saveLastMessage(toUUID: String, fromUUID: String, message: [String: Any]) {
         
         let senderReference = dbFirestore.collection(FirebaseConstants.lastMessages)
-           .document(fromUUID)
+           .document("\(fromUUID)")
             .collection(FirebaseConstants.messages)
-            .document(toUUID)
-            
-        
-        
-      
+            .document("\(toUUID)")
+
         let receiverReference = dbFirestore.collection(FirebaseConstants.lastMessages)
-            .document(toUUID)
+            .document("\(toUUID)")
             .collection(FirebaseConstants.messages)
-            .document(fromUUID)
+            .document("\(fromUUID)")
 
 
         let batch = dbFirestore.batch()
@@ -146,7 +117,5 @@ class ChatViewModel: ObservableObject {
                 print("Last message saved successfully")
             }
         }
-
-
     }
 }
