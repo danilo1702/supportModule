@@ -59,19 +59,19 @@ class ChatViewModel: ObservableObject {
         guard let fromUUID = Auth.auth().currentUser?.uid else { return }
         let date = String(DateFormatter.localizedString(from: Date(), dateStyle: .medium, timeStyle: .short))
         let senderReference = dbFirestore.collection(FirebaseConstants.lastMessages)
-           .document("x9TaSl4d1fV0cB058EdSjRAXpnq2")
+           .document("\(fromUUID)")
             .collection(FirebaseConstants.messages)
-            .document("NpObDASer0WH7izVyeKzz6b0Rqt2")
+            .document("\(toUUID)")
         
         let receiverReference = dbFirestore.collection(FirebaseConstants.lastMessages)
-           .document("NpObDASer0WH7izVyeKzz6b0Rqt2")
+           .document("\(toUUID)")
             .collection(FirebaseConstants.messages)
-            .document("x9TaSl4d1fV0cB058EdSjRAXpnq2")
+            .document("\(fromUUID)")
         
         let bath = dbFirestore.batch()
         
-        bath.setData(["message": text,"fromUUID": fromUUID ,"toUUID": toUUID, "fromName": UIDevice.modelName, "timestamp": date], forDocument: senderReference)
-        bath.setData(["message": text,"fromUUID": fromUUID,"toUUID": toUUID, "fromName": UIDevice.modelName, "timestamp": date], forDocument: receiverReference)
+        bath.setData(["message": text,"fromUUID": "\(fromUUID)" ,"toUUID": "\(toUUID)", "fromName": UIDevice.modelName, "timestamp": date], forDocument: senderReference)
+        bath.setData(["message": text,"fromUUID": "\(fromUUID)","toUUID": "\(toUUID)", "fromName": UIDevice.modelName, "timestamp": date], forDocument: receiverReference)
         bath.commit { error in
             if error == nil {
             print("Guardado")
