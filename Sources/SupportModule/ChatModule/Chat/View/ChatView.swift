@@ -39,14 +39,15 @@ public struct ChatView: View {
             
             TextFieldMessageView( completion: { text in
                 DispatchQueue.main.async {
-                    viewModel.sendMessage(message: text)
+                    //viewModel.sendMessage(message: text)
+                    viewModel.tryThis()
                 }
             })
             .onAppear{
                 
                 DispatchQueue.main.async {
                     viewModel.fetchingMessages()
-                    viewModel.tryThis()
+                    
                 }
               
                 
