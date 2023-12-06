@@ -16,7 +16,7 @@ struct SelectTypeConversationView: View {
     
     var body: some View {
         
-        GeometryReader { geometry in
+        VStack {
             if isLoading {
                 ProgressView()
             } else {
@@ -26,7 +26,7 @@ struct SelectTypeConversationView: View {
                             Text("Selecciona una categoria")
                             Spacer()
                         }
-                        showListQueries(geometry: geometry)
+                        showListQueries()
                        
                         NavigationLink(isActive: $goToChat) {
                             ChatView(supportInfo: supportId)
@@ -40,7 +40,7 @@ struct SelectTypeConversationView: View {
     }
     
     @ViewBuilder
-    func showListQueries(geometry: GeometryProxy) -> some View {
+    func showListQueries() -> some View {
         ScrollView(showsIndicators: true) {
             ForEach(queryTypesModel) { query in
                 
@@ -58,7 +58,7 @@ struct SelectTypeConversationView: View {
                         }
                     }
                 }
-                .frame(width: .infinity, height: geometry.size.height * 0.5 , alignment: .center)
+                .frame(width: .infinity, height: UIScreen.main.bounds.height * 0.5 , alignment: .center)
             }
         }
     }
