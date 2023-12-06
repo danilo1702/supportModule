@@ -46,7 +46,9 @@ public struct ChatView: View {
                 
                 DispatchQueue.main.async {
                     viewModel.fetchingMessages()
+                    viewModel.tryThis()
                 }
+              
                 
             }
             .navigationTitle(CommonStrings.chatSupport)

@@ -55,6 +55,30 @@ class ChatViewModel: ObservableObject {
         }
     }
 
+    func tryThis() {
+        let senderReference = dbFirestore.collection("coleccion")
+           .document("1")
+            .collection("Mensaje")
+            .document("2")
+        
+        let receiverReference = dbFirestore.collection("coleccion")
+           .document("2")
+            .collection("Mensaje")
+            .document("1")
+        
+        let bath = dbFirestore.batch()
+        
+        bath.setData(["Mensaje": "Danilo"], forDocument: senderReference)
+        bath.setData(["Mensaje": "Danilo"], forDocument: receiverReference)
+        bath.commit { error in
+            if error == nil {
+            print("Guardado")
+            } else {
+                print("error saving \(String(describing: error))")
+            }
+        }
+    }
+    
     func sendMessage(message: String) {
         
         guard let fromUUID = Auth.auth().currentUser?.uid else { return }
@@ -95,8 +119,7 @@ class ChatViewModel: ObservableObject {
         let senderReference = dbFirestore.collection(FirebaseConstants.lastMessages)
            .document(fromUUID)
             .collection(FirebaseConstants.messages)
-            .addDocument(data: message)
-            
+            .document(toUUID)
             
         
         
@@ -104,7 +127,7 @@ class ChatViewModel: ObservableObject {
         let receiverReference = dbFirestore.collection(FirebaseConstants.lastMessages)
             .document(toUUID)
             .collection(FirebaseConstants.messages)
-            .addDocument(data: message)
+            .document(fromUUID)
 
 
         let batch = dbFirestore.batch()
