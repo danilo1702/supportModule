@@ -8,7 +8,7 @@
 import SwiftUI
 
 public struct TextFieldMessageView: View {
-    @State public var textToSend: String = " "
+    @State public var textToSend: String = ""
     public var completion: (_ text: String)->()
 
     public var body: some View {
@@ -37,7 +37,7 @@ public struct TextFieldMessageView: View {
                     Button(action: {
                         
                         completion(textToSend)
-                        //textToSend = ""
+                        textToSend = ""
                     }, label: {
                         Image(systemName: "paperplane.circle.fill")
                             .resizable()
