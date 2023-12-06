@@ -70,8 +70,8 @@ class ChatViewModel: ObservableObject {
         
         let bath = dbFirestore.batch()
         
-        bath.setData(["message": "\(text)","fromUUID": "\(fromUUID)" ,"toUUID": "\(toUUID)", "fromName": UIDevice.modelName, "timestamp": date], forDocument: senderReference)
-        bath.setData(["message": "\(text)","fromUUID": "\(fromUUID)","toUUID": "\(toUUID)", "fromName": UIDevice.modelName, "timestamp": date], forDocument: receiverReference)
+        bath.setData(["message": text,"fromUUID": "\(fromUUID)" ,"toUUID": "\(toUUID)", "fromName": UIDevice.modelName, "timestamp": date], forDocument: senderReference)
+        bath.setData(["message": text,"fromUUID": "\(fromUUID)","toUUID": "\(toUUID)", "fromName": UIDevice.modelName, "timestamp": date], forDocument: receiverReference)
         bath.commit { error in
             if error == nil {
             print("Guardado")
