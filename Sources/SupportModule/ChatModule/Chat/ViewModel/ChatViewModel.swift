@@ -55,25 +55,23 @@ class ChatViewModel: ObservableObject {
         }
     }
 
-    func saveLastMessage(text: String) {
+    func tryThis(text: String) {
         guard let fromUUID = Auth.auth().currentUser?.uid else { return }
         let date = String(DateFormatter.localizedString(from: Date(), dateStyle: .medium, timeStyle: .short))
         let senderReference = dbFirestore.collection(FirebaseConstants.lastMessages)
-           .document("\(fromUUID)")
+           .document("1")
             .collection(FirebaseConstants.messages)
-            .document("\(toUUID)")
-        
-        
+            .document("2")
         
         let receiverReference = dbFirestore.collection(FirebaseConstants.lastMessages)
-           .document("\(toUUID)")
+           .document("2")
             .collection(FirebaseConstants.messages)
-            .document("\(fromUUID)")
+            .document("1")
         
         let bath = dbFirestore.batch()
         
-        bath.setData(["message": text,"fromUUID": fromUUID, "toUUID": toUUID, "fromName": UIDevice.modelName, "timestamp": date], forDocument: senderReference)
-        bath.setData(["message": text,"fromUUID": fromUUID, "toUUID": toUUID, "fromName": UIDevice.modelName, "timestamp": date], forDocument: receiverReference)
+        bath.setData(["Mensaje": text,"fromUUID": fromUUID ,"toUUID": toUUID, "fromName": UIDevice.modelName, "timestamp": date], forDocument: senderReference)
+        bath.setData(["Mensaje": text,"fromUUID": fromUUID,"toUUID": toUUID, "fromName": UIDevice.modelName, "timestamp": date], forDocument: receiverReference)
         bath.commit { error in
             if error == nil {
             print("Guardado")
@@ -92,7 +90,7 @@ class ChatViewModel: ObservableObject {
             .document(fromUUID)
             .collection(toUUID)
             .document()
-        self.saveLastMessage(text: message)
+        
         let message = ["message": message, "fromUUID": fromUUID, "toUUID": toUUID, "timestamp": date, "fromName": UIDevice.modelName] as [String: Any]
         referenceSender.setData(message) { error in
             if error != nil {
@@ -112,39 +110,43 @@ class ChatViewModel: ObservableObject {
             }
             print(message)
         }
+        DispatchQueue.main.async {
             self.count += 1
+            self.tryThis(text: "pedro")
+            //self.saveLastMessage(toUUID: self.toUUID,fromUUID: fromUUID, message: message)
+        }
     }
     
-//    func saveLastMessage(message: String) {
-//        
-//        let senderReference = dbFirestore.collection(FirebaseConstants.lastMessages)
-//           .document(fromUUID)
-//            .collection(FirebaseConstants.messages)
-//            .document(toUUID)
-//            
-//        
-//        
-//      
-//        let receiverReference = dbFirestore.collection(FirebaseConstants.lastMessages)
-//            .document(toUUID)
-//            .collection(FirebaseConstants.messages)
-//            .document(fromUUID)
-//
-//
-//        let batch = dbFirestore.batch()
-//        
-//        batch.setData(message, forDocument: senderReference)
-//        batch.setData(message, forDocument: receiverReference)
-//        
-//       
-//        batch.commit { error in
-//            if let error = error {
-//                print("Error saving last message: \(error.localizedDescription)")
-//            } else {
-//                print("Last message saved successfully")
-//            }
-//        }
-//
-//
-//    }
+    func saveLastMessage(toUUID: String, fromUUID: String, message: [String: Any]) {
+        
+        let senderReference = dbFirestore.collection(FirebaseConstants.lastMessages)
+           .document(fromUUID)
+            .collection(FirebaseConstants.messages)
+            .document(toUUID)
+            
+        
+        
+      
+        let receiverReference = dbFirestore.collection(FirebaseConstants.lastMessages)
+            .document(toUUID)
+            .collection(FirebaseConstants.messages)
+            .document(fromUUID)
+
+
+        let batch = dbFirestore.batch()
+        
+        batch.setData(message, forDocument: senderReference)
+        batch.setData(message, forDocument: receiverReference)
+        
+       
+        batch.commit { error in
+            if let error = error {
+                print("Error saving last message: \(error.localizedDescription)")
+            } else {
+                print("Last message saved successfully")
+            }
+        }
+
+
+    }
 }
