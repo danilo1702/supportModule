@@ -62,38 +62,23 @@ class ChatViewModel: ObservableObject {
            .document("\(fromUUID)")
             .collection(FirebaseConstants.messages)
             .document("\(toUUID)")
-      
-       
-        // Set the "capital" field of the city 'DC'
-        senderReference.updateData(["message": text,"fromUUID": "\(fromUUID)" ,"toUUID": "\(toUUID)", "fromName": UIDevice.modelName, "timestamp": date]) { err in
-          if let err = err {
-            print("Error updating document: \(err)")
-          } else {
-            print("Document successfully updated")
-          }
-        }
+        
         let receiverReference = dbFirestore.collection(FirebaseConstants.lastMessages)
            .document("\(toUUID)")
             .collection(FirebaseConstants.messages)
             .document("\(fromUUID)")
-        receiverReference.updateData(["message": text,"fromUUID": "\(fromUUID)","toUUID": "\(toUUID)", "fromName": UIDevice.modelName, "timestamp": date]) { err in
-          if let err = err {
-            print("Error updating document: \(err)")
-          } else {
-            print("Document successfully updated")
-          }
+        
+        let bath = dbFirestore.batch()
+        
+        bath.setData(["message": "\(text)","fromUUID": "\(fromUUID)" ,"toUUID": "\(toUUID)", "fromName": UIDevice.modelName, "timestamp": date], forDocument: senderReference)
+        bath.setData(["message": "\(text)","fromUUID": "\(fromUUID)","toUUID": "\(toUUID)", "fromName": UIDevice.modelName, "timestamp": date], forDocument: receiverReference)
+        bath.commit { error in
+            if error == nil {
+            print("Guardado")
+            } else {
+                print("error saving \(String(describing: error))")
+            }
         }
-//        let bath = dbFirestore.batch()
-//        
-//        bath.setData(["message": text,"fromUUID": "\(fromUUID)" ,"toUUID": "\(toUUID)", "fromName": UIDevice.modelName, "timestamp": date], forDocument: senderReference)
-//        bath.setData(["message": text,"fromUUID": "\(fromUUID)","toUUID": "\(toUUID)", "fromName": UIDevice.modelName, "timestamp": date], forDocument: receiverReference)
-//        bath.commit { error in
-//            if error == nil {
-//            print("Guardado")
-//            } else {
-//                print("error saving \(String(describing: error))")
-//            }
-//        }
     }
     
     func sendMessage(message: String) {
