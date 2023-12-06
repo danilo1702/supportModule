@@ -92,12 +92,12 @@ class ChatViewModel: ObservableObject {
     
     func saveLastMessage(toUUID: String, fromUUID: String, message: [String: Any]) {
         
-//        let senderReference = dbFirestore.collection(FirebaseConstants.lastMessages)
-//           .document(fromUUID)
-//            .collection(FirebaseConstants.messages)
-//            .document(toUUID)
-//            .collection(FirebaseConstants.messages)
-//            .document()
+        let senderReference = dbFirestore.collection(FirebaseConstants.lastMessages)
+           .document(fromUUID)
+            .collection(FirebaseConstants.messages)
+            .document(toUUID)
+            .collection(FirebaseConstants.messages)
+            .document()
         
 
       
@@ -112,7 +112,7 @@ class ChatViewModel: ObservableObject {
 
         let batch = dbFirestore.batch()
         
-        //batch.setData(message, forDocument: senderReference)
+        batch.setData(message, forDocument: senderReference)
         batch.setData(message, forDocument: receiverReference)
         
         batch.commit { error in
