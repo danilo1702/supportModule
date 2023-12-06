@@ -92,21 +92,29 @@ class ChatViewModel: ObservableObject {
     
     func saveLastMessage(toUUID: String, fromUUID: String, message: [String: Any]) {
         
-        let senderReference = dbFirestore.collection(FirebaseConstants.lastMessages)
+//        let senderReference = dbFirestore.collection(FirebaseConstants.lastMessages)
+//            .document(fromUUID)
+//            .collection(FirebaseConstants.messages)
+//            .document()
+//            .collection(toUUID)
+//            .document()
+        
+        let senderReference = dbFirestore.collection("lastMessages")
             .document(fromUUID)
-            .collection(FirebaseConstants.messages)
-            .document()
-            .collection(toUUID)
-            .document()
-            
-        
-        let receiverReference = dbFirestore.collection(FirebaseConstants.lastMessages)
+            .collection("messages")
             .document(toUUID)
-            .collection(FirebaseConstants.messages)
-            .document()
-            .collection(fromUUID)
-            .document()
+//        
+//        let receiverReference = dbFirestore.collection(FirebaseConstants.lastMessages)
+//            .document(toUUID)
+//            .collection(FirebaseConstants.messages)
+//            .document()
+//            .collection(fromUUID)
+//            .document()
         
+        let receiverReference = dbFirestore.collection("lastMessages")
+            .document(toUUID)
+            .collection("messages")
+            .document(fromUUID)
 
 
         let batch = dbFirestore.batch()
