@@ -8,6 +8,7 @@
 import Foundation
 import FirebaseAuth
 import FirebaseFirestore
+import Combine
 
 class ChatViewModel: ObservableObject {
     let dbFirestore = Firestore.firestore()
@@ -88,22 +89,23 @@ class ChatViewModel: ObservableObject {
             self.saveLastMessage(toUUID: self.toUUID,fromUUID: fromUUID, message: message)
         }
     }
+    var cancellable = Set<AnyCancellable> ()
     
     
     func saveLastMessage(toUUID: String, fromUUID: String, message: [String: Any]) {
-        
+        let publisher = PassthroughSubject<WriteBatch, Never>()
         let senderReference = dbFirestore.collection(FirebaseConstants.lastMessages)
            .document(fromUUID)
             .collection(FirebaseConstants.messages)
             .document(toUUID)
             
         
-
+        
       
         let receiverReference = dbFirestore.collection(FirebaseConstants.lastMessages)
-            .document("toUUID")
+            .document(toUUID)
             .collection(FirebaseConstants.messages)
-            .document("fromUUID")
+            .document(fromUUID)
 
 
         let batch = dbFirestore.batch()
@@ -111,12 +113,23 @@ class ChatViewModel: ObservableObject {
         batch.setData(message, forDocument: senderReference)
         batch.setData(message, forDocument: receiverReference)
         
-        batch.commit { error in
-            if let error = error {
-                print("Error saving last message: \(error.localizedDescription)")
-            } else {
-                print("Last message saved successfully")
+        publisher.send(batch)
+//        batch.commit { error in
+//            if let error = error {
+//                print("Error saving last message: \(error.localizedDescription)")
+//            } else {
+//                print("Last message saved successfully")
+//            }
+//        }
+        
+        publisher.sink { batch in
+            batch.commit { error in
+                if let error = error {
+                    print("Error saving last message: \(error.localizedDescription)")
+                } else {
+                    print("Last message saved successfully")
+                }
             }
-        }
+        }.store(in: &cancellable)
     }
 }
