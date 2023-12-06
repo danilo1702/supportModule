@@ -20,6 +20,7 @@ public class ChatHistoryViewModel: ObservableObject {
         let reference = dbFirestore.collection(FirebaseConstants.lastMessages)
             .document("\(uuid)")
             .collection(FirebaseConstants.messages)
+            
         
         reference.getDocuments { [weak self] querySnapshot, error in
             guard let self = self , let querySnapshot = querySnapshot, error == nil else { return }

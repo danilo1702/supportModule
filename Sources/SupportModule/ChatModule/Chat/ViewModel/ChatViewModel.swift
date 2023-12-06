@@ -18,16 +18,15 @@ class ChatViewModel: ObservableObject {
     @Published var count: Int = 0
     
     public init(supportInfo: MessageModel) {
-        let fromUUID = Auth.auth().currentUser?.uid
-        let toUUID = fromUUID != nil ? fromUUID == supportInfo.fromUUID ? supportInfo.toUUID : supportInfo.fromUUID : ""
+        
         self.supportInfo = supportInfo
-        self.toUUID = toUUID
+        self.toUUID = "NpObDASer0WH7izVyeKzz6b0Rqt2"
     }
     
     func fetchingMessages() {
         
         
-        guard let fromUUID = Auth.auth().currentUser?.uid else { return }
+        let fromUUID = "x9TaSl4d1fV0cB058EdSjRAXpnq2"
         
         let reference = dbFirestore.collection(FirebaseConstants.messages)
             .document(fromUUID)
@@ -56,7 +55,8 @@ class ChatViewModel: ObservableObject {
     }
 
     func tryThis(text: String) {
-        guard let fromUUID = Auth.auth().currentUser?.uid else { return }
+        
+        let fromUUID = "x9TaSl4d1fV0cB058EdSjRAXpnq2"
         let date = String(DateFormatter.localizedString(from: Date(), dateStyle: .medium, timeStyle: .short))
         let senderReference = dbFirestore.collection(FirebaseConstants.lastMessages)
            .document("\(fromUUID)")
@@ -83,7 +83,7 @@ class ChatViewModel: ObservableObject {
     
     func sendMessage(message: String) {
         
-        guard let fromUUID = Auth.auth().currentUser?.uid else { return }
+        let fromUUID = "x9TaSl4d1fV0cB058EdSjRAXpnq2"
         
         let date = String(DateFormatter.localizedString(from: Date(), dateStyle: .medium, timeStyle: .short))
         let referenceSender = dbFirestore.collection(FirebaseConstants.messages)
@@ -110,11 +110,11 @@ class ChatViewModel: ObservableObject {
             }
             print(message)
         }
-//        DispatchQueue.main.async {
-//            self.count += 1
-//           
-//            //self.saveLastMessage(toUUID: self.toUUID,fromUUID: fromUUID, message: message)
-//        }
+        DispatchQueue.main.async {
+            self.count += 1
+           
+            //self.saveLastMessage(toUUID: self.toUUID,fromUUID: fromUUID, message: message)
+        }
     }
     
     func saveLastMessage(toUUID: String, fromUUID: String, message: [String: Any]) {
