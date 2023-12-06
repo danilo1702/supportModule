@@ -39,7 +39,16 @@ public struct ChatView: View {
             
             TextFieldMessageView( completion: { text in
                 DispatchQueue.main.async {
-                    viewModel.sendMessage(message: text)
+                    viewModel.sendMessage(message: text) { result in
+                        switch result {
+                            case .success(let success):
+                                if success {
+                                    viewModel.saveLastMessage(toUUID: viewModel.toUUID, fromUUID: viewModel.fromUUID, message: viewModel.message)
+                                }
+                            case .failure(let failure):
+                                print("failed r")
+                        }
+                    }
                 }
             })
             .onAppear{

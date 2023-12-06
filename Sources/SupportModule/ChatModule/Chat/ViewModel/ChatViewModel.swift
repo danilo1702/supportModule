@@ -13,12 +13,15 @@ import Combine
 class ChatViewModel: ObservableObject {
     let dbFirestore = Firestore.firestore()
     var supportInfo: MessageModel
-    var toUUID: String
+    @Published var toUUID: String
+    @Published var fromUUID: String
+    @Published var message: [String: Any] = [:]
     @Published var messages: [MessageModel] = []
     @Published var count: Int = 0
     
     public init(supportInfo: MessageModel) {
         let fromUUID = Auth.auth().currentUser?.uid
+        self.fromUUID = fromUUID ?? ""
         let toUUID = fromUUID != nil ? fromUUID == supportInfo.fromUUID ? supportInfo.toUUID : supportInfo.fromUUID : ""
         self.supportInfo = supportInfo
         self.toUUID = toUUID
@@ -55,7 +58,7 @@ class ChatViewModel: ObservableObject {
         }
     }
 
-    func sendMessage(message: String) {
+    func sendMessage(message: String, completion: (Result<Bool, Error>) -> ()) {
         
         guard let fromUUID = Auth.auth().currentUser?.uid else { return }
         
@@ -66,6 +69,7 @@ class ChatViewModel: ObservableObject {
             .document()
 
         let message = ["message": message, "fromUUID": fromUUID, "toUUID": toUUID, "timestamp": date, "fromName": UIDevice.modelName] as [String: Any]
+        self.message = message
         referenceSender.setData(message) { error in
             if error != nil {
                 print("Errro sending de message ")
@@ -86,8 +90,9 @@ class ChatViewModel: ObservableObject {
         }
         DispatchQueue.main.async {
             self.count += 1
-            self.saveLastMessage(toUUID: self.toUUID,fromUUID: fromUUID, message: message)
         }
+        completion(.success(true))
+        
     }
     var cancellable = Set<AnyCancellable> ()
     
