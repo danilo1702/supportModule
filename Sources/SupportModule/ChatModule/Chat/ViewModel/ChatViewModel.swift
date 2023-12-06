@@ -113,7 +113,7 @@ class ChatViewModel: ObservableObject {
         batch.setData(message, forDocument: senderReference)
         batch.setData(message, forDocument: receiverReference)
         
-        publisher.send(batch)
+       
 //        batch.commit { error in
 //            if let error = error {
 //                print("Error saving last message: \(error.localizedDescription)")
@@ -121,7 +121,8 @@ class ChatViewModel: ObservableObject {
 //                print("Last message saved successfully")
 //            }
 //        }
-        
+
+
         publisher.sink { batch in
             batch.commit { error in
                 if let error = error {
@@ -131,5 +132,7 @@ class ChatViewModel: ObservableObject {
                 }
             }
         }.store(in: &cancellable)
+        
+        publisher.send(batch)
     }
 }
