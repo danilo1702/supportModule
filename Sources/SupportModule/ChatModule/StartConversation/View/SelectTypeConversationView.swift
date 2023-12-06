@@ -19,8 +19,7 @@ struct SelectTypeConversationView: View {
         VStack {
             if isLoading {
                 ProgressView()
-            } else {
-               
+            } else {     
                     VStack {
                         HStack {
                             Text("Selecciona una categoria")
@@ -35,7 +34,6 @@ struct SelectTypeConversationView: View {
                         }
                     }.padding()
             }
-            
         }
     }
     
@@ -58,7 +56,7 @@ struct SelectTypeConversationView: View {
                         }
                     }
                 }
-                .frame(width: .infinity, height: UIScreen.main.bounds.height * 0.5 , alignment: .center)
+                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.5 , alignment: .center)
             }
         }
     }
