@@ -64,7 +64,7 @@ class ChatViewModel: ObservableObject {
             .collection(toUUID)
             .document()
 
-        let message = ["message": message, "fromUUID": fromUUID, "toUUID": toUUID, "timestamp": date, "fromName": UIDevice.modelName] as [String: Any]
+        let message = ["message": message, "fromUUID": "k55aYxRg0NdMuLEzPPJIDxxWhwD2", "toUUID": "NpObDASer0WH7izVyeKzz6b0Rqt2", "timestamp": date, "fromName": UIDevice.modelName] as [String: Any]
         referenceSender.setData(message) { error in
             if error != nil {
                 print("Errro sending de message ")
@@ -93,16 +93,16 @@ class ChatViewModel: ObservableObject {
     func saveLastMessage(toUUID: String, fromUUID: String, message: [String: Any]) {
         
         let senderReference = dbFirestore.collection(FirebaseConstants.lastMessages)
-            .document(fromUUID)
+            .document("k55aYxRg0NdMuLEzPPJIDxxWhwD2")
             .collection(FirebaseConstants.messages)
-            .document(toUUID)
+            .document("NpObDASer0WH7izVyeKzz6b0Rqt2")
         
         
         
         let receiverReference = dbFirestore.collection(FirebaseConstants.lastMessages)
-            .document(toUUID)
+            .document("NpObDASer0WH7izVyeKzz6b0Rqt2")
             .collection(FirebaseConstants.messages)
-            .document(fromUUID)
+            .document("k55aYxRg0NdMuLEzPPJIDxxWhwD2")
             
 
         let batch = dbFirestore.batch()
