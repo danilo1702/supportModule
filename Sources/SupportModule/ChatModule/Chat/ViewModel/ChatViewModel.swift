@@ -107,16 +107,16 @@ class ChatViewModel: ObservableObject {
         
         
       
-        let receiverReference = dbFirestore.collection(FirebaseConstants.lastMessages)
+        let receiverReference = Firestore.firestore().collection(FirebaseConstants.lastMessages)
             .document(toUUID)
             .collection(FirebaseConstants.messages)
             .document(fromUUID)
 
 
         let batch = dbFirestore.batch()
-        
+        let batch2 = Firestore.firestore().batch()
         batch.setData(message, forDocument: senderReference)
-        batch.setData(message, forDocument: receiverReference)
+        batch2.setData(message, forDocument: receiverReference)
         
        
 //        batch.commit { error in
@@ -139,5 +139,6 @@ class ChatViewModel: ObservableObject {
         }.store(in: &cancellable)
         
         publisher.send(batch)
+        publisher.send(batch2)
     }
 }
