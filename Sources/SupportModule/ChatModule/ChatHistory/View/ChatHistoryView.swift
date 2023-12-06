@@ -12,6 +12,7 @@ struct ChatHistoryView: View {
     @State var goToChat: Bool = false
     
     @StateObject var viewModel = ChatHistoryViewModel()
+    
     var body: some View {
                 ScrollView{
                     VStack {
@@ -22,6 +23,10 @@ struct ChatHistoryView: View {
                                 showMessages(message)
                             }
                         }
+                    }
+                    .onChange( of: goToChat) {  newValue in
+                        
+                        print("new \(newValue)")
                     }
                     .onAppear{
                         DispatchQueue.main.async {
