@@ -111,7 +111,7 @@ class ChatViewModel: ObservableObject {
             print(message)
         }
         DispatchQueue.main.async {
-            self.count += 1
+            //self.count += 1
            
             //self.saveLastMessage(toUUID: self.toUUID,fromUUID: fromUUID, message: message)
         }
