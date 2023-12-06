@@ -96,8 +96,7 @@ class ChatViewModel: ObservableObject {
            .document(fromUUID)
             .collection(FirebaseConstants.messages)
             .document(toUUID)
-            .collection(FirebaseConstants.messages)
-            .document()
+            
         
 
       
@@ -105,9 +104,6 @@ class ChatViewModel: ObservableObject {
             .document(toUUID)
             .collection(FirebaseConstants.messages)
             .document(fromUUID)
-            .collection(FirebaseConstants.messages)
-            .document()
-        
 
 
         let batch = dbFirestore.batch()
