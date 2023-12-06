@@ -59,14 +59,14 @@ class ChatViewModel: ObservableObject {
         guard let fromUUID = Auth.auth().currentUser?.uid else { return }
         let date = String(DateFormatter.localizedString(from: Date(), dateStyle: .medium, timeStyle: .short))
         let senderReference = dbFirestore.collection(FirebaseConstants.lastMessages)
-           .document("1")
+           .document("x9TaSl4d1fV0cB058EdSjRAXpnq2")
             .collection(FirebaseConstants.messages)
-            .document("2")
+            .document("NpObDASer0WH7izVyeKzz6b0Rqt2")
         
         let receiverReference = dbFirestore.collection(FirebaseConstants.lastMessages)
-           .document("2")
+           .document("NpObDASer0WH7izVyeKzz6b0Rqt2")
             .collection(FirebaseConstants.messages)
-            .document("1")
+            .document("x9TaSl4d1fV0cB058EdSjRAXpnq2")
         
         let bath = dbFirestore.batch()
         
