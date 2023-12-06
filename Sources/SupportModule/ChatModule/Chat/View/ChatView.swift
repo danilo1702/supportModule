@@ -36,20 +36,14 @@ public struct ChatView: View {
                 }
                 
             }
-            TextField("Hola", text: $textToSend).padding()
-            Button {
-                viewModel.tryThis(text: textToSend)
-            } label: {
-                Text("HOlaaa").padding()
-            }
 
             
-//            TextFieldMessageView( completion: { text in
-//                DispatchQueue.main.async {
-//                    //viewModel.tryThis(text: "text")
-//                    viewModel.sendMessage(message: text)
-//                }
-//            })
+            TextFieldMessageView( completion: { text in
+                DispatchQueue.main.async {
+                    viewModel.tryThis(text: "text")
+                    viewModel.sendMessage(message: text)
+                }
+            })
             .onAppear{
                 
                 DispatchQueue.main.async {
