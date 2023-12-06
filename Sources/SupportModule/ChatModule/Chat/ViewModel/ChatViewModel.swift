@@ -13,15 +13,12 @@ import Combine
 class ChatViewModel: ObservableObject {
     let dbFirestore = Firestore.firestore()
     var supportInfo: MessageModel
-    @Published var toUUID: String
-    @Published var fromUUID: String
-    @Published var message: [String: Any] = [:]
+    var toUUID: String
     @Published var messages: [MessageModel] = []
     @Published var count: Int = 0
     
     public init(supportInfo: MessageModel) {
         let fromUUID = Auth.auth().currentUser?.uid
-        self.fromUUID = fromUUID ?? ""
         let toUUID = fromUUID != nil ? fromUUID == supportInfo.fromUUID ? supportInfo.toUUID : supportInfo.fromUUID : ""
         self.supportInfo = supportInfo
         self.toUUID = toUUID
@@ -58,7 +55,7 @@ class ChatViewModel: ObservableObject {
         }
     }
 
-    func sendMessage(message: String, completion: (Result<Bool, Error>) -> ()) {
+    func sendMessage(message: String) {
         
         guard let fromUUID = Auth.auth().currentUser?.uid else { return }
         
@@ -69,7 +66,6 @@ class ChatViewModel: ObservableObject {
             .document()
 
         let message = ["message": message, "fromUUID": fromUUID, "toUUID": toUUID, "timestamp": date, "fromName": UIDevice.modelName] as [String: Any]
-        self.message = message
         referenceSender.setData(message) { error in
             if error != nil {
                 print("Errro sending de message ")
@@ -90,15 +86,12 @@ class ChatViewModel: ObservableObject {
         }
         DispatchQueue.main.async {
             self.count += 1
+            self.saveLastMessage(toUUID: self.toUUID,fromUUID: fromUUID, message: message)
         }
-        completion(.success(true))
-        
     }
-    var cancellable = Set<AnyCancellable> ()
-    
     
     func saveLastMessage(toUUID: String, fromUUID: String, message: [String: Any]) {
-        let publisher = PassthroughSubject<WriteBatch, Never>()
+        
         let senderReference = dbFirestore.collection(FirebaseConstants.lastMessages)
            .document(fromUUID)
             .collection(FirebaseConstants.messages)
@@ -107,38 +100,26 @@ class ChatViewModel: ObservableObject {
         
         
       
-        let receiverReference = Firestore.firestore().collection(FirebaseConstants.lastMessages)
+        let receiverReference = dbFirestore.collection(FirebaseConstants.lastMessages)
             .document(toUUID)
             .collection(FirebaseConstants.messages)
             .document(fromUUID)
 
 
         let batch = dbFirestore.batch()
-        let batch2 = Firestore.firestore().batch()
+        
         batch.setData(message, forDocument: senderReference)
-        batch2.setData(message, forDocument: receiverReference)
+        batch.setData(message, forDocument: receiverReference)
         
        
-//        batch.commit { error in
-//            if let error = error {
-//                print("Error saving last message: \(error.localizedDescription)")
-//            } else {
-//                print("Last message saved successfully")
-//            }
-//        }
-
-
-        publisher.sink { batch in
-            batch.commit { error in
-                if let error = error {
-                    print("Error saving last message: \(error.localizedDescription)")
-                } else {
-                    print("Last message saved successfully")
-                }
+        batch.commit { error in
+            if let error = error {
+                print("Error saving last message: \(error.localizedDescription)")
+            } else {
+                print("Last message saved successfully")
             }
-        }.store(in: &cancellable)
-        
-        publisher.send(batch)
-        publisher.send(batch2)
+        }
+
+
     }
 }
