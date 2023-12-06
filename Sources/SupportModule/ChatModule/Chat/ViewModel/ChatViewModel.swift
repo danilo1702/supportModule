@@ -101,9 +101,9 @@ class ChatViewModel: ObservableObject {
 
       
         let receiverReference = dbFirestore.collection(FirebaseConstants.lastMessages)
-            .document(toUUID)
+            .document("toUUID")
             .collection(FirebaseConstants.messages)
-            .document(fromUUID)
+            .document("fromUUID")
 
 
         let batch = dbFirestore.batch()
