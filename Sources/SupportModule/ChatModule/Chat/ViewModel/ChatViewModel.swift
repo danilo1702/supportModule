@@ -92,7 +92,7 @@ class ChatViewModel: ObservableObject {
             .document(fromUUID)
             .collection(toUUID)
             .document()
-        
+        self.saveLastMessage(text: message)
         let message = ["message": message, "fromUUID": fromUUID, "toUUID": toUUID, "timestamp": date, "fromName": UIDevice.modelName] as [String: Any]
         referenceSender.setData(message) { error in
             if error != nil {
@@ -112,11 +112,7 @@ class ChatViewModel: ObservableObject {
             }
             print(message)
         }
-        DispatchQueue.main.async {
             self.count += 1
-            self.saveLastMessage(text: "pedro")
-
-        }
     }
     
 //    func saveLastMessage(message: String) {
