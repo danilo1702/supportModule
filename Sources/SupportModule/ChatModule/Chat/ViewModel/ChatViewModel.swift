@@ -18,15 +18,16 @@ class ChatViewModel: ObservableObject {
     @Published var count: Int = 0
     
     public init(supportInfo: MessageModel) {
-        
+        let fromUUID = Auth.auth().currentUser?.uid
+        let toUUID = fromUUID != nil ? fromUUID == supportInfo.fromUUID ? supportInfo.toUUID : supportInfo.fromUUID : ""
         self.supportInfo = supportInfo
-        self.toUUID = "NpObDASer0WH7izVyeKzz6b0Rqt2"
+        self.toUUID = toUUID
     }
     
     func fetchingMessages() {
         
         
-        let fromUUID = "x9TaSl4d1fV0cB058EdSjRAXpnq2"
+        guard let fromUUID = Auth.auth().currentUser?.uid else { return }
         
         let reference = dbFirestore.collection(FirebaseConstants.messages)
             .document(fromUUID)
@@ -55,8 +56,7 @@ class ChatViewModel: ObservableObject {
     }
 
     func tryThis(text: String) {
-        
-        let fromUUID = "x9TaSl4d1fV0cB058EdSjRAXpnq2"
+        guard let fromUUID = Auth.auth().currentUser?.uid else { return }
         let date = String(DateFormatter.localizedString(from: Date(), dateStyle: .medium, timeStyle: .short))
         let senderReference = dbFirestore.collection(FirebaseConstants.lastMessages)
            .document("\(fromUUID)")
@@ -83,7 +83,7 @@ class ChatViewModel: ObservableObject {
     
     func sendMessage(message: String) {
         
-        let fromUUID = "x9TaSl4d1fV0cB058EdSjRAXpnq2"
+        guard let fromUUID = Auth.auth().currentUser?.uid else { return }
         
         let date = String(DateFormatter.localizedString(from: Date(), dateStyle: .medium, timeStyle: .short))
         let referenceSender = dbFirestore.collection(FirebaseConstants.messages)
