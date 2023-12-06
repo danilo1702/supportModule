@@ -18,8 +18,8 @@ public class ChatHistoryViewModel: ObservableObject {
         guard let uuid = Auth.auth().currentUser?.uid else { return }
         
         let reference = dbFirestore.collection("lastMessages")
-            .document(uuid)
-            .collection("messages")
+            .document("messages")
+            .collection(uuid)
         
         reference.getDocuments { [weak self] querySnapshot, error in
             guard let self = self , let querySnapshot = querySnapshot, error == nil else { return }
