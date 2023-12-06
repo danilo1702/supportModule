@@ -55,7 +55,7 @@ class ChatViewModel: ObservableObject {
         }
     }
 
-    func tryThis() {
+    func tryThis(text: String) {
         let senderReference = dbFirestore.collection("coleccion")
            .document("1")
             .collection("Mensaje")
@@ -68,8 +68,8 @@ class ChatViewModel: ObservableObject {
         
         let bath = dbFirestore.batch()
         
-        bath.setData(["Mensaje": "Danilo"], forDocument: senderReference)
-        bath.setData(["Mensaje": "Danilo"], forDocument: receiverReference)
+        bath.setData(["Mensaje": text], forDocument: senderReference)
+        bath.setData(["Mensaje": text], forDocument: receiverReference)
         bath.commit { error in
             if error == nil {
             print("Guardado")
