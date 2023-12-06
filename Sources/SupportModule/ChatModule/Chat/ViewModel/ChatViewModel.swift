@@ -96,17 +96,16 @@ class ChatViewModel: ObservableObject {
             .document(fromUUID)
             .collection(FirebaseConstants.messages)
             .document(toUUID)
-            .collection("enviado")
-            .document()
+            
+        senderReference.delete()
         
         
         let receiverReference = dbFirestore.collection(FirebaseConstants.lastMessages)
             .document(toUUID)
             .collection(FirebaseConstants.messages)
             .document(fromUUID)
-            .collection("enviado")
-            .document()
             
+        receiverReference.delete()
 
         let batch = dbFirestore.batch()
         

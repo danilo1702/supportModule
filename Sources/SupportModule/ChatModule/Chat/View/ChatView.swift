@@ -49,7 +49,6 @@ public struct ChatView: View {
                 }
                 
             }
-            .navigationBarBackButtonHidden(true)
             .navigationTitle(CommonStrings.chatSupport)
         }
         
