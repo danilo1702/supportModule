@@ -30,12 +30,12 @@ public struct SupportModuleView: View {
     public init() {
     }
     public var body: some View {
-        GeometryReader { geometry in
+        
             NavigationView{
                 VStack {
                     showListArticles()
                         .padding(.horizontal)
-                        .frame(width: geometry.size.width, height: geometry.size.height * 0.4, alignment: .center)
+                        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.4, alignment: .center)
                     
                     if viewModel.recentMessage.count > 0 {
                         VStack {
@@ -73,43 +73,44 @@ public struct SupportModuleView: View {
                    navigationLinks()
                 }
                 .addSearchbar(textSearch: $textSearch, placeHolder: generalConfiguration.placeHolderSearchBar, title: generalConfiguration.titleModule)
-            }
-            .onAppear{
-                viewModel.registerUserFirebase{ result in
-                    switch result {
-                        case .success(let success):
-                            if success {
-                                viewModel.loginFirebase { result in
-                                    switch result {
-                                        case .success((let status, let user)):
-                                            if status {
-                                                DispatchQueue.main.async {
-                                                viewModel.getLastChats()
+                .onAppear{
+                    viewModel.registerUserFirebase{ result in
+                        switch result {
+                            case .success(let success):
+                                if success {
+                                    viewModel.loginFirebase { result in
+                                        switch result {
+                                            case .success((let status, let user)):
+                                                if status {
+                                                    DispatchQueue.main.async {
+                                                    viewModel.getLastChats()
+                                                        
+                                                    viewModel.getArticles { result in
+                                                        switch result {
+                                                            case .success(let success):
                                                     
-                                                viewModel.getArticles { result in
-                                                    switch result {
-                                                        case .success(let success):
-                                                
-                                                            viewModel.convertToCardModel(articlesHelp: success)
-                                                        case .failure(let error):
-                                                            print("error getting Articles \(error)")
+                                                                viewModel.convertToCardModel(articlesHelp: success)
+                                                            case .failure(let error):
+                                                                print("error getting Articles \(error)")
+                                                        }
+                                                    }
                                                     }
                                                 }
-                                                }
-                                            }
-                                        case .failure(let error):
-                                            print(error)   
+                                            case .failure(let error):
+                                                print(error)
+                                        }
                                     }
                                 }
-                            }
-                        case .failure(let failure):
-                            print(failure)
+                            case .failure(let failure):
+                                print(failure)
+                        }
                     }
+                    
+                    
                 }
-                
-                
             }
-        }.ignoresSafeArea(.keyboard)
+            
+       
     }
     
     @ViewBuilder
