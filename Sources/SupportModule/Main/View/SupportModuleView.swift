@@ -29,6 +29,8 @@ public struct SupportModuleView: View {
     public var arrayDemo =  MockInformation.cardListArray
     public var generalConfiguration: GeneralConfiguration = MockInformation.generalConfiguration
     
+    public init() {}
+    
     public var body: some View {
         
         NavigationView{
