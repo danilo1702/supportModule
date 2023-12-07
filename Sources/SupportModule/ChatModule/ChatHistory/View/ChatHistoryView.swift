@@ -10,7 +10,7 @@ import FirebaseAuth
 
 struct ChatHistoryView: View {
     @State var goToChat: Bool = false
-    
+    @EnvironmentObject var firebaseManager: FirebaseManagerData
     @StateObject var viewModel = ChatHistoryViewModel()
     
     var body: some View {
@@ -25,6 +25,7 @@ struct ChatHistoryView: View {
                     .onAppear{
                         DispatchQueue.main.async {
                             viewModel.gettingChatHistory()
+                            print("/-*-/*-/*-//*-/*--*/-*/-*/-*//*--/*-/**-/-/*/*-/-*-/*-/*/*-/-*-/*/-*-/*-/*-*/ with firebase manager\(firebaseManager.dbAuth.currentUser?.uid)")
                         }
                     }
             }

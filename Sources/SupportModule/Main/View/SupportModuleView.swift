@@ -26,6 +26,7 @@ public struct SupportModuleView: View {
     public var arrayDemo =  MockInformation.cardListArray
     public var generalConfiguration: GeneralConfiguration = MockInformation.generalConfiguration
     @StateObject public var viewModel: SupportMainViewModel = SupportMainViewModel()
+    @StateObject public var firebaseManager = FirebaseManagerData()
     
     public init() {
     }
@@ -136,7 +137,7 @@ public struct SupportModuleView: View {
                     EmptyView()
                 })
             NavigationLink(
-                destination: ChatHistoryView(),
+                destination: ChatHistoryView().environmentObject(firebaseManager),
                 isActive: $chatHistory,
                 label: {
                     EmptyView()
