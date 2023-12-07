@@ -20,7 +20,12 @@ struct ChatHistoryView: AppNavigator {
                             VStack{
                                 Text("From + \(message.fromUUID ?? "")")
                                 Text("to \(message.toUUID ?? "")")
-                                showMessages(message)
+                                
+                                CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
+                                    if let fromUUID = message.fromUUID, let toUUID = message.toUUID, let fromName = message.nameFormat?.text {
+                                        navigator.pushToView(view: ChatView(supportInfo: MessageModel(message: "", fromUUID: fromUUID, toUUID: toUUID, fromName: fromName)))
+                                    }
+                                }
                             }
                         }
                     }
@@ -42,13 +47,7 @@ struct ChatHistoryView: AppNavigator {
     func showMessages(_ message: CardModel) -> some View {
         if let fromUUID = message.fromUUID, let toUUID = message.toUUID, let fromName = message.nameFormat?.text {
             
-            CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
-                goToChat.toggle()
-            }
-            if goToChat {
-                let _ =  navigator.pushToView(view: ChatView(supportInfo: MessageModel(message: "", fromUUID: fromUUID, toUUID: toUUID, fromName: fromName)))
-                
-            }
+        
             
 //            NavigationLink(isActive: $goToChat) {
 //                ChatView(supportInfo: MessageModel(message: "", fromUUID: fromUUID, toUUID: toUUID, fromName: fromName))
