@@ -12,7 +12,7 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseAuth
 
-public struct SupportModuleView: AppNavigator {
+public struct SupportModuleView: View {
     
 
     @State public var isPresented: Bool  = false
@@ -31,7 +31,7 @@ public struct SupportModuleView: AppNavigator {
     }
     public var body: some View {
         
-            VStack{
+            NavigationView{
                 VStack {
                     showListArticles()
                         .padding(.horizontal)
@@ -43,11 +43,7 @@ public struct SupportModuleView: AppNavigator {
                                 TextView(informationModel: generalConfiguration.titleLastChat)
                                     .shadow(radius: 7)
                                 Spacer()
-                                Button(action: {
-                                    navigator.pushToView(view: ChatHistoryView())
-                                    //chatHistory.toggle()
-                                    
-                                }, label: {
+                                Button(action: {chatHistory.toggle()}, label: {
                                     Text("Historial")
                                 })
                                     
@@ -74,7 +70,7 @@ public struct SupportModuleView: AppNavigator {
                     .frame(alignment: .center)
                     
                     .shadow(radius: 5)
-                   //navigationLinks()
+                   navigationLinks()
                 }
                 .onChange(of: chatHistory) { newValue in
                     print("new SUPOORT \(newValue)")
