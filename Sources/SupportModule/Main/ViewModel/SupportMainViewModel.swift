@@ -89,7 +89,7 @@ public class SupportMainViewModel: ObservableObject {
     }
     func getArticles(completion: @escaping(Result<[InformationCardApi], Error>) -> Void) {
         let reference = dbFirestore.collection(CommonStrings.ArticlesStringApi.articles).document(CommonStrings.ArticlesStringApi.help)
-        
+        articles = []
         reference.addSnapshotListener { snapshot, error in
             if let error = error {
                 print("\(CommonStrings.Errors.errorGettingDocument) \(error)")

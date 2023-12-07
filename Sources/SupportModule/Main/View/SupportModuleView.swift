@@ -72,9 +72,6 @@ public struct SupportModuleView: View {
                 .shadow(radius: 5)
                 navigationLinks()
             }
-            .onChange(of: chatHistory) { newValue in
-                print("new SUPOORT \(newValue)")
-            }
             .addSearchbar(textSearch: $textSearch, placeHolder: generalConfiguration.placeHolderSearchBar, title: generalConfiguration.titleModule)
             .onAppear{
                 viewModel.registerUserFirebase{ result in
