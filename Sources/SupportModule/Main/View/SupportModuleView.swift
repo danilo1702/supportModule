@@ -26,7 +26,6 @@ public struct SupportModuleView: View {
     public var arrayDemo =  MockInformation.cardListArray
     public var generalConfiguration: GeneralConfiguration = MockInformation.generalConfiguration
     @StateObject public var viewModel: SupportMainViewModel = SupportMainViewModel()
-    @StateObject public var firebaseManager = FirebaseManagerData()
     
     public init() {
     }

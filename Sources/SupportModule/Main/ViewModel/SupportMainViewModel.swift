@@ -15,7 +15,6 @@ import FirebaseCore
  
 public class SupportMainViewModel: ObservableObject {
     
-    @Published public var dbFirestore: Firestore = Firestore.firestore()
     @Published public var articles: [CardModel] = []
     @Published public var recentMessage: [CardModel] = []
     var deviceInformation = InformationDevice()
@@ -24,7 +23,7 @@ public class SupportMainViewModel: ObservableObject {
     func registerUserFirebase(completion: @escaping(Result<Bool, Error>)-> ()) {
         deviceInformation.returnInformation()
 
-        Auth.auth().createUser(withEmail: deviceInformation.email, password: deviceInformation.deviceUUID) {  authResult, error in
+        FirebaseManagerData.initialization.dbAuth.createUser(withEmail: deviceInformation.email, password: deviceInformation.deviceUUID) {  authResult, error in
 
             guard let user = authResult?.user, error == nil else {
                 if let nsError = error as? NSError, let error = AuthErrorCode.Code(rawValue: nsError.code)  {
@@ -45,7 +44,7 @@ public class SupportMainViewModel: ObservableObject {
         let information = PersonalInformationUser(email: deviceInformation.email, uuid: uuid, name: UIDevice.modelName)
 
         do {
-            try dbFirestore.collection(FirebaseConstants.users).document(uuid).setData(from: information)
+            try FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.users).document(uuid).setData(from: information)
         } catch let error {
           print("Error writing the user to Firestore: \(error)")
         }
@@ -54,10 +53,10 @@ public class SupportMainViewModel: ObservableObject {
     
     func getLastChats() {
         
-        guard let userUUID = Auth.auth().currentUser?.uid else { return }
+        guard let userUUID = FirebaseManagerData.initialization.dbAuth.currentUser?.uid else { return }
         
         
-        let reference = dbFirestore.collection(FirebaseConstants.lastMessages)
+        let reference = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.lastMessages)
             .document(userUUID)
             .collection(FirebaseConstants.messages)
         
@@ -89,7 +88,7 @@ public class SupportMainViewModel: ObservableObject {
         }
     }
     func getArticles(completion: @escaping(Result<[InformationCardApi], Error>) -> Void) {
-        let reference = dbFirestore.collection(CommonStrings.ArticlesStringApi.articles).document(CommonStrings.ArticlesStringApi.help)
+        let reference = FirebaseManagerData.initialization.dbFirestore.collection(CommonStrings.ArticlesStringApi.articles).document(CommonStrings.ArticlesStringApi.help)
         articles = []
         reference.addSnapshotListener { snapshot, error in
             if let error = error {

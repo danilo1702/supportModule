@@ -11,7 +11,6 @@ import FirebaseFirestore
 import Combine
 
 class ChatViewModel: ObservableObject {
-    let dbFirestore = Firestore.firestore()
     var toUUID: String
     @Published var messages: [MessageModel] = []
     @Published var count: Int = 0
@@ -22,10 +21,9 @@ class ChatViewModel: ObservableObject {
     
     func fetchingMessages() {
         
+        guard let fromUUID = FirebaseManagerData.initialization.dbAuth.currentUser?.uid else { return }
         
-        guard let fromUUID = Auth.auth().currentUser?.uid else { return }
-        
-        let reference = dbFirestore.collection(FirebaseConstants.messages)
+        let reference = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.messages)
             .document(fromUUID)
             .collection(toUUID)
             .order(by: FirebaseConstants.timestamp)
@@ -54,10 +52,10 @@ class ChatViewModel: ObservableObject {
     
     func sendMessage(message: String) {
         
-        guard let fromUUID = Auth.auth().currentUser?.uid else { return }
+        guard let fromUUID = FirebaseManagerData.initialization.dbAuth.currentUser?.uid else { return }
         
         
-        let referenceSender = dbFirestore.collection(FirebaseConstants.messages)
+        let referenceSender = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.messages)
             .document(fromUUID)
             .collection(toUUID)
             .document()
@@ -70,7 +68,7 @@ class ChatViewModel: ObservableObject {
             }
         }
         
-        let referenceReceiver = dbFirestore.collection(FirebaseConstants.messages)
+        let referenceReceiver = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.messages)
             .document(toUUID)
             .collection(fromUUID)
             .document()
@@ -90,17 +88,17 @@ class ChatViewModel: ObservableObject {
     
     func saveLastMessage(fromUUID: String, message: [String: Any]) {
         
-        let senderReference = dbFirestore.collection(FirebaseConstants.lastMessages)
+        let senderReference = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.lastMessages)
            .document(fromUUID)
             .collection(FirebaseConstants.messages)
             .document(toUUID)
 
-        let receiverReference = dbFirestore.collection(FirebaseConstants.lastMessages)
+        let receiverReference = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.lastMessages)
             .document(toUUID)
             .collection(FirebaseConstants.messages)
             .document(fromUUID)
 
-        let batch = dbFirestore.batch()
+        let batch = FirebaseManagerData.initialization.dbFirestore.batch()
         
         batch.setData(message, forDocument: senderReference)
         batch.setData(message, forDocument: receiverReference)

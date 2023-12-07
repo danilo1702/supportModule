@@ -10,11 +10,11 @@ import FirebaseCore
 import FirebaseAuth
 import FirebaseFirestore
 
-public class FirebaseManagerData: ObservableObject {
+public class FirebaseManagerData {
     
-    @Published var dbAuth: Auth
-    @Published var dbFirestore: Firestore
-    @Published var currentUser: CurrentUserData?
+     var dbAuth: Auth
+     var dbFirestore: Firestore
+     var currentUser: CurrentUserData?
     
     static let initialization = FirebaseManagerData()
     

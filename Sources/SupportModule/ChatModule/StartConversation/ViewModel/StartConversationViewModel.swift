@@ -8,16 +8,15 @@
 import Foundation
 import FirebaseFirestore
 import FirebaseAuth
+
 public class StartConversationViewModel: ObservableObject {
-    let dbFirestore = Firestore.firestore()
-    
     
     func getAvailableSupports(completion: @escaping (Result<String, Error>) -> ()) {
-        let reference = dbFirestore.collection(FirebaseConstants.supports)
+        let reference = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.supports)
         
         reference.whereField(FirebaseConstants.busy, isEqualTo: false).addSnapshotListener { querySnapshot, error in
             
-            guard let queryDocument = querySnapshot, let fromUUID = Auth.auth().currentUser?.uid, error == nil else { return }
+            guard let queryDocument = querySnapshot, error == nil else { return }
             if let support = try? queryDocument.documentChanges.first?.document.data(as: PersonalInformationUser.self) {
                 completion(.success(support.uuid))
             }else {
