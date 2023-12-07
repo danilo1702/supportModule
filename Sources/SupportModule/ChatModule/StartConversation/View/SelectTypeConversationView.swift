@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SelectTypeConversationView: View {
     public var queryTypesModel: [QueryTypesModel]
-    @State var supportId: MessageModel = MessageModel(message: "", fromUUID: "", toUUID: "", fromName: "")
+    @State var supportId: String = ""
     @StateObject var viewModel = StartConversationViewModel()
     @State var goToChat: Bool = false
     @State var isLoading: Bool = false
@@ -28,7 +28,7 @@ struct SelectTypeConversationView: View {
                         showListQueries()
                        
                         NavigationLink(isActive: $goToChat) {
-                            ChatView(supportInfo: supportId)
+                            ChatView(toUUID:  supportId)
                         } label: {
                             EmptyView()
                         }

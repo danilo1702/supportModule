@@ -12,15 +12,11 @@ import Combine
 
 class ChatViewModel: ObservableObject {
     let dbFirestore = Firestore.firestore()
-    var supportInfo: MessageModel
     var toUUID: String
     @Published var messages: [MessageModel] = []
     @Published var count: Int = 0
     
-    public init(supportInfo: MessageModel) {
-        let fromUUID = Auth.auth().currentUser?.uid
-        let toUUID = fromUUID != nil ? fromUUID == supportInfo.fromUUID ? supportInfo.toUUID : supportInfo.fromUUID : ""
-        self.supportInfo = supportInfo
+    public init(toUUID: String) {
         self.toUUID = toUUID
     }
     
@@ -56,22 +52,23 @@ class ChatViewModel: ObservableObject {
     }
 
     func tryThis(text: String) {
+        
         guard let fromUUID = Auth.auth().currentUser?.uid else { return }
         let date = String(DateFormatter.localizedString(from: Date(), dateStyle: .medium, timeStyle: .short))
         let senderReference = dbFirestore.collection(FirebaseConstants.lastMessages)
-           .document("\(fromUUID)")
+           .document(fromUUID)
             .collection(FirebaseConstants.messages)
-            .document("\(toUUID)")
+            .document(toUUID)
         
         let receiverReference = dbFirestore.collection(FirebaseConstants.lastMessages)
-           .document("\(toUUID)")
+           .document(toUUID)
             .collection(FirebaseConstants.messages)
-            .document("\(fromUUID)")
+            .document(fromUUID)
         
         let bath = dbFirestore.batch()
         
-        bath.setData(["message": text,"fromUUID": "\(fromUUID)" ,"toUUID": "\(toUUID)", "fromName": UIDevice.modelName, "timestamp": date], forDocument: senderReference)
-        bath.setData(["message": text,"fromUUID": "\(fromUUID)","toUUID": "\(toUUID)", "fromName": UIDevice.modelName, "timestamp": date], forDocument: receiverReference)
+        bath.setData(["message": text,"fromUUID": fromUUID ,"toUUID": toUUID, "fromName": UIDevice.modelName, "timestamp": date], forDocument: senderReference)
+        bath.setData(["message": text,"fromUUID": fromUUID,"toUUID": toUUID, "fromName": UIDevice.modelName, "timestamp": date], forDocument: receiverReference)
         bath.commit { error in
             if error == nil {
             print("Guardado")
