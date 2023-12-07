@@ -19,8 +19,7 @@ public class FirebaseManagerData: NSObject, ObservableObject {
     static let initialization = FirebaseManagerData()
     
     override init() {
-        
-        FirebaseApp.configure()
+    
         self.dbAuth = Auth.auth()
         self.dbFirestore = Firestore.firestore()
         super.init()
