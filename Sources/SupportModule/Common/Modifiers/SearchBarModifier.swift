@@ -8,15 +8,21 @@
 import SwiftUI
 
 public struct SearchBarModifier: ViewModifier {
+    
     @Binding public var textSearch: String
+    @State public var hidePlaceHolder: Bool = false
     public var placeHolder: String
     public var title: TextViewModel?
-    public init(textSearch: Binding<String>, placeHolder: String, title: TextViewModel? = nil) {
+    public var completion: () -> ()
+    
+    public init(textSearch: Binding<String>, placeHolder: String, title: TextViewModel? = nil, completion: @escaping () -> ()) {
         self._textSearch = textSearch
         self.placeHolder = placeHolder
         self.title = title
+        self.completion = completion
     }
-    @State public var hidePlaceHolder: Bool = false
+    
+    
     public func body(content: Content) -> some View {
          NavigationView {
              ScrollView {
@@ -39,6 +45,11 @@ public struct SearchBarModifier: ViewModifier {
                         Spacer()
                     }
                     TextField(CommonStrings.emptyString, text: $textSearch).padding(EdgeInsets(top: 8, leading: 33, bottom: 8, trailing: 5))
+                    if !textSearch.isEmpty {
+                        Button(action: { completion() }, label: {
+                            Text("Buscar")
+                        })
+                    }
                 }
                 .background(
                     RoundedRectangle(cornerRadius: 15)

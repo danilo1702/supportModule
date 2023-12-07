@@ -23,12 +23,12 @@ public struct SupportModuleView: View {
     @State public var showAlert: Bool = false
     @State public var newConversacion: Bool = false
     @State public var chatHistory: Bool = false
-    public var arrayDemo =  MockInformation.cardListArray
-    public var generalConfiguration: GeneralConfiguration = MockInformation.generalConfiguration
+    
     @StateObject public var viewModel: SupportMainViewModel = SupportMainViewModel()
     
-    public init() {
-    }
+    public var arrayDemo =  MockInformation.cardListArray
+    public var generalConfiguration: GeneralConfiguration = MockInformation.generalConfiguration
+    
     public var body: some View {
         
         NavigationView{
@@ -72,7 +72,9 @@ public struct SupportModuleView: View {
                 .shadow(radius: 5)
                 navigationLinks()
             }
-            .addSearchbar(textSearch: $textSearch, placeHolder: generalConfiguration.placeHolderSearchBar, title: generalConfiguration.titleModule)
+            .addSearchbar(textSearch: $textSearch, placeHolder: generalConfiguration.placeHolderSearchBar, title: generalConfiguration.titleModule, completion: {
+                    print("Hey search \(textSearch)")
+            })
             .onAppear{
                 viewModel.registerUserFirebase{ result in
                     switch result {
@@ -169,6 +171,6 @@ struct ProgramTurnView: View {
                 } .alert(CommonStrings.programTurn, isPresented: $showAlert) {}
                 
             } .padding()
-        }.addSearchbar(textSearch: $textSearch, placeHolder: "Buscar por zona", title: nil)
+        }.addSearchbar(textSearch: $textSearch, placeHolder: "Buscar por zona", title: nil, completion: {})
     }
 }
