@@ -11,13 +11,13 @@ import FirebaseFirestore
 import FirebaseAuth
 
 public class ChatHistoryViewModel: ObservableObject {
-    private var dbFirestore = Firestore.firestore()
+
     @Published var historyMessages: [CardModel] = []
     
-    func gettingChatHistory() {
+    func gettingChatHistory(firebaseManager: FirebaseManagerData) {
         guard let uuid = Auth.auth().currentUser?.uid else { return }
         
-        let reference = dbFirestore.collection(FirebaseConstants.lastMessages)
+        let reference = firebaseManager.initialization.dbFirestore.collection(FirebaseConstants.lastMessages)
             .document(uuid)
             .collection(FirebaseConstants.messages)
             

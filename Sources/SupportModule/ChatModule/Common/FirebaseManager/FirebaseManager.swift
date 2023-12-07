@@ -16,7 +16,7 @@ public class FirebaseManagerData: NSObject, ObservableObject {
     @Published var dbFirestore: Firestore
     @Published var currentUser: CurrentUserData?
     
-    static let initialization = FirebaseManagerData()
+    let initialization = FirebaseManagerData()
     
     override init() {
     
@@ -25,4 +25,5 @@ public class FirebaseManagerData: NSObject, ObservableObject {
         super.init()
     }
 }
+
 

@@ -13,6 +13,7 @@ struct ChatHistoryView: View {
     @EnvironmentObject var firebaseManager: FirebaseManagerData
     @StateObject var viewModel = ChatHistoryViewModel()
     
+ 
     var body: some View {
                 ScrollView{
                     VStack {
@@ -24,8 +25,7 @@ struct ChatHistoryView: View {
                     }
                     .onAppear{
                         DispatchQueue.main.async {
-                            viewModel.gettingChatHistory()
-                            print("/-*-/*-/*-//*-/*--*/-*/-*/-*//*--/*-/**-/-/*/*-/-*-/*-/*/*-/-*-/*/-*-/*-/*-*/ with firebase manager\(firebaseManager.dbAuth.currentUser?.uid)")
+                            viewModel.gettingChatHistory(firebaseManager: firebaseManager)
                         }
                     }
             }
