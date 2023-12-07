@@ -18,16 +18,11 @@ struct ChatHistoryView: View {
                     VStack {
                         ForEach(viewModel.historyMessages, id: \.uniqueId) { message in
                             VStack{
-                                Text("From + \(message.fromUUID ?? "")")
-                                Text("to \(message.toUUID ?? "")")
                                 showMessages(message)
                             }
                         }
                     }
-                    .onChange( of: goToChat) {  newValue in
-                        
-                        print("new \(newValue)")
-                    }
+                    
                     .onAppear{
                         DispatchQueue.main.async {
                             viewModel.gettingChatHistory()
