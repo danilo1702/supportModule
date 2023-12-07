@@ -9,7 +9,7 @@ import SwiftUI
 
 public struct TextFieldMessageView: View {
     @State public var textToSend: String = ""
-    public var completion: (_ text: String)->()
+    public var completion: (_ text: String) -> ()
 
     public var body: some View {
         
@@ -43,7 +43,6 @@ public struct TextFieldMessageView: View {
                             .resizable()
                             .frame(width: UIScreen.main.bounds.width * 0.07, height: UIScreen.main.bounds.width * 0.07, alignment: .center)
                             .rotationEffect(.degrees(45))
-                            
                     })
                 }
            

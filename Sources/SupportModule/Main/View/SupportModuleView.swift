@@ -14,7 +14,7 @@ import FirebaseAuth
 
 public struct SupportModuleView: View {
     
-
+    
     @State public var isPresented: Bool  = false
     @State public var textSearch: String = ""
     @State public var lastChat: Bool = true
@@ -31,94 +31,89 @@ public struct SupportModuleView: View {
     }
     public var body: some View {
         
-            NavigationView{
-                VStack {
-                    showListArticles()
-                        .padding(.horizontal)
-                        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.4, alignment: .center)
-                    
-                    if viewModel.recentMessage.count > 0 {
-                        VStack {
-                            HStack{
-                                TextView(informationModel: generalConfiguration.titleLastChat)
-                                    .shadow(radius: 7)
-                                Spacer()
-                                Button(action: {chatHistory.toggle()}, label: {
-                                    Text("Historial")
-                                })
-                                    
-                            }.padding(19)
+        NavigationView{
+            VStack {
+                showListArticles()
+                    .padding(.horizontal)
+                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.4, alignment: .center)
+                
+                if viewModel.recentMessage.count > 0 {
+                    VStack {
+                        HStack{
+                            TextView(informationModel: generalConfiguration.titleLastChat)
+                                .shadow(radius: 7)
+                            Spacer()
+                            Button(action: {chatHistory.toggle()}, label: {
+                                Text("Historial")
+                            })
                             
-                            CardView(information: viewModel.recentMessage[0], activeNavigation: $navigationChat, view: CardRecentMessageView(information: viewModel.recentMessage[0]).toAnyView()) {}
-                                .padding(.horizontal)
-                           
-                        }
+                        }.padding(19)
+                        
+                        CardView(information: viewModel.recentMessage[0], activeNavigation: $navigationChat, view: CardRecentMessageView(information: viewModel.recentMessage[0]).toAnyView()) {}
+                            .padding(.horizontal)
+                        
                     }
-                    Spacer()
-                    ButtonView(informationButton:ButtonModel(designButton: ComponentDesign(backgroundColor: .blue, cornerRaiuds: 15), title: TextViewModel(text: "Agendar turno", foregroundColor: .white, font: .system(size: 14), expandable: false)) ) {
-                            showAlert.toggle()
-                    }
-                    .sheet(isPresented: $showAlert, content: {
-                        ProgramTurnView()
-                    })
-                    
-                    
-                    ButtonView(informationButton: generalConfiguration.buttonInformationStartChat) {
-                        newConversacion.toggle()
-                    }
-                    .padding()
-                    .frame(alignment: .center)
-                    
-                    .shadow(radius: 5)
-                   navigationLinks()
                 }
-                .onChange(of: chatHistory) { newValue in
-                    print("new SUPOORT \(newValue)")
+                Spacer()
+                ButtonView(informationButton:ButtonModel(designButton: ComponentDesign(backgroundColor: .blue, cornerRaiuds: 15), title: TextViewModel(text: "Agendar turno", foregroundColor: .white, font: .system(size: 14), expandable: false)) ) {
+                    showAlert.toggle()
                 }
-                .addSearchbar(textSearch: $textSearch, placeHolder: generalConfiguration.placeHolderSearchBar, title: generalConfiguration.titleModule)
-                .onAppear{
-                    viewModel.registerUserFirebase{ result in
-                        switch result {
-                            case .success(let success):
-                                if success {
-                                    viewModel.loginFirebase { result in
-                                        switch result {
-                                            case .success((let status, let user)):
-                                                if status {
-                                                    DispatchQueue.main.async {
+                .sheet(isPresented: $showAlert, content: {
+                    ProgramTurnView()
+                })
+                
+                
+                ButtonView(informationButton: generalConfiguration.buttonInformationStartChat) {
+                    newConversacion.toggle()
+                }
+                .padding()
+                .frame(alignment: .center)
+                
+                .shadow(radius: 5)
+                navigationLinks()
+            }
+            .onChange(of: chatHistory) { newValue in
+                print("new SUPOORT \(newValue)")
+            }
+            .addSearchbar(textSearch: $textSearch, placeHolder: generalConfiguration.placeHolderSearchBar, title: generalConfiguration.titleModule)
+            .onAppear{
+                viewModel.registerUserFirebase{ result in
+                    switch result {
+                        case .success(let success):
+                            if success {
+                                viewModel.loginFirebase { result in
+                                    switch result {
+                                        case .success((let status, let user)):
+                                            if status {
+                                                DispatchQueue.main.async {
                                                     viewModel.getLastChats()
-                                                        
+                                                    
                                                     viewModel.getArticles { result in
                                                         switch result {
                                                             case .success(let success):
-                                                    
                                                                 viewModel.convertToCardModel(articlesHelp: success)
                                                             case .failure(let error):
                                                                 print("error getting Articles \(error)")
                                                         }
                                                     }
-                                                    }
                                                 }
-                                            case .failure(let error):
-                                                print(error)
-                                        }
+                                            }
+                                        case .failure(let error):
+                                            print(error)
                                     }
                                 }
-                            case .failure(let failure):
-                                print(failure)
-                        }
+                            }
+                        case .failure(let failure):
+                            print(failure)
                     }
-                    
-                    
                 }
             }
-            
-       
+        }
     }
     
     @ViewBuilder
     func showListArticles() -> some View {
-
+        
         ScrollView(showsIndicators: false) {
             ForEach(viewModel.articles, id: \.uniqueId) { article in
                 CardView(information: article) { }
@@ -129,20 +124,20 @@ public struct SupportModuleView: View {
     @ViewBuilder
     func navigationLinks() -> some View{
         let toUUID = (viewModel.recentMessage.count > 0 ? viewModel.recentMessage[0].toUUID ?? "" ==  Auth.auth().currentUser?.uid ? viewModel.recentMessage[0].fromUUID ?? "" : viewModel.recentMessage[0].toUUID ?? "" : "")
-               
+        
         VStack {
-         NavigationLink(
-            destination: ChatView(toUUID: toUUID),
-            isActive: $navigationChat,
-            label: {
-                EmptyView()
-            })
-        NavigationLink(
-            destination: SelectTypeConversationView(queryTypesModel: MockInformation.queryTypesModelArray),
-            isActive: $newConversacion,
-            label: {
-                EmptyView()
-            })
+            NavigationLink(
+                destination: ChatView(toUUID: toUUID),
+                isActive: $navigationChat,
+                label: {
+                    EmptyView()
+                })
+            NavigationLink(
+                destination: SelectTypeConversationView(queryTypesModel: MockInformation.queryTypesModelArray),
+                isActive: $newConversacion,
+                label: {
+                    EmptyView()
+                })
             NavigationLink(
                 destination: ChatHistoryView(),
                 isActive: $chatHistory,
@@ -154,7 +149,7 @@ public struct SupportModuleView: View {
 }
 
 //#Preview {
-//    
+//
 //    SupportModuleView()
 //}
 
@@ -169,13 +164,13 @@ struct ProgramTurnView: View {
     }
     @ViewBuilder
     func showListArticles() -> some View {
-
+        
         ScrollView(showsIndicators: false) {
             ForEach(arrayDemo, id: \.uniqueId) { article in
                 CardView(information: article) {
                     showAlert.toggle()
                 } .alert(CommonStrings.programTurn, isPresented: $showAlert) {}
-                   
+                
             } .padding()
         }.addSearchbar(textSearch: $textSearch, placeHolder: "Buscar por zona", title: nil)
     }

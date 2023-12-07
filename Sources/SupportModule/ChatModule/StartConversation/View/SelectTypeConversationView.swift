@@ -22,19 +22,19 @@ struct SelectTypeConversationView: View {
                 ProgressView()
                 Spacer()
             } else {
-                    VStack {
-                        HStack {
-                            Text("Selecciona una categoria")
-                            Spacer()
-                        }
-                        showListQueries()
-                       
-                        NavigationLink(isActive: $goToChat) {
-                            ChatView(toUUID:  supportId)
-                        } label: {
-                            EmptyView()
-                        }
-                    }.padding()
+                VStack {
+                    HStack {
+                        Text("Selecciona una categoria")
+                        Spacer()
+                    }
+                    showListQueries()
+                    
+                    NavigationLink(isActive: $goToChat) {
+                        ChatView(toUUID:  supportId)
+                    } label: {
+                        EmptyView()
+                    }
+                }.padding()
             }
         }
     }

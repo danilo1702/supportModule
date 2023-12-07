@@ -18,6 +18,7 @@ public struct MessageModel: Codable, Identifiable {
     let toUUID: String
     let timestamp: Timestamp?
     let fromName: String
+    
     public init(id: String? = nil, message: String, fromUUID: String, toUUID: String, timestamp: Timestamp? = nil, fromName: String) {
         self.id = id
         self.message = message
