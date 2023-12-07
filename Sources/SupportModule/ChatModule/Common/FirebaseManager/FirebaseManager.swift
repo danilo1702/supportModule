@@ -16,9 +16,9 @@ public class FirebaseManagerData: ObservableObject {
     @Published var dbFirestore: Firestore
     @Published var currentUser: CurrentUserData?
     
-    let initialization = FirebaseManagerData()
+    static let initialization = FirebaseManagerData()
     
-     init() {
+     public init() {
     
         self.dbAuth = Auth.auth()
         self.dbFirestore = Firestore.firestore()

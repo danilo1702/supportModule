@@ -9,11 +9,10 @@ import SwiftUI
 import FirebaseAuth
 
 struct ChatHistoryView: View {
+    
     @State var goToChat: Bool = false
-    @EnvironmentObject var firebaseManager: FirebaseManagerData
     @StateObject var viewModel = ChatHistoryViewModel()
     
- 
     var body: some View {
                 ScrollView{
                     VStack {
@@ -25,7 +24,7 @@ struct ChatHistoryView: View {
                     }
                     .onAppear{
                         DispatchQueue.main.async {
-                            viewModel.gettingChatHistory(firebaseManager: firebaseManager)
+                            viewModel.gettingChatHistory()
                         }
                     }
             }

@@ -14,10 +14,10 @@ public class ChatHistoryViewModel: ObservableObject {
 
     @Published var historyMessages: [CardModel] = []
     
-    func gettingChatHistory(firebaseManager: FirebaseManagerData) {
-        guard let uuid = Auth.auth().currentUser?.uid else { return }
+    func gettingChatHistory() {
+        guard let uuid = FirebaseManagerData.initialization.dbAuth.currentUser?.uid else { return }
         
-        let reference = firebaseManager.initialization.dbFirestore.collection(FirebaseConstants.lastMessages)
+        let reference = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.lastMessages)
             .document(uuid)
             .collection(FirebaseConstants.messages)
             

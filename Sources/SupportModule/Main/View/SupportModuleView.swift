@@ -137,7 +137,7 @@ public struct SupportModuleView: View {
                     EmptyView()
                 })
             NavigationLink(
-                destination: ChatHistoryView().environmentObject(firebaseManager),
+                destination: ChatHistoryView(),
                 isActive: $chatHistory,
                 label: {
                     EmptyView()
