@@ -56,13 +56,13 @@ class ChatViewModel: ObservableObject {
         
         guard let fromUUID = Auth.auth().currentUser?.uid else { return }
         
-        let date = String(DateFormatter.localizedString(from: Date(), dateStyle: .medium, timeStyle: .short))
+        
         let referenceSender = dbFirestore.collection(FirebaseConstants.messages)
             .document(fromUUID)
             .collection(toUUID)
             .document()
         
-        let message = ["message": message, "fromUUID": fromUUID, "toUUID": toUUID, "timestamp": date, "fromName": UIDevice.modelName] as [String: Any]
+        let message = ["message": message, "fromUUID": fromUUID, "toUUID": toUUID, "timestamp": Timestamp(), "fromName": UIDevice.modelName] as [String: Any]
         referenceSender.setData(message) { error in
             if error != nil {
                 print("Errro sending de message ")
@@ -94,22 +94,17 @@ class ChatViewModel: ObservableObject {
            .document(fromUUID)
             .collection(FirebaseConstants.messages)
             .document(toUUID)
-            
-        
-        
-      
+
         let receiverReference = dbFirestore.collection(FirebaseConstants.lastMessages)
             .document(toUUID)
             .collection(FirebaseConstants.messages)
             .document(fromUUID)
-
 
         let batch = dbFirestore.batch()
         
         batch.setData(message, forDocument: senderReference)
         batch.setData(message, forDocument: receiverReference)
         
-       
         batch.commit { error in
             if let error = error {
                 print("Error saving last message: \(error.localizedDescription)")
@@ -117,7 +112,5 @@ class ChatViewModel: ObservableObject {
                 print("Last message saved successfully")
             }
         }
-
-
     }
 }

@@ -22,21 +22,17 @@ struct ChatHistoryView: View {
                             }
                         }
                     }
-                    
                     .onAppear{
                         DispatchQueue.main.async {
                             viewModel.gettingChatHistory()
                         }
                     }
             }
-        
     }
     
     @ViewBuilder
     func showMessages(_ message: CardModel) -> some View {
         let toUUID = (message.toUUID ?? "" ==  Auth.auth().currentUser?.uid ? message.fromUUID ?? "" : message.toUUID ?? "")
-        //if let fromUUID = message.fromUUID, let toUUID = message.toUUID, let fromName = message.nameFormat?.text {
-            
             NavigationLink(isActive: $goToChat) {
                 ChatView(toUUID:  toUUID)
             } label: {
@@ -44,7 +40,6 @@ struct ChatHistoryView: View {
                     goToChat.toggle()
                 }
             }
-       // }
     }
 }
 

@@ -34,9 +34,7 @@ public struct ChatView: View {
                         }
                     })
                 }
-                
             }
-
             
             TextFieldMessageView( completion: { text in
                     viewModel.sendMessage(message: text)
@@ -53,7 +51,3 @@ public struct ChatView: View {
     }
     
 }
-
-//#Preview {
-//    ChatView()
-//}

@@ -18,8 +18,10 @@ struct SelectTypeConversationView: View {
         
         VStack {
             if isLoading {
+                Spacer()
                 ProgressView()
-            } else {     
+                Spacer()
+            } else {
                     VStack {
                         HStack {
                             Text("Selecciona una categoria")
