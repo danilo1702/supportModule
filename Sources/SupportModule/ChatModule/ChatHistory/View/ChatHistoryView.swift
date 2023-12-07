@@ -19,7 +19,9 @@ struct ChatHistoryView: AppNavigator {
                         ForEach(viewModel.historyMessages, id: \.uniqueId) { message in
                             VStack{
                                 Text("From + \(message.fromUUID ?? "")")
-                                Text("to \(message.toUUID ?? "")")
+                                Text("to \(message.toUUID ?? "")").onTapGesture {
+                                    navigator.pushToView(view: ChatView(supportInfo: MessageModel(message: "", fromUUID: "asdasd", toUUID: "asd", fromName: "asd")))
+                                }
                                 
                                 CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
                                     if let fromUUID = message.fromUUID, let toUUID = message.toUUID, let fromName = message.nameFormat?.text {
