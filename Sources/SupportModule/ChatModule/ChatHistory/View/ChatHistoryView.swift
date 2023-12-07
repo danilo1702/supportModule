@@ -8,7 +8,7 @@
 import SwiftUI
 import FirebaseAuth
 
-struct ChatHistoryView: View {
+struct ChatHistoryView: AppNavigator {
     @State var goToChat: Bool = false
     
     @StateObject var viewModel = ChatHistoryViewModel()
@@ -37,17 +37,26 @@ struct ChatHistoryView: View {
         
     }
     
+    
     @ViewBuilder
     func showMessages(_ message: CardModel) -> some View {
         if let fromUUID = message.fromUUID, let toUUID = message.toUUID, let fromName = message.nameFormat?.text {
             
-            NavigationLink(isActive: $goToChat) {
-                ChatView(supportInfo: MessageModel(message: "", fromUUID: fromUUID, toUUID: toUUID, fromName: fromName))
-            } label: {
-                CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
-                    goToChat.toggle()
-                }
+            CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
+                goToChat.toggle()
             }
+            if goToChat {
+                let _ =  navigator.pushToView(view: ChatView(supportInfo: MessageModel(message: "", fromUUID: fromUUID, toUUID: toUUID, fromName: fromName)))
+                
+            }
+            
+//            NavigationLink(isActive: $goToChat) {
+//                ChatView(supportInfo: MessageModel(message: "", fromUUID: fromUUID, toUUID: toUUID, fromName: fromName))
+//            } label: {
+//                CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
+//                    goToChat.toggle()
+//                }
+//            }
         }
     }
 }

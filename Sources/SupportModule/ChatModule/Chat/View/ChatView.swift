@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public struct ChatView: View {
+public struct ChatView: AppNavigator {
     
     @StateObject var viewModel: ChatViewModel
     var scrollBottom = "scrollBottom"
