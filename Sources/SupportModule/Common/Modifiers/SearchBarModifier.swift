@@ -44,12 +44,16 @@ public struct SearchBarModifier: ViewModifier {
                         
                         Spacer()
                     }
-                    TextField(CommonStrings.emptyString, text: $textSearch).padding(EdgeInsets(top: 8, leading: 33, bottom: 8, trailing: 5))
-                    if !textSearch.isEmpty {
-                        Button(action: { completion() }, label: {
-                            Text("Buscar")
-                        })
+                    HStack {
+                        TextField(CommonStrings.emptyString, text: $textSearch).padding(EdgeInsets(top: 8, leading: 33, bottom: 8, trailing: 5))
+                        if !textSearch.isEmpty {
+                            Button(action: { completion() }, label: {
+                                Text("Buscar")
+                            })
+                        }
                     }
+                    
+                    
                 }
                 .background(
                     RoundedRectangle(cornerRadius: 15)
