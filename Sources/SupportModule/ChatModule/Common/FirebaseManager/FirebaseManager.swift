@@ -10,7 +10,7 @@ import FirebaseCore
 import FirebaseAuth
 import FirebaseFirestore
 
-public class FirebaseManagerData: NSObject, ObservableObject {
+public class FirebaseManagerData: ObservableObject {
     
     @Published var dbAuth: Auth
     @Published var dbFirestore: Firestore
@@ -18,11 +18,11 @@ public class FirebaseManagerData: NSObject, ObservableObject {
     
     let initialization = FirebaseManagerData()
     
-    override init() {
+     init() {
     
         self.dbAuth = Auth.auth()
         self.dbFirestore = Firestore.firestore()
-        super.init()
+        
     }
 }
 
