@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SelectTypeConversationView: View {
+struct SelectTypeConversationView: AppNavigator {
     public var queryTypesModel: [QueryTypesModel]
     @State var supportId: MessageModel = MessageModel(message: "", fromUUID: "", toUUID: "", fromName: "")
     @StateObject var viewModel = StartConversationViewModel()
