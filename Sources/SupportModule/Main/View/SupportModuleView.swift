@@ -126,11 +126,16 @@ public struct SupportModuleView: View {
     @ViewBuilder
     func showListArticles() -> some View {
         
-        ScrollView(showsIndicators: false) {
-            ForEach(viewModel.articles, id: \.uniqueId) { article in
-                CardView(information: article) { }
+        if viewModel.articles.count > 0 {
+            ScrollView(showsIndicators: false) {
+                ForEach(viewModel.articles, id: \.uniqueId) { article in
+                    CardView(information: article) { }
+                }
             }
+        } else {
+            Text("No se encontraron resultados")
         }
+        
     }
     
     @ViewBuilder
