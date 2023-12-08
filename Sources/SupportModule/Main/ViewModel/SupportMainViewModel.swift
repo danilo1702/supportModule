@@ -181,7 +181,7 @@ public class SupportMainViewModel: ObservableObject {
     }
     
     func convertToCardModel(articlesHelp: [InformationCardApi]) {
-        
+        articles = []
         articlesHelp.forEach { information in
             self.articles.append(CardModel(id: information.id ?? "", image: ImageModel(image: information.image?.image ?? "", backgroundColor: Color(hex: information.image?.backgroundColor ?? "")), link: information.link, titleFormat: TextViewModel(text: information.titleFormat.text, foregroundColor: Color(hex: information.titleFormat.foregroundColor), font: Font.system(size: information.titleFormat.fontSize.parseToCGFloat()), expandable: information.titleFormat.expandable ?? false), dateFormat: TextViewModel(text: information.dateFormat?.text ?? "", foregroundColor: Color(hex: information.dateFormat?.foregroundColor ?? "#000000"), font: Font.system(size: information.dateFormat?.fontSize.parseToCGFloat() ?? 0), expandable: information.dateFormat?.expandable ?? false) , designCard: ComponentDesign(backgroundColor: Color(hex: information.designCard?.backgroundColor ?? "#DAF1F0"), cornerRaiuds: information.designCard?.cornerRaiuds?.parseToCGFloat() ?? 15), action: information.action ?? ""))
         }
