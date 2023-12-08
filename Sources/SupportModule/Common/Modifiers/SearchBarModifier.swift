@@ -15,6 +15,7 @@ public struct SearchBarModifier: ViewModifier {
     public var title: TextViewModel?
     public var completion: () -> ()
     @State var searching: Bool = false
+    @State var oldValue: String = ""
     
     public init(textSearch: Binding<String>, placeHolder: String, title: TextViewModel? = nil, completion: @escaping () -> ()) {
         self._textSearch = textSearch
@@ -48,10 +49,7 @@ public struct SearchBarModifier: ViewModifier {
                             }
                             
                             TextField(CommonStrings.emptyString, text: $textSearch).padding(EdgeInsets(top: 8, leading: 33, bottom: 8, trailing: 5))
-                            
-                            
-                            
-                            
+
                         }
                         .background(
                             RoundedRectangle(cornerRadius: 15)
@@ -71,7 +69,7 @@ public struct SearchBarModifier: ViewModifier {
                         }
                     }
                     .onChange(of: textSearch, perform: { value in
-                        if value.isEmpty {
+                        if value.isEmpty || oldValue != value{
                             searching = false
                         }
                     })
@@ -82,6 +80,8 @@ public struct SearchBarModifier: ViewModifier {
             }}
     }
     func actionButton() -> () {
+        oldValue = textSearch
+        
         if searching  {
             textSearch = ""
             searching.toggle()
