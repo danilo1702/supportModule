@@ -98,7 +98,7 @@ public class SupportMainViewModel: ObservableObject {
     }
     
     func getArticlesV2(completion: @escaping (Result<[InformationCardApi], Error>) -> ()) {
-        let reference = FirebaseManagerData.initialization.dbFirestore.collection("artic")
+        let reference = FirebaseManagerData.initialization.dbFirestore.collection(CommonStrings.ArticlesStringApi.articles)
         var arrayArticles: [InformationCardApi] = []
         articles = []
         reference.addSnapshotListener { querySnapshot, error in
