@@ -49,14 +49,14 @@ public struct SearchBarModifier: ViewModifier {
                             }
                             
                             TextField(CommonStrings.emptyString, text: $textSearch).padding(EdgeInsets(top: 8, leading: 33, bottom: 8, trailing: 5))
-
+                            
                         }
                         .background(
                             RoundedRectangle(cornerRadius: 15)
                                 .strokeBorder(.gray, lineWidth: 0.2)
                                 .background(.gray.opacity(0.2)))
                         .cornerRadius(CGFloat( 15.0))
-                        .padding()
+                        .padding(.init(top: 20, leading: 20, bottom: 20, trailing: textSearch.isEmpty ? 20 : 10))
                         .onTapGesture {
                             hidePlaceHolder = true
                         }
@@ -64,7 +64,8 @@ public struct SearchBarModifier: ViewModifier {
                             Button(action: {
                                 actionButton()
                             }, label: {
-                                Text( searching ? "Cancelar" : "Buscar").padding(.init(top: 20, leading: 0, bottom: 20, trailing: 10))
+                                Text( searching ? "Cancelar" : "Buscar")
+                                    .padding(.init(top: 20, leading: 0, bottom: 20, trailing: 10))
                             })
                         }
                     }
