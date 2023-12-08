@@ -64,7 +64,7 @@ public struct SearchBarModifier: ViewModifier {
                             Button(action: {
                                 actionButton()
                             }, label: {
-                                Text( searching ? "Cancelar" : "Buscar").padding()
+                                Text( searching ? "Cancelar" : "Buscar").padding(5)
                             })
                         }
                     }
