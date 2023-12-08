@@ -23,7 +23,7 @@ public struct SupportModuleView: View {
     @State public var showAlert: Bool = false
     @State public var newConversacion: Bool = false
     @State public var chatHistory: Bool = false
-    
+    @State public var loadingArticles: Bool = true
     @StateObject public var viewModel: SupportMainViewModel = SupportMainViewModel()
     
     public var arrayDemo =  MockInformation.cardListArray
@@ -105,15 +105,19 @@ public struct SupportModuleView: View {
         }
     }
     func gettingArticles()  {
+        
         textSearch.isEmpty ?
         viewModel.getArticlesV2 { result in
+            loadingArticles.toggle()
             switch result {
                 case .success(let success):
+                    
                     viewModel.convertToCardModel(articlesHelp: success)
                 case .failure(let error):
                     print("error getting Articles \(error)")
             }
         } : viewModel.searchArticle(text: textSearch) { result in
+            loadingArticles.toggle()
             switch result {
                 case .success(let articles) :
                     viewModel.convertToCardModel(articlesHelp: articles)
@@ -133,9 +137,12 @@ public struct SupportModuleView: View {
                 }
             }
         } else {
-            Text("No se encontraron resultados")
+            if loadingArticles {
+                ProgressView()
+            } else  {
+                Text("No se encontraron resultados")
+            }
         }
-        
     }
     
     @ViewBuilder

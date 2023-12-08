@@ -125,6 +125,7 @@ public class SupportMainViewModel: ObservableObject {
     
     func getArticlesV2(completion: @escaping (Result<[InformationCardApi], Error>) -> ()) {
         let reference = FirebaseManagerData.initialization.dbFirestore.collection(CommonStrings.ArticlesStringApi.articles)
+        
         self.arrayArticles = []
         articles = []
         reference.addSnapshotListener { querySnapshot, error in
@@ -138,8 +139,20 @@ public class SupportMainViewModel: ObservableObject {
             
             querySnapshot.documentChanges.forEach { documentChange in
                 do {
+                    
                     let article = try documentChange.document.data(as: InformationCardApi.self)
-                    self.arrayArticles.append(article)
+                    let position =  self.arrayArticles.firstIndex(where: {$0.id == article.id})
+        
+                    switch documentChange.type {
+                        case .modified:
+                            guard let position = position else { return }
+                                self.arrayArticles[position] = article
+                        case .added:
+                            self.arrayArticles.append(article)
+                        case .removed:
+                            guard let position = position else { return }
+                            self.arrayArticles.remove(at: position )
+                    }
                 }catch {
                     
                     completion(.failure(error))

@@ -12,22 +12,18 @@ struct StartConversationView: View {
     @State public var goToChat: Bool = false
     
     var body: some View {
-       
-            GeometryReader { geometry in
-                
+  
                 VStack {
                     HStack {
                         Text("Selecciona una categoria")
                         Spacer()
                     }
-                    showListQueries(geometry: geometry)
+                    showListQueries()
                 }.padding()
-            }
-        
     }
     
     @ViewBuilder
-    func showListQueries(geometry: GeometryProxy) -> some View {
+    func showListQueries() -> some View {
         ScrollView(showsIndicators: true) {
             ForEach(queryTypesModel) { query in
                 NavigationLink(
@@ -38,7 +34,7 @@ struct StartConversationView: View {
                     })
             }
         }
-        .frame(width: .infinity, height: geometry.size.height * 0.5 , alignment: .center)
+        .frame(width: .infinity, height: UIScreen.main.bounds.height * 0.5 , alignment: .center)
     }
 }
 
