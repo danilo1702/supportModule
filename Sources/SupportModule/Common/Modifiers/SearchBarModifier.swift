@@ -64,9 +64,7 @@ public struct SearchBarModifier: ViewModifier {
                         }
                         if !textSearch.isEmpty {
                             Button(action: {
-                                
                                 actionButton()
-                                
                             }, label: {
                                 Text( searching ? "Cancelar" : "Buscar").padding()
                             })
@@ -81,6 +79,7 @@ public struct SearchBarModifier: ViewModifier {
         if searching  {
             textSearch = ""
             searching.toggle()
+            completion()
         } else  {
             searching.toggle()
             completion()

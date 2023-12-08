@@ -75,14 +75,7 @@ public struct SupportModuleView: View {
                 navigationLinks()
             }
             .addSearchbar(textSearch: $textSearch, placeHolder: generalConfiguration.placeHolderSearchBar, title: generalConfiguration.titleModule, completion: {
-                viewModel.searchArticle(text: textSearch) { result in
-                    switch result {
-                        case .success(let articles) :
-                            viewModel.convertToCardModel(articlesHelp: articles)
-                        case .failure(let error):
-                            print("error")
-                    }
-                }
+                gettingArticles()
             })
             .onAppear{
                 viewModel.registerUserFirebase{ result in
@@ -96,14 +89,7 @@ public struct SupportModuleView: View {
                                                 DispatchQueue.main.async {
                                                     viewModel.getLastChats()
                                                     
-                                                    viewModel.getArticlesV2 { result in
-                                                        switch result {
-                                                            case .success(let success):
-                                                                viewModel.convertToCardModel(articlesHelp: success)
-                                                            case .failure(let error):
-                                                                print("error getting Articles \(error)")
-                                                        }
-                                                    }
+                                                    gettingArticles()
                                                 }
                                             }
                                         case .failure(let error):
@@ -115,6 +101,24 @@ public struct SupportModuleView: View {
                             print(failure)
                     }
                 }
+            }
+        }
+    }
+    func gettingArticles()  {
+        textSearch.isEmpty ?
+        viewModel.searchArticle(text: textSearch) { result in
+            switch result {
+                case .success(let articles) :
+                    viewModel.convertToCardModel(articlesHelp: articles)
+                case .failure(let error):
+                    print("error \(error)")
+            }
+        } : viewModel.getArticlesV2 { result in
+            switch result {
+                case .success(let success):
+                    viewModel.convertToCardModel(articlesHelp: success)
+                case .failure(let error):
+                    print("error getting Articles \(error)")
             }
         }
     }
