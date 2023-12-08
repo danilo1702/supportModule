@@ -14,6 +14,7 @@ public struct SearchBarModifier: ViewModifier {
     public var placeHolder: String
     public var title: TextViewModel?
     public var completion: () -> ()
+    @State var searching: Bool = false
     
     public init(textSearch: Binding<String>, placeHolder: String, title: TextViewModel? = nil, completion: @escaping () -> ()) {
         self._textSearch = textSearch
@@ -62,8 +63,12 @@ public struct SearchBarModifier: ViewModifier {
                             hidePlaceHolder = true
                         }
                         if !textSearch.isEmpty {
-                            Button(action: { completion() }, label: {
-                                Text("Buscar").padding()
+                            Button(action: {
+                                
+                                actionButton()
+                                
+                            }, label: {
+                                Text( searching ? "Cancelar" : "Buscar").padding()
                             })
                         }
                     }
@@ -71,6 +76,15 @@ public struct SearchBarModifier: ViewModifier {
                     content
                 }
             }}
+    }
+    func actionButton() -> () {
+        if searching  {
+            textSearch = ""
+            searching.toggle()
+        } else  {
+            searching.toggle()
+            completion()
+        }
     }
 }
 
