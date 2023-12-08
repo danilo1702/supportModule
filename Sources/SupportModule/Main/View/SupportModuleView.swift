@@ -89,7 +89,7 @@ public struct SupportModuleView: View {
                                                 DispatchQueue.main.async {
                                                     viewModel.getLastChats()
                                                     
-                                                    viewModel.getArticles { result in
+                                                    viewModel.getArticlesV2 { result in
                                                         switch result {
                                                             case .success(let success):
                                                                 viewModel.convertToCardModel(articlesHelp: success)

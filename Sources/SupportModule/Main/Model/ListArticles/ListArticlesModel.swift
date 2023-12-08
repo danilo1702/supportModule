@@ -10,7 +10,7 @@ import Foundation
 
 public struct InformationCardApi: Codable {
     
-    public let id: String
+    public let id: String?
     public let image: ImageModelApi?
     public let link: String?
     public let titleFormat: TextViewModelInfoApi
@@ -18,7 +18,7 @@ public struct InformationCardApi: Codable {
     public let designCard: ComponentDesignApi?
     public let action: String?
     
-    public init(id: String, image: ImageModelApi? = nil, link: String? = nil, titleFormat: TextViewModelInfoApi, dateFormat: TextViewModelInfoApi? = nil, designCard: ComponentDesignApi? = nil, action: String? = nil) {
+    public init(id: String? = nil, image: ImageModelApi? = nil, link: String? = nil, titleFormat: TextViewModelInfoApi, dateFormat: TextViewModelInfoApi? = nil, designCard: ComponentDesignApi? = nil, action: String? = nil) {
         self.id = id
         self.image = image
         self.link = link

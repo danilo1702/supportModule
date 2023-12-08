@@ -63,7 +63,7 @@ public struct SearchBarModifier: ViewModifier {
                         }
                         if !textSearch.isEmpty {
                             Button(action: { completion() }, label: {
-                                Text("Buscar")
+                                Text("Buscar").padding()
                             })
                         }
                     }
