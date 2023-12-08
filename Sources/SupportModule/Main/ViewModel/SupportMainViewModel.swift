@@ -18,6 +18,7 @@ public class SupportMainViewModel: ObservableObject {
     @Published public var articles: [CardModel] = []
     @Published public var recentMessage: [CardModel] = []
     var deviceInformation = InformationDevice()
+    var arrayArticles: [InformationCardApi] = []
     @Published public var supportInformation = MessageModel(message: "", fromUUID: "", toUUID: "", fromName: "")
     
     func registerUserFirebase(completion: @escaping(Result<Bool, Error>)-> ()) {
@@ -96,10 +97,35 @@ public class SupportMainViewModel: ObservableObject {
             
         }
     }
+    func searchArticle(text: String, completion: @escaping (Result<[InformationCardApi], Error>) -> ()) {
+        self.arrayArticles = []
+        let arrayText = text.components(separatedBy: " ")
+        let reference = FirebaseManagerData.initialization.dbFirestore.collection(CommonStrings.ArticlesStringApi.articles)
+        
+        reference.whereField(CommonStrings.ArticlesStringApi.keyWords, arrayContainsAny: arrayText).getDocuments { [weak self] query, error in
+            guard let self = self, let query = query , error == nil else {
+                completion(.failure(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey : CommonStrings.Errors.errorGettingData])))
+                return
+            }
+            
+            query.documents.forEach { query in
+                do {
+                    let article = try query.data(as: InformationCardApi.self)
+                    self.arrayArticles.append(article)
+                    
+                } catch {
+                    #if DEBUG
+                    print("Error getting articles searched \(String(describing: error))")
+                    #endif
+                }
+            }
+            completion(.success(self.arrayArticles))
+        }
+    }
     
     func getArticlesV2(completion: @escaping (Result<[InformationCardApi], Error>) -> ()) {
         let reference = FirebaseManagerData.initialization.dbFirestore.collection(CommonStrings.ArticlesStringApi.articles)
-        var arrayArticles: [InformationCardApi] = []
+        self.arrayArticles = []
         articles = []
         reference.addSnapshotListener { querySnapshot, error in
             guard let querySnapshot = querySnapshot , error == nil else {
@@ -113,7 +139,7 @@ public class SupportMainViewModel: ObservableObject {
             querySnapshot.documentChanges.forEach { documentChange in
                 do {
                     let article = try documentChange.document.data(as: InformationCardApi.self)
-                    arrayArticles.append(article)
+                    self.arrayArticles.append(article)
                 }catch {
                     
                     completion(.failure(error))
@@ -122,7 +148,7 @@ public class SupportMainViewModel: ObservableObject {
 #endif
                 }
             }
-            completion(.success(arrayArticles))
+            completion(.success(self.arrayArticles))
         }
     }
     

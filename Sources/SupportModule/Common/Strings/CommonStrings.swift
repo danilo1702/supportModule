@@ -36,6 +36,7 @@ public struct CommonStrings {
         public static let information = "information"
         public static let articles = "articles"
         public static let help = "help"
+        public static let keyWords = "keyWords"
     }
     public struct Errors {
         public static let routNoExist =  "La ruta no existe"

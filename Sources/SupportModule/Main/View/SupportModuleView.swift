@@ -75,7 +75,14 @@ public struct SupportModuleView: View {
                 navigationLinks()
             }
             .addSearchbar(textSearch: $textSearch, placeHolder: generalConfiguration.placeHolderSearchBar, title: generalConfiguration.titleModule, completion: {
-                    print("Hey search \(textSearch)")
+                viewModel.searchArticle(text: textSearch) { result in
+                    switch result {
+                        case .success(let articles) :
+                            viewModel.convertToCardModel(articlesHelp: articles)
+                        case .failure(let error):
+                            print("error")
+                    }
+                }
             })
             .onAppear{
                 viewModel.registerUserFirebase{ result in
