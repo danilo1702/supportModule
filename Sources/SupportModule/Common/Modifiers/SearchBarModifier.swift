@@ -72,7 +72,7 @@ public struct SearchBarModifier: ViewModifier {
                     }
                     .onChange(of: textSearch, perform: { value in
                         if value.isEmpty {
-                            searching.toggle()
+                            searching = false
                         }
                     })
                     
