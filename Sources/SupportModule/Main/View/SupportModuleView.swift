@@ -105,20 +105,20 @@ public struct SupportModuleView: View {
         }
     }
     func gettingArticles()  {
-        !textSearch.isEmpty ?
-        viewModel.searchArticle(text: textSearch) { result in
-            switch result {
-                case .success(let articles) :
-                    viewModel.convertToCardModel(articlesHelp: articles)
-                case .failure(let error):
-                    print("error \(error)")
-            }
-        } : viewModel.getArticlesV2 { result in
+        textSearch.isEmpty ?
+        viewModel.getArticlesV2 { result in
             switch result {
                 case .success(let success):
                     viewModel.convertToCardModel(articlesHelp: success)
                 case .failure(let error):
                     print("error getting Articles \(error)")
+            }
+        } : viewModel.searchArticle(text: textSearch) { result in
+            switch result {
+                case .success(let articles) :
+                    viewModel.convertToCardModel(articlesHelp: articles)
+                case .failure(let error):
+                    print("error \(error)")
             }
         }
     }
