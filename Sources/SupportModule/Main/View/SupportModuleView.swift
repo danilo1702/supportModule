@@ -105,7 +105,7 @@ public struct SupportModuleView: View {
         }
     }
     func gettingArticles()  {
-        textSearch.isEmpty ?
+        !textSearch.isEmpty ?
         viewModel.searchArticle(text: textSearch) { result in
             switch result {
                 case .success(let articles) :
