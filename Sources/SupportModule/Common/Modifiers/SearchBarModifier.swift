@@ -62,7 +62,10 @@ public struct SearchBarModifier: ViewModifier {
                         }
                         if !textSearch.isEmpty {
                             Button(action: {
-                                actionButton()
+                                withAnimation(.smooth) {
+                                    actionButton()
+                                }
+                               
                             }, label: {
                                 Text( searching ? "Cancelar" : "Buscar")
                                     .padding(.init(top: 20, leading: 0, bottom: 20, trailing: 10))
