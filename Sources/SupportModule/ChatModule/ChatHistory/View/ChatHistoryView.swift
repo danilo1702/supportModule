@@ -18,7 +18,10 @@ struct ChatHistoryView: View {
                     VStack {
                         ForEach(viewModel.historyMessages, id: \.uniqueId) { message in
                             VStack{
-                                showMessages(message)
+                                CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
+                                    let toUUID = (message.toUUID ?? "" ==  Auth.auth().currentUser?.uid ? message.fromUUID ?? "" : message.toUUID ?? "")
+                                    NavigationLink("", destination: ChatView(toUUID:  toUUID))
+                                }
                             }
                         }
                     }
@@ -36,6 +39,7 @@ struct ChatHistoryView: View {
         let toUUID = (message.toUUID ?? "" ==  Auth.auth().currentUser?.uid ? message.fromUUID ?? "" : message.toUUID ?? "")
         print("TO UUID \(toUUID)" )
         print("message: \(message.titleFormat.text)")
+        
         return     NavigationLink(isActive: $goToChat) {
                 ChatView(toUUID:  toUUID)
             } label: {
