@@ -22,7 +22,7 @@ public class ChatHistoryViewModel: ObservableObject {
             .collection(FirebaseConstants.messages)
             
         
-        reference.getDocuments { [weak self] querySnapshot, error in
+        reference.addSnapshotListener { [weak self] querySnapshot, error in
             guard let self = self , let querySnapshot = querySnapshot, error == nil else { return }
             
             
