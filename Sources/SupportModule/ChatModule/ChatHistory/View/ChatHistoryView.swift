@@ -12,6 +12,7 @@ struct ChatHistoryView: View {
     
     @State var goToChat: Bool = false
     @StateObject var viewModel = ChatHistoryViewModel()
+    @State var toUUID: String = ""
     
     var body: some View {
                 ScrollView{
@@ -19,13 +20,18 @@ struct ChatHistoryView: View {
                         ForEach(viewModel.historyMessages, id: \.uniqueId) { message in
                             VStack{
                                 CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
-                                    let toUUID = (message.toUUID ?? "" ==  Auth.auth().currentUser?.uid ? message.fromUUID ?? "" : message.toUUID ?? "")
+                                    toUUID =  (message.toUUID ?? "" ==  Auth.auth().currentUser?.uid ? message.fromUUID ?? "" : message.toUUID ?? "")
+                                    goToChat.toggle()
                                     
                                 }
                             }
                         }
                     }
-                    NavigationLink("Hola", destination: ChatView(toUUID:  "toUUID"))
+                    NavigationLink(isActive: $goToChat, destination: {
+                        ChatView(toUUID: toUUID)
+                    }, label: {
+                        EmptyView()
+                    })
                     .task(priority: .background, {
                         DispatchQueue.main.async {
                             viewModel.gettingChatHistory()
