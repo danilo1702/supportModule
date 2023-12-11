@@ -45,7 +45,12 @@ public class ChatHistoryViewModel: ObservableObject {
                     }
                 }
             }
-            print(self.historyMessages)
+            historyMessages.forEach { card in
+                print("mensaje> \(card.titleFormat.text)")
+                print("id> \(card.id)")
+                print("from UUID \(String(describing: card.fromUUID))")
+                print("TO uuid:> \(String(describing: card.toUUID))")
+            }
         }
     }
     
