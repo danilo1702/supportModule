@@ -22,11 +22,12 @@ struct ChatHistoryView: View {
                             }
                         }
                     }
-                    .onAppear{
+                    .task(priority: .background, {
                         DispatchQueue.main.async {
                             viewModel.gettingChatHistory()
                         }
-                    }
+                    })
+                    
             }
     }
     
