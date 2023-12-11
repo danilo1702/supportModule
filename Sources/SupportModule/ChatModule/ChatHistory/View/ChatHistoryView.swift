@@ -20,11 +20,12 @@ struct ChatHistoryView: View {
                             VStack{
                                 CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
                                     let toUUID = (message.toUUID ?? "" ==  Auth.auth().currentUser?.uid ? message.fromUUID ?? "" : message.toUUID ?? "")
-                                    NavigationLink("", destination: ChatView(toUUID:  toUUID))
+                                    
                                 }
                             }
                         }
                     }
+                    NavigationLink("Hola", destination: ChatView(toUUID:  "toUUID"))
                     .task(priority: .background, {
                         DispatchQueue.main.async {
                             viewModel.gettingChatHistory()
