@@ -39,7 +39,7 @@ public class ChatHistoryViewModel: ObservableObject {
                     self.historyMessages.remove(at: index)
                 }
                 if change.type == .added || change.type == .modified {
-                    self.historyMessages.insert(message, at: 0)
+                    self.historyMessages.append(message)
                 } else if change.type == .removed {
                     if let index = self.historyMessages.firstIndex(where: { $0.id ==  documentID }) {
                         self.historyMessages.remove(at: index)
