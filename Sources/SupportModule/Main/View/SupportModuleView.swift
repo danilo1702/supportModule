@@ -102,7 +102,7 @@ public struct SupportModuleView: View {
                     }
                 }
             }
-            .task(priority: .background, {
+            .task(priority: .userInitiated, {
                 
                 if loginSuccess {
                     DispatchQueue.main.async {
