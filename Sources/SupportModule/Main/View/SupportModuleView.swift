@@ -24,7 +24,7 @@ public struct SupportModuleView: View {
     @State public var newConversacion: Bool = false
     @State public var chatHistory: Bool = false
     @State public var loadingArticles: Bool = true
-    @State public var loginSuccess: Bool = false
+    @State public var loginSuccess: CardModel = CardModel(id: "", titleFormat: TextViewModel(text: ""))
     @StateObject public var viewModel: SupportMainViewModel = SupportMainViewModel()
     
     public var arrayDemo =  MockInformation.cardListArray
@@ -52,8 +52,11 @@ public struct SupportModuleView: View {
                             
                         }.padding(19)
                         
-                        CardView(information: viewModel.recentMessage[0], activeNavigation: $navigationChat, view: CardRecentMessageView(information: viewModel.recentMessage[0]).toAnyView()) {}
-                            .padding(.horizontal)
+                        CardView(information: loginSuccess, activeNavigation: $navigationChat, view: CardRecentMessageView(information: loginSuccess).toAnyView()) {
+                            
+                        }
+//                        CardView(information: viewModel.recentMessage[0], activeNavigation: $navigationChat, view: CardRecentMessageView(information: viewModel.recentMessage[0]).toAnyView()) {}
+//                            .padding(.horizontal)
                         
                     }
                 //}
@@ -88,7 +91,13 @@ public struct SupportModuleView: View {
                                         case .success((let status, let user)):
                                             if status {
                                                 DispatchQueue.main.async {
-                                                    viewModel.getLastChats()
+                                                    viewModel.getLastChats { result in
+                                                        switch result {
+                                                            case .success(let success):
+                                                                loginSuccess = success[0]
+                                                            
+                                                        }
+                                                    }
                                                     
                                                     gettingArticles()
                                                 }
