@@ -22,15 +22,15 @@ public class ChatHistoryViewModel: ObservableObject {
             .collection(FirebaseConstants.messages)
         
         
-        reference.addSnapshotListener { [weak self] querySnapshot, error in
+        reference.getDocuments { [weak self] querySnapshot, error in
             guard let self = self , let querySnapshot = querySnapshot, error == nil else { return }
             
             
-            querySnapshot.documentChanges.forEach {  change in
+            querySnapshot.documents.forEach {  change in
                 
-                guard  let messageModel = try? change.document.data(as: MessageModel.self) else { return }
+                guard  let messageModel = try? change.data(as: MessageModel.self) else { return }
                 
-                let documentID = change.document.documentID
+                //let documentID = change.document.documentID
                 
                 let message = self.converToCardModel(message: messageModel, userUUID: uuid)
                 
