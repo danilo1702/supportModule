@@ -34,6 +34,7 @@ public class ChatHistoryViewModel: ObservableObject {
                 
                 let message = self.converToCardModel(message: messageModel, userUUID: uuid)
                 
+                print("CARD MODEL: \(message)")
                 
                 if let index = self.historyMessages.firstIndex(where: { $0.id == documentID}) {
                     self.historyMessages.remove(at: index)
