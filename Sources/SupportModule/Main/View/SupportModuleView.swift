@@ -24,7 +24,6 @@ public struct SupportModuleView: View {
     @State public var newConversacion: Bool = false
     @State public var chatHistory: Bool = false
     @State public var loadingArticles: Bool = true
-    @State public var loginSuccess: CardModel = CardModel(id: "", titleFormat: TextViewModel(text: ""))
     @StateObject public var viewModel: SupportMainViewModel = SupportMainViewModel()
     
     public var arrayDemo =  MockInformation.cardListArray
@@ -40,7 +39,7 @@ public struct SupportModuleView: View {
                     .padding(.horizontal)
                     .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.4, alignment: .center)
                 
-                //if viewModel.recentMessage.count > 0 {
+                if viewModel.recentMessage.count > 0 {
                     VStack {
                         HStack{
                             TextView(informationModel: generalConfiguration.titleLastChat)
@@ -52,14 +51,11 @@ public struct SupportModuleView: View {
                             
                         }.padding(19)
                         
-//                        CardView(information: loginSuccess, activeNavigation: $navigationChat, view: CardRecentMessageView(information: loginSuccess).toAnyView()) {
-//                            
-//                        }
-//                        CardView(information: viewModel.recentMessage[0], activeNavigation: $navigationChat, view: CardRecentMessageView(information: viewModel.recentMessage[0]).toAnyView()) {}
-//                            .padding(.horizontal)
+                        CardView(information: viewModel.recentMessage[0], activeNavigation: $navigationChat, view: CardRecentMessageView(information: viewModel.recentMessage[0]).toAnyView()) {}
+                            .padding(.horizontal)
                         
                     }
-                //}
+                }
                 Spacer()
                 ButtonView(informationButton:ButtonModel(designButton: ComponentDesign(backgroundColor: .blue, cornerRaiuds: 15), title: TextViewModel(text: "Agendar turno", foregroundColor: .white, font: .system(size: 14), expandable: false)) ) {
                     showAlert.toggle()
@@ -91,6 +87,8 @@ public struct SupportModuleView: View {
                                         case .success((let status, let user)):
                                             if status {
                                                 DispatchQueue.main.async {
+                                                    viewModel.getLastChats()
+                                                    
                                                     gettingArticles()
                                                 }
                                             }
@@ -103,10 +101,6 @@ public struct SupportModuleView: View {
                             print(failure)
                     }
                 }
-                DispatchQueue.main.async {
-                    viewModel.getLastChats()
-                }
-                
             }
         }
     }
@@ -154,7 +148,7 @@ public struct SupportModuleView: View {
     @ViewBuilder
     func navigationLinks() -> some View{
 //        let toUUID = (viewModel.recentMessage.count > 0 ? viewModel.recentMessage[0].toUUID ?? "" ==  Auth.auth().currentUser?.uid ? viewModel.recentMessage[0].fromUUID ?? "" : viewModel.recentMessage[0].toUUID ?? "" : "")
-//        
+        
         VStack {
             NavigationLink(
                 destination: ChatView(toUUID: "toUUID"),
