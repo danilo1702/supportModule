@@ -22,7 +22,7 @@ public class ChatHistoryViewModel: ObservableObject {
             .collection(FirebaseConstants.messages)
         
         
-        reference.getDocuments { [weak self] querySnapshot, error in
+        reference.addSnapshotListener { [weak self] querySnapshot, error in
             guard let self = self , let querySnapshot = querySnapshot, error == nil else { return }
             
             
@@ -39,7 +39,7 @@ public class ChatHistoryViewModel: ObservableObject {
                     self.historyMessages.remove(at: index)
                 }
                 if change.type == .added || change.type == .modified {
-                    self.historyMessages.append(message)
+                    self.historyMessages.insert(message, at: 0)
                 } else if change.type == .removed {
                     if let index = self.historyMessages.firstIndex(where: { $0.id ==  documentID }) {
                         self.historyMessages.remove(at: index)

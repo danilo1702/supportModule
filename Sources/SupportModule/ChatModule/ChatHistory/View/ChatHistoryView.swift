@@ -15,31 +15,30 @@ struct ChatHistoryView: View {
     @State var toUUID: String = ""
     
     var body: some View {
-        ScrollView{
-            VStack {
-                ForEach(viewModel.historyMessages, id: \.uniqueId) { message in
-                    VStack{
-                        NavigationLink {
-                            ChatView(toUUID: (message.toUUID ?? "" ==  Auth.auth().currentUser?.uid ? message.fromUUID ?? "" : message.toUUID ?? ""))
-                        } label: {
-                            Text("\(message.titleFormat.text)")
-//                            CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {}
+                ScrollView{
+                    VStack {
+                        ForEach(viewModel.historyMessages, id: \.uniqueId) { message in
+                            VStack{
+                                CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
+                                    toUUID =  (message.toUUID ?? "" ==  Auth.auth().currentUser?.uid ? message.fromUUID ?? "" : message.toUUID ?? "")
+                                    goToChat.toggle()
+                                    
+                                }
+                            }
                         }
                     }
-                }
+                    NavigationLink(isActive: $goToChat, destination: {
+                        ChatView(toUUID: toUUID)
+                    }, label: {
+                        EmptyView()
+                    })
+                    .task(priority: .low, {
+                        DispatchQueue.main.async {
+                            viewModel.gettingChatHistory()
+                        }
+                    })
+                    
             }
-//            NavigationLink(isActive: $goToChat, destination: {
-//                ChatView(toUUID: toUUID)
-//            }, label: {
-//                EmptyView()
-//            })
-            .task(priority: .background, {
-                DispatchQueue.main.async {
-                    viewModel.gettingChatHistory()
-                }
-            })
-            
-        }
     }
 }
 
