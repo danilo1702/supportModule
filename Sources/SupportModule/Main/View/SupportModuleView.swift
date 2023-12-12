@@ -91,14 +91,6 @@ public struct SupportModuleView: View {
                                         case .success((let status, let user)):
                                             if status {
                                                 DispatchQueue.main.async {
-                                                    viewModel.getLastChats { result in
-                                                        switch result {
-                                                            case .success(let success):
-                                                                loginSuccess = success[0]
-                                                            
-                                                        }
-                                                    }
-                                                    
                                                     gettingArticles()
                                                 }
                                             }
@@ -109,6 +101,13 @@ public struct SupportModuleView: View {
                             }
                         case .failure(let failure):
                             print(failure)
+                    }
+                }
+                viewModel.getLastChats { result in
+                    switch result {
+                        case .success(let success):
+                            print("\(success)")
+                        
                     }
                 }
             }
