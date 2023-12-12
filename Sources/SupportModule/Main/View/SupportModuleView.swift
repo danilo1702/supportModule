@@ -54,7 +54,7 @@ public struct SupportModuleView: View {
                         
                         CardView(information: viewModel.recentMessage[0], activeNavigation: $navigationChat, view: CardRecentMessageView(information: viewModel.recentMessage[0]).toAnyView()) {
                             toUUID = (viewModel.recentMessage.count > 0 ? viewModel.recentMessage[0].toUUID ?? "" ==  Auth.auth().currentUser?.uid ? viewModel.recentMessage[0].fromUUID ?? "" : viewModel.recentMessage[0].toUUID ?? "" : "")
-                            newConversacion.toggle()
+                            navigationChat.toggle()
                         }
                             .padding(.horizontal)
                         
@@ -151,8 +151,6 @@ public struct SupportModuleView: View {
     
     @ViewBuilder
     func navigationLinks() -> some View{
-//        let toUUID = (viewModel.recentMessage.count > 0 ? viewModel.recentMessage[0].toUUID ?? "" ==  Auth.auth().currentUser?.uid ? viewModel.recentMessage[0].fromUUID ?? "" : viewModel.recentMessage[0].toUUID ?? "" : "")
-        
         VStack {
             NavigationLink(
                 destination: ChatView(toUUID: toUUID),
