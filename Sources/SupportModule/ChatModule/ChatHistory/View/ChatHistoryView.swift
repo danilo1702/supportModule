@@ -15,7 +15,7 @@ struct ChatHistoryView: View {
     @State var toUUID: String = ""
     
     var body: some View {
-                NavigationView {
+                NavigationView{
                     ScrollView{
                         VStack {
                             ForEach(viewModel.historyMessages, id: \.uniqueId) { message in
