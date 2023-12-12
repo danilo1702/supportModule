@@ -22,7 +22,8 @@ struct ChatHistoryView: View {
                         NavigationLink {
                             ChatView(toUUID: (message.toUUID ?? "" ==  Auth.auth().currentUser?.uid ? message.fromUUID ?? "" : message.toUUID ?? ""))
                         } label: {
-                            CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {}
+                            Text("\(message.titleFormat.text)")
+//                            CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {}
                         }
                     }
                 }
