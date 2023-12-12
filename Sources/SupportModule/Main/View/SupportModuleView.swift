@@ -78,14 +78,6 @@ public struct SupportModuleView: View {
             .addSearchbar(textSearch: $textSearch, placeHolder: generalConfiguration.placeHolderSearchBar, title: generalConfiguration.titleModule, completion: {
                 gettingArticles()
             })
-            .task(priority: .background, {
-                if loginSuccess {
-                    DispatchQueue.main.async {
-                        self.viewModel.getLastChats()
-                    }
-                   
-                }
-            })
             .onAppear{
                 viewModel.registerUserFirebase{ result in
                     switch result {
@@ -110,6 +102,14 @@ public struct SupportModuleView: View {
                     }
                 }
             }
+            .task(priority: .background, {
+                
+                if loginSuccess {
+                    DispatchQueue.main.async {
+                        self.viewModel.getLastChats()
+                    }
+                }
+            })
         }
     }
     func gettingArticles()  {
