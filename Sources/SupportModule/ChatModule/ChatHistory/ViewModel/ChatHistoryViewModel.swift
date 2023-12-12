@@ -32,18 +32,18 @@ public class ChatHistoryViewModel: ObservableObject {
                   
                 let documentID = change.document.documentID
 
-                let message = self.converToCardModel(message: messageModel, userUUID: uuid)
+                //let message = self.converToCardModel(message: messageModel, userUUID: uuid)
                
-                if let index = self.historyMessages.firstIndex(where: { $0.id == documentID}) {
-                    self.historyMessages.remove(at: index)
-                }
-                if change.type == .added || change.type == .modified {
-                    self.historyMessages.insert(message, at: 0)
-                } else if change.type == .removed {
-                    if let index = self.historyMessages.firstIndex(where: { $0.id ==  documentID }) {
-                        self.historyMessages.remove(at: index)
-                    }
-                }
+//                if let index = self.historyMessages.firstIndex(where: { $0.id == documentID}) {
+//                    self.historyMessages.remove(at: index)
+//                }
+//                if change.type == .added || change.type == .modified {
+//                    self.historyMessages.insert(message, at: 0)
+//                } else if change.type == .removed {
+//                    if let index = self.historyMessages.firstIndex(where: { $0.id ==  documentID }) {
+//                        self.historyMessages.remove(at: index)
+//                    }
+//                }
             }
         }
     }
