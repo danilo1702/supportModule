@@ -45,10 +45,12 @@ public struct SupportModuleView: View {
                             TextView(informationModel: generalConfiguration.titleLastChat)
                                 .shadow(radius: 7)
                             Spacer()
-                            Button(action: {chatHistory.toggle()}, label: {
-                                Text("Historial")
-                            })
-                            
+//                            Button(action: {chatHistory.toggle()}, label: {
+//                                Text("Historial")
+//                            })
+                            NavigationLink("Historial") {
+                                ChatHistoryView()
+                            }
                         }.padding(19)
                         
                         CardView(information: viewModel.recentMessage[0], activeNavigation: $navigationChat, view: CardRecentMessageView(information: viewModel.recentMessage[0]).toAnyView()) {}
@@ -162,12 +164,12 @@ public struct SupportModuleView: View {
                 label: {
                     EmptyView()
                 })
-            NavigationLink(
-                destination: ChatHistoryView(),
-                isActive: $chatHistory,
-                label: {
-                    EmptyView()
-                })
+//            NavigationLink(
+//                destination: ChatHistoryView(),
+//                isActive: $chatHistory,
+//                label: {
+//                    EmptyView()
+//                })
         }
     }
 }
