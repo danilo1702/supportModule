@@ -29,22 +29,22 @@ public class ChatHistoryViewModel: ObservableObject {
             querySnapshot.documentChanges.forEach {  change in
                 
                 guard  let messageModel = try? change.document.data(as: MessageModel.self) else { return }
-                  
+                
                 let documentID = change.document.documentID
-
+                
                 let message = self.converToCardModel(message: messageModel, userUUID: uuid)
                 
-                DispatchQueue.global().async {
-                    if let index = self.historyMessages.firstIndex(where: { $0.id == documentID}) {
+                DispatchQueue.main.async {
+                if let index = self.historyMessages.firstIndex(where: { $0.id == documentID}) {
+                    self.historyMessages.remove(at: index)
+                }
+                if change.type == .added || change.type == .modified {
+                    self.historyMessages.insert(message, at: 0)
+                } else if change.type == .removed {
+                    if let index = self.historyMessages.firstIndex(where: { $0.id ==  documentID }) {
                         self.historyMessages.remove(at: index)
                     }
-                    if change.type == .added || change.type == .modified {
-                        self.historyMessages.insert(message, at: 0)
-                    } else if change.type == .removed {
-                        if let index = self.historyMessages.firstIndex(where: { $0.id ==  documentID }) {
-                            self.historyMessages.remove(at: index)
-                        }
-                    }
+                }
                 }
             }
         }
