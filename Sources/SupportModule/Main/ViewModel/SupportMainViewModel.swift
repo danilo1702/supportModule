@@ -68,9 +68,9 @@ public class SupportMainViewModel: ObservableObject {
             querySnapshot.documentChanges.forEach { change in
                 
                 let documentId = change.document.documentID
-                if let index = self.recentMessage.firstIndex(where: { $0.id == documentId}) {
-                    self.recentMessage.remove(at: index)
-                }
+//                if let index = self.recentMessage.firstIndex(where: { $0.id == documentId}) {
+//                    self.recentMessage.remove(at: index)
+//                }
                 if let message = try? change.document.data(as: MessageModel.self) {
                     
                     self.supportInformation = MessageModel(message: message.message, fromUUID: message.fromUUID, toUUID: message.toUUID,timestamp: message.timestamp, fromName: message.fromName)

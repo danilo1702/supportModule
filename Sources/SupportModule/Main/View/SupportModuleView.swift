@@ -88,7 +88,8 @@ public struct SupportModuleView: View {
                                         case .success((let status, let user)):
                                             if status {
                                                 DispatchQueue.main.async {
-                                                    loginSuccess = true
+                                                    viewModel.getLastChats()
+                                                    
                                                     gettingArticles()
                                                 }
                                             }
@@ -102,14 +103,6 @@ public struct SupportModuleView: View {
                     }
                 }
             }
-            .task(priority: .userInitiated, {
-                
-                if loginSuccess {
-                    DispatchQueue.main.async {
-                        self.viewModel.getLastChats()
-                    }
-                }
-            })
         }
     }
     func gettingArticles()  {
