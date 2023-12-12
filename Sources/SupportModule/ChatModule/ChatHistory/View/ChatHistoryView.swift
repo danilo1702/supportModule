@@ -32,11 +32,11 @@ struct ChatHistoryView: View {
                     }, label: {
                         EmptyView()
                     })
-                    .task(priority: .low, {
+                    .onAppear {
                         DispatchQueue.main.async {
                             viewModel.gettingChatHistory()
                         }
-                    })
+                    }
                     
             }
     }

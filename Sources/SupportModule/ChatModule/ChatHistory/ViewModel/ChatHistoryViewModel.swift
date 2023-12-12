@@ -35,9 +35,9 @@ public class ChatHistoryViewModel: ObservableObject {
                 let message = self.converToCardModel(message: messageModel, userUUID: uuid)
                 
                 
-//                if let index = self.historyMessages.firstIndex(where: { $0.id == documentID}) {
-//                    self.historyMessages.remove(at: index)
-//                }
+                if let index = self.historyMessages.firstIndex(where: { $0.id == documentID}) {
+                    self.historyMessages.remove(at: index)
+                }
                 if change.type == .added || change.type == .modified {
                     self.historyMessages.insert(message, at: 0)
                 } else if change.type == .removed {
@@ -50,6 +50,7 @@ public class ChatHistoryViewModel: ObservableObject {
         }
     }
     
+
     func converToCardModel(message: MessageModel, userUUID: String) -> CardModel  {
         
         CardModel(id: message.id ?? "1", titleFormat: TextViewModel(text: message.message, foregroundColor: .black, font: .system(size: 14), expandable: false), dateFormat: TextViewModel(text: "\(String(describing: message.timestamp!.dateValue().formatted(date: .numeric, time: .shortened)))", foregroundColor: .gray, font: .system(size: 11),  expandable: false), nameFormat:  TextViewModel(text: userUUID == message.fromUUID ? "Tú:" : message.fromName, foregroundColor: .black, font: .system(size: 13, weight: .bold), expandable: false), designCard: ComponentDesign(backgroundColor: .gray.opacity(0.1), cornerRaiuds: 15),fromUUID: message.fromUUID ,toUUID: message.toUUID, action: "chat")
