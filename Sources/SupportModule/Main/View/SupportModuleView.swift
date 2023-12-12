@@ -150,12 +150,12 @@ public struct SupportModuleView: View {
 //        let toUUID = (viewModel.recentMessage.count > 0 ? viewModel.recentMessage[0].toUUID ?? "" ==  Auth.auth().currentUser?.uid ? viewModel.recentMessage[0].fromUUID ?? "" : viewModel.recentMessage[0].toUUID ?? "" : "")
         
         VStack {
-            NavigationLink(
-                destination: ChatView(toUUID: viewModel.toUUID),
-                isActive: $navigationChat,
-                label: {
-                    EmptyView()
-                })
+//            NavigationLink(
+//                destination: ChatView(toUUID: viewModel.toUUID),
+//                isActive: $navigationChat,
+//                label: {
+//                    EmptyView()
+//                })
             NavigationLink(
                 destination: SelectTypeConversationView(queryTypesModel: MockInformation.queryTypesModelArray),
                 isActive: $newConversacion,
