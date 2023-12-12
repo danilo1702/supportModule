@@ -52,9 +52,9 @@ public struct SupportModuleView: View {
                             
                         }.padding(19)
                         
-                        CardView(information: loginSuccess, activeNavigation: $navigationChat, view: CardRecentMessageView(information: loginSuccess).toAnyView()) {
-                            
-                        }
+//                        CardView(information: loginSuccess, activeNavigation: $navigationChat, view: CardRecentMessageView(information: loginSuccess).toAnyView()) {
+//                            
+//                        }
 //                        CardView(information: viewModel.recentMessage[0], activeNavigation: $navigationChat, view: CardRecentMessageView(information: viewModel.recentMessage[0]).toAnyView()) {}
 //                            .padding(.horizontal)
                         
