@@ -24,6 +24,7 @@ public struct SupportModuleView: View {
     @State public var newConversacion: Bool = false
     @State public var chatHistory: Bool = false
     @State public var loadingArticles: Bool = true
+    @State public var toUUID: String = ""
     @StateObject public var viewModel: SupportMainViewModel = SupportMainViewModel()
     
     public var arrayDemo =  MockInformation.cardListArray
@@ -51,12 +52,11 @@ public struct SupportModuleView: View {
                             
                         }.padding(19)
                         
-                        NavigationLink {
-                            ChatView(toUUID: viewModel.toUUID)
-                        } label: {
-                            CardView(information: viewModel.recentMessage[0], activeNavigation: $navigationChat, view: CardRecentMessageView(information: viewModel.recentMessage[0]).toAnyView()) {}
+                        CardView(information: viewModel.recentMessage[0], activeNavigation: $navigationChat, view: CardRecentMessageView(information: viewModel.recentMessage[0]).toAnyView()) {
+                            toUUID = (viewModel.recentMessage.count > 0 ? viewModel.recentMessage[0].toUUID ?? "" ==  Auth.auth().currentUser?.uid ? viewModel.recentMessage[0].fromUUID ?? "" : viewModel.recentMessage[0].toUUID ?? "" : "")
+                            newConversacion.toggle()
                         }
-                            //.padding(.horizontal)
+                            .padding(.horizontal)
                         
                     }
                 }
@@ -154,12 +154,12 @@ public struct SupportModuleView: View {
 //        let toUUID = (viewModel.recentMessage.count > 0 ? viewModel.recentMessage[0].toUUID ?? "" ==  Auth.auth().currentUser?.uid ? viewModel.recentMessage[0].fromUUID ?? "" : viewModel.recentMessage[0].toUUID ?? "" : "")
         
         VStack {
-//            NavigationLink(
-//                destination: ChatView(toUUID: viewModel.toUUID),
-//                isActive: $navigationChat,
-//                label: {
-//                    EmptyView()
-//                })
+            NavigationLink(
+                destination: ChatView(toUUID: toUUID),
+                isActive: $navigationChat,
+                label: {
+                    EmptyView()
+                })
             NavigationLink(
                 destination: SelectTypeConversationView(queryTypesModel: MockInformation.queryTypesModelArray),
                 isActive: $newConversacion,
