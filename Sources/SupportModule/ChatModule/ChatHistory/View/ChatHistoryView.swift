@@ -19,18 +19,19 @@ struct ChatHistoryView: View {
             VStack {
                 ForEach(viewModel.historyMessages, id: \.uniqueId) { message in
                     VStack{
-                        CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
-                            toUUID =  (message.toUUID ?? "" ==  Auth.auth().currentUser?.uid ? message.fromUUID ?? "" : message.toUUID ?? "")
-                            goToChat.toggle()
+                        NavigationLink {
+                            ChatView(toUUID: (message.toUUID ?? "" ==  Auth.auth().currentUser?.uid ? message.fromUUID ?? "" : message.toUUID ?? ""))
+                        } label: {
+                            CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {}
                         }
                     }
                 }
             }
-            NavigationLink(isActive: $goToChat, destination: {
-                ChatView(toUUID: toUUID)
-            }, label: {
-                EmptyView()
-            })
+//            NavigationLink(isActive: $goToChat, destination: {
+//                ChatView(toUUID: toUUID)
+//            }, label: {
+//                EmptyView()
+//            })
             .task(priority: .background, {
                 DispatchQueue.main.async {
                     viewModel.gettingChatHistory()

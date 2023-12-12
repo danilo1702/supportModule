@@ -11,7 +11,7 @@ import FirebaseFirestore
 import FirebaseAuth
 
 public class ChatHistoryViewModel: ObservableObject {
-
+    
     @Published var historyMessages: [CardModel] = []
     
     func gettingChatHistory() {
@@ -20,7 +20,7 @@ public class ChatHistoryViewModel: ObservableObject {
         let reference = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.lastMessages)
             .document(uuid)
             .collection(FirebaseConstants.messages)
-            
+        
         
         reference.addSnapshotListener { [weak self] querySnapshot, error in
             guard let self = self , let querySnapshot = querySnapshot, error == nil else { return }
@@ -34,7 +34,7 @@ public class ChatHistoryViewModel: ObservableObject {
                 
                 let message = self.converToCardModel(message: messageModel, userUUID: uuid)
                 
-                DispatchQueue.main.async {
+                
                 if let index = self.historyMessages.firstIndex(where: { $0.id == documentID}) {
                     self.historyMessages.remove(at: index)
                 }
@@ -45,7 +45,7 @@ public class ChatHistoryViewModel: ObservableObject {
                         self.historyMessages.remove(at: index)
                     }
                 }
-                }
+                
             }
         }
     }
