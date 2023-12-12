@@ -32,7 +32,7 @@ public class ChatHistoryViewModel: ObservableObject {
                 
                 //let documentID = change.document.documentID
                 
-                let message = self.converToCardModel(message: messageModel, userUUID: uuid)
+                //let message = self.converToCardModel(message: messageModel, userUUID: uuid)
                 
                 self.historyMessages.append(CardModel(id: "x9TaSl4d1fV0cB058EdSjRAXpnq2", titleFormat: TextViewModel(text: "to X9", foregroundColor: .black, font: .system(size: 14), expandable: false), dateFormat: TextViewModel(text: "Hora", foregroundColor: .gray, font: .system(size: 11),  expandable: false), nameFormat:  TextViewModel(text:"Tu", foregroundColor: .black, font: .system(size: 13, weight: .bold), expandable: false), designCard: ComponentDesign(backgroundColor: .gray.opacity(0.1), cornerRaiuds: 15),fromUUID: "NpObDASer0WH7izVyeKzz6b0Rqt2" ,toUUID: "x9TaSl4d1fV0cB058EdSjRAXpnq2", action: "chat"))
                 
