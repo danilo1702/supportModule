@@ -15,30 +15,32 @@ struct ChatHistoryView: View {
     @State var toUUID: String = ""
     
     var body: some View {
-                ScrollView{
-                    VStack {
-                        ForEach(viewModel.historyMessages, id: \.uniqueId) { message in
-                            VStack{
-                                CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
-                                    toUUID =  (message.toUUID ?? "" ==  Auth.auth().currentUser?.uid ? message.fromUUID ?? "" : message.toUUID ?? "")
-                                    goToChat.toggle()
-                                    
+                NavigationView {
+                    ScrollView{
+                        VStack {
+                            ForEach(viewModel.historyMessages, id: \.uniqueId) { message in
+                                VStack{
+                                    CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
+                                        toUUID =  (message.toUUID ?? "" ==  Auth.auth().currentUser?.uid ? message.fromUUID ?? "" : message.toUUID ?? "")
+                                        goToChat.toggle()
+                                        
+                                    }
                                 }
                             }
                         }
-                    }
-                    NavigationLink(isActive: $goToChat, destination: {
-                        ChatView(toUUID: toUUID)
-                    }, label: {
-                        EmptyView()
-                    })
-                    .onAppear {
-                        DispatchQueue.main.async {
-                            viewModel.gettingChatHistory()
+                        NavigationLink(isActive: $goToChat, destination: {
+                            ChatView(toUUID: toUUID)
+                        }, label: {
+                            EmptyView()
+                        })
+                        .onAppear {
+                            DispatchQueue.main.async {
+                                viewModel.gettingChatHistory()
+                            }
                         }
-                    }
-                    
-            }
+                        
+                }
+                }
     }
 }
 
