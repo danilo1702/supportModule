@@ -40,7 +40,7 @@ public struct SupportModuleView: View {
                     .padding(.horizontal)
                     .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.4, alignment: .center)
                 
-                if viewModel.recentMessage.count > 0 {
+                //if viewModel.recentMessage.count > 0 {
                     VStack {
                         HStack{
                             TextView(informationModel: generalConfiguration.titleLastChat)
@@ -56,7 +56,7 @@ public struct SupportModuleView: View {
                             .padding(.horizontal)
                         
                     }
-                }
+                //}
                 Spacer()
                 ButtonView(informationButton:ButtonModel(designButton: ComponentDesign(backgroundColor: .blue, cornerRaiuds: 15), title: TextViewModel(text: "Agendar turno", foregroundColor: .white, font: .system(size: 14), expandable: false)) ) {
                     showAlert.toggle()
