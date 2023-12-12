@@ -103,13 +103,10 @@ public struct SupportModuleView: View {
                             print(failure)
                     }
                 }
-                viewModel.getLastChats { result in
-                    switch result {
-                        case .success(let success):
-                            print("\(success)")
-                        
-                    }
+                DispatchQueue.main.async {
+                    viewModel.getLastChats()
                 }
+                
             }
         }
     }
