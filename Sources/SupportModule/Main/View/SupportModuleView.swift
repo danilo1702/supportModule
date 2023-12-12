@@ -24,6 +24,7 @@ public struct SupportModuleView: View {
     @State public var newConversacion: Bool = false
     @State public var chatHistory: Bool = false
     @State public var loadingArticles: Bool = true
+    @State public var loginSuccess: Bool = false
     @StateObject public var viewModel: SupportMainViewModel = SupportMainViewModel()
     
     public var arrayDemo =  MockInformation.cardListArray
@@ -38,16 +39,16 @@ public struct SupportModuleView: View {
                 showListArticles()
                     .padding(.horizontal)
                     .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.4, alignment: .center)
-                Button(action: {chatHistory.toggle()}, label: {
-                    Text("Historial")
-                })
+                
                 if viewModel.recentMessage.count > 0 {
                     VStack {
                         HStack{
                             TextView(informationModel: generalConfiguration.titleLastChat)
                                 .shadow(radius: 7)
                             Spacer()
-                            
+                            Button(action: {chatHistory.toggle()}, label: {
+                                Text("Historial")
+                            })
                             
                         }.padding(19)
                         
@@ -77,6 +78,14 @@ public struct SupportModuleView: View {
             .addSearchbar(textSearch: $textSearch, placeHolder: generalConfiguration.placeHolderSearchBar, title: generalConfiguration.titleModule, completion: {
                 gettingArticles()
             })
+            .task(priority: .background, {
+                if loginSuccess {
+                    DispatchQueue.main.async {
+                        self.viewModel.getLastChats()
+                    }
+                   
+                }
+            })
             .onAppear{
                 viewModel.registerUserFirebase{ result in
                     switch result {
@@ -87,8 +96,7 @@ public struct SupportModuleView: View {
                                         case .success((let status, let user)):
                                             if status {
                                                 DispatchQueue.main.async {
-                                                    viewModel.getLastChats()
-                                                    
+                                                    loginSuccess = true
                                                     gettingArticles()
                                                 }
                                             }
