@@ -38,19 +38,17 @@ public struct SupportModuleView: View {
                 showListArticles()
                     .padding(.horizontal)
                     .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.4, alignment: .center)
-                
+                Button(action: {chatHistory.toggle()}, label: {
+                    Text("Historial")
+                })
                 if viewModel.recentMessage.count > 0 {
                     VStack {
                         HStack{
                             TextView(informationModel: generalConfiguration.titleLastChat)
                                 .shadow(radius: 7)
                             Spacer()
-//                            Button(action: {chatHistory.toggle()}, label: {
-//                                Text("Historial")
-//                            })
-                            NavigationLink("Historial") {
-                                ChatHistoryView()
-                            }
+                            
+                            
                         }.padding(19)
                         
                         CardView(information: viewModel.recentMessage[0], activeNavigation: $navigationChat, view: CardRecentMessageView(information: viewModel.recentMessage[0]).toAnyView()) {}
@@ -89,7 +87,7 @@ public struct SupportModuleView: View {
                                         case .success((let status, let user)):
                                             if status {
                                                 DispatchQueue.main.async {
-                                                    viewModel.getLastChats()
+                                                    //viewModel.getLastChats()
                                                     
                                                     gettingArticles()
                                                 }
@@ -164,12 +162,12 @@ public struct SupportModuleView: View {
                 label: {
                     EmptyView()
                 })
-//            NavigationLink(
-//                destination: ChatHistoryView(),
-//                isActive: $chatHistory,
-//                label: {
-//                    EmptyView()
-//                })
+            NavigationLink(
+                destination: ChatHistoryView(),
+                isActive: $chatHistory,
+                label: {
+                    EmptyView()
+                })
         }
     }
 }
