@@ -87,7 +87,7 @@ public struct SupportModuleView: View {
                                         case .success((let status, let user)):
                                             if status {
                                                 DispatchQueue.main.async {
-                                                    //viewModel.getLastChats()
+                                                    viewModel.getLastChats()
                                                     
                                                     gettingArticles()
                                                 }
