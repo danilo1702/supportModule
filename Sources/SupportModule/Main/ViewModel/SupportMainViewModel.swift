@@ -71,8 +71,10 @@ public class SupportMainViewModel: ObservableObject {
 //                if let index = self.recentMessage.firstIndex(where: { $0.id == documentId}) {
 //                    self.recentMessage.remove(at: index)
 //                }
-//                if let message = try? change.document.data(as: MessageModel.self) {
-//                    
+                if let message = try? change.document.data(as: MessageModel.self) {
+                        print("/*-/*--*//*--/*/*--*/*-/-*/*-/\(message)")
+                }
+//
 //                    self.supportInformation = MessageModel(message: message.message, fromUUID: message.fromUUID, toUUID: message.toUUID,timestamp: message.timestamp, fromName: message.fromName)
 //                    self.recentMessage.insert(CardModel(id: message.id ?? "1", titleFormat: TextViewModel(text: message.message, foregroundColor: .black, font: .system(size: 14), expandable: false), dateFormat: TextViewModel(text: "\(String(describing: message.timestamp!.dateValue().formatted(date: .numeric, time: .shortened)))", foregroundColor: .gray, font: .system(size: 11), expandable: false), nameFormat:  TextViewModel(text: userUUID == message.fromUUID ? "Tú:" : message.fromName, foregroundColor: .black, font: .system(size: 13, weight: .bold), expandable: false) , designCard: ComponentDesign(backgroundColor: .gray.opacity(0.1), cornerRaiuds: 15),fromUUID: message.fromUUID ,toUUID: message.toUUID, action: "chat"), at: 0)
 //                }
