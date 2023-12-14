@@ -52,8 +52,8 @@ public struct ChatView: View {
                 })
             }
         }  
-        .sheet(isPresented: $viewModel.finishedChat) {
-            CalifiationView()
-        }
+//        .sheet(isPresented: $viewModel.finishedChat) {
+//            CalifiationView()
+//        }
     }
 }
