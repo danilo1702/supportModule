@@ -18,7 +18,7 @@ public struct MessageModel: Codable, Identifiable {
     let toUUID: String
     let timestamp: Timestamp?
     let fromName: String
-    var messageRead: Bool?
+    let messageRead: Bool?
     
     public init(id: String? = nil, message: String, fromUUID: String, toUUID: String, timestamp: Timestamp? = nil, fromName: String, messageRead: Bool? = false) {
         self.id = id
@@ -36,6 +36,7 @@ public struct MessageModel: Codable, Identifiable {
         case toUUID
         case timestamp
         case fromName
+        case messageRead
     }
 
 }
