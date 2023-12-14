@@ -14,6 +14,7 @@ class ChatViewModel: ObservableObject {
     var toUUID: String
     @Published var messages: [MessageModel] = []
     @Published var count: Int = 0
+    @Published var finishedChat: Bool = false
     
     public init(toUUID: String) {
         self.toUUID = toUUID
@@ -49,6 +50,21 @@ class ChatViewModel: ObservableObject {
         }
     }
 
+    func chatStatus() {
+        guard let uuid = FirebaseManagerData.initialization.dbAuth.currentUser?.uid else { return }
+        
+        let reference = FirebaseManagerData.initialization.dbFirestore.collection("closedChats").document(uuid).collection("messsages").document(toUUID)
+
+        reference.getDocument { documentSnapshot, error in
+            guard let document = documentSnapshot, error == nil else{ return }
+            
+            if let status =  document.data()?["finished"] as? Bool {
+                if status {
+                    self.finishedChat = status
+                }
+            }
+        }
+    }
     
     func sendMessage(message: String) {
         

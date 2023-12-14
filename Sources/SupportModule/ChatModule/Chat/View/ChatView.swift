@@ -35,17 +35,21 @@ public struct ChatView: View {
                     })
                 }
             }
-            
-            TextFieldMessageView( completion: { text in
-                    viewModel.sendMessage(message: text)
-            })
             .onAppear{
                 
                 DispatchQueue.main.async {
                     viewModel.fetchingMessages()
+                    viewModel.chatStatus()
                 }
             }
             .navigationTitle(CommonStrings.chatSupport)
+            if viewModel.finishedChat {
+                TextFieldMessageView( completion: { text in
+                        viewModel.sendMessage(message: text)
+                })
+            }
+           
+            
         }  
     }
 }
