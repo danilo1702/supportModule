@@ -32,7 +32,7 @@ public struct CardRecentMessageView: View {
                 if information.indicator ?? false {
                     Circle()
                         .fill(.blue)
-                        .frame(width: 15, height: 15, alignment: .center)
+                        .frame(width: 10, height: 10, alignment: .center)
                         .padding()
                 }
             }

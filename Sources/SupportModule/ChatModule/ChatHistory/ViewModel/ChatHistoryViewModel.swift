@@ -43,6 +43,14 @@ public class ChatHistoryViewModel: ObservableObject {
             }
         }
     }
+    func updateToReadChat(toUUID: String) {
+        guard let uuid = FirebaseManagerData.initialization.dbAuth.currentUser?.uid else { return }
+        let reference  = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.lastMessages)
+            .document(uuid)
+            .collection(FirebaseConstants.messages)
+            .document(toUUID)
+        reference.updateData(["messageRead" : false])
+    }
     
     func converToCardModel(message: MessageModel, userUUID: String) -> CardModel  {
         

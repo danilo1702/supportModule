@@ -21,6 +21,7 @@ struct ChatHistoryView: View {
                             VStack{        
                                 CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
                                     toUUID =  (message.toUUID ?? "" ==  Auth.auth().currentUser?.uid ? message.fromUUID ?? "" : message.toUUID ?? "")
+                                    viewModel.updateToReadChat(toUUID: toUUID)
                                     goToChat.toggle()
                                 }
                             }
