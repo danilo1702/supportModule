@@ -26,6 +26,7 @@ public struct SupportModuleView: View {
     @State public var loadingArticles: Bool = true
     @State public var toUUID: String = ""
     @StateObject public var viewModel: SupportMainViewModel = SupportMainViewModel()
+    @StateObject public var chatHistoryViewModel = ChatHistoryViewModel()
     
     public var generalConfiguration: GeneralConfiguration = MockInformation.generalConfiguration
     
@@ -53,7 +54,7 @@ public struct SupportModuleView: View {
                         
                         CardView(information: viewModel.recentMessage[0], activeNavigation: $navigationChat, view: CardRecentMessageView(information: viewModel.recentMessage[0]).toAnyView()) {
                             toUUID = (viewModel.recentMessage.count > 0 ? viewModel.recentMessage[0].toUUID ?? "" ==  Auth.auth().currentUser?.uid ? viewModel.recentMessage[0].fromUUID ?? "" : viewModel.recentMessage[0].toUUID ?? "" : "")
-                            
+                            chatHistoryViewModel.updateToReadChat(toUUID: toUUID)
                         }
                         .padding(.horizontal)
                         

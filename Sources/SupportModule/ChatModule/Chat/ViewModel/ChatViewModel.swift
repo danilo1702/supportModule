@@ -90,7 +90,7 @@ class ChatViewModel: ObservableObject {
         
         
         var messageReceiver = message
-        messageReceiver ["messageRead"] = true
+        messageReceiver [FirebaseConstants.messageRead] = true
         let senderReference = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.lastMessages)
            .document(fromUUID)
             .collection(FirebaseConstants.messages)
