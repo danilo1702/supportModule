@@ -12,6 +12,7 @@ public struct ChatView: View {
     @StateObject var viewModel: ChatViewModel
     var scrollBottom = "scrollBottom"
     @State public var textToSend: String = ""
+    @State var showSheet: Bool = false
     public init(toUUID: String) {
         self._viewModel = StateObject(wrappedValue: ChatViewModel(toUUID: toUUID))
     }
@@ -44,12 +45,14 @@ public struct ChatView: View {
             }
             .navigationTitle(CommonStrings.chatSupport)
             if !viewModel.finishedChat {
+                let _ = showSheet = viewModel.finishedChat
                 TextFieldMessageView( completion: { text in
                         viewModel.sendMessage(message: text)
                 })
             }
-           
-            
         }  
+        .sheet(isPresented: $showSheet) {
+            CalifiationView()
+        }
     }
 }
