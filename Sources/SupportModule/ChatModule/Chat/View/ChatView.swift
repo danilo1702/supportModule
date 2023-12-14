@@ -43,7 +43,7 @@ public struct ChatView: View {
                 }
             }
             .navigationTitle(CommonStrings.chatSupport)
-            if viewModel.finishedChat {
+            if !viewModel.finishedChat {
                 TextFieldMessageView( completion: { text in
                         viewModel.sendMessage(message: text)
                 })
