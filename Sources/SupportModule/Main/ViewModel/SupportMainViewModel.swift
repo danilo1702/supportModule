@@ -17,9 +17,10 @@ public class SupportMainViewModel: ObservableObject {
     
     @Published public var articles: [CardModel] = []
     @Published public var recentMessage: [CardModel] = []
+    @Published public var supportInformation = MessageModel(message: "", fromUUID: "", toUUID: "", fromName: "")
     var deviceInformation = InformationDevice()
     var arrayArticles: [InformationCardApi] = []
-    @Published public var supportInformation = MessageModel(message: "", fromUUID: "", toUUID: "", fromName: "")
+    
     func registerUserFirebase(completion: @escaping(Result<Bool, Error>)-> ()) {
         deviceInformation.returnInformation()
         
@@ -117,9 +118,9 @@ public class SupportMainViewModel: ObservableObject {
                     self.arrayArticles.append(article)
                     
                 } catch {
-                    #if DEBUG
+#if DEBUG
                     print("Error getting articles searched \(String(describing: error))")
-                    #endif
+#endif
                 }
             }
             completion(.success(self.arrayArticles))
@@ -145,11 +146,11 @@ public class SupportMainViewModel: ObservableObject {
                     
                     let article = try documentChange.document.data(as: InformationCardApi.self)
                     let position =  self.arrayArticles.firstIndex(where: {$0.id == article.id})
-        
+                    
                     switch documentChange.type {
                         case .modified:
                             guard let position = position else { return }
-                                self.arrayArticles[position] = article
+                            self.arrayArticles[position] = article
                         case .added:
                             self.arrayArticles.append(article)
                         case .removed:

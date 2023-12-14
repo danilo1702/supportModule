@@ -60,7 +60,7 @@ class ChatViewModel: ObservableObject {
             .collection(toUUID)
             .document()
         
-        let message = ["message": message, "fromUUID": fromUUID, "toUUID": toUUID, "timestamp": Timestamp(), "fromName": UIDevice.modelName] as [String: Any]
+        var message = ["message": message, "fromUUID": fromUUID, "toUUID": toUUID, "timestamp": Timestamp(), "fromName": UIDevice.modelName] as [String: Any]
         referenceSender.setData(message) { error in
             if error != nil {
                 print("Errro sending de message ")
@@ -82,11 +82,13 @@ class ChatViewModel: ObservableObject {
         DispatchQueue.main.async {
             self.count += 1
            
-            self.saveLastMessage(fromUUID: fromUUID, message: message)
+            self.saveLastMessage(fromUUID: fromUUID, message: &message)
         }
     }
     
-    func saveLastMessage(fromUUID: String, message: [String: Any]) {
+    func saveLastMessage(fromUUID: String, message: inout [String: Any]) {
+        
+        message["messageRead"] = false
         
         let senderReference = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.lastMessages)
            .document(fromUUID)

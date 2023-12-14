@@ -13,6 +13,8 @@ public struct CommonStrings {
     public static let emptyString: String = ""
     public static let programTurn: String = "Este turno no garantiza que seas atendido a la hora asignada, deberás esperar el llamado de este en la sucursal seleccionada"
     public static let chatSupport: String = "Chat Support"
+    public static let historial: String = "Historial"
+    public static let noExistResults = "No se encontraron resultados"
     public struct TextViewStrings {
         public static let ellipsis: String = "..."
         public static let seeMore: String = "Ver más"

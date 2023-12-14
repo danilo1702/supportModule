@@ -27,7 +27,6 @@ public struct SupportModuleView: View {
     @State public var toUUID: String = ""
     @StateObject public var viewModel: SupportMainViewModel = SupportMainViewModel()
     
-    public var arrayDemo =  MockInformation.cardListArray
     public var generalConfiguration: GeneralConfiguration = MockInformation.generalConfiguration
     
     public init() {}
@@ -47,16 +46,16 @@ public struct SupportModuleView: View {
                                 .shadow(radius: 7)
                             Spacer()
                             Button(action: {chatHistory.toggle()}, label: {
-                                Text("Historial")
+                                Text(CommonStrings.historial)
                             })
                             
                         }.padding(19)
                         
                         CardView(information: viewModel.recentMessage[0], activeNavigation: $navigationChat, view: CardRecentMessageView(information: viewModel.recentMessage[0]).toAnyView()) {
                             toUUID = (viewModel.recentMessage.count > 0 ? viewModel.recentMessage[0].toUUID ?? "" ==  Auth.auth().currentUser?.uid ? viewModel.recentMessage[0].fromUUID ?? "" : viewModel.recentMessage[0].toUUID ?? "" : "")
-                           
+                            
                         }
-                            .padding(.horizontal)
+                        .padding(.horizontal)
                         
                     }
                 }
@@ -92,7 +91,6 @@ public struct SupportModuleView: View {
                                             if status {
                                                 DispatchQueue.main.async {
                                                     viewModel.getLastChats()
-                                                    
                                                     gettingArticles()
                                                 }
                                             }
@@ -144,7 +142,7 @@ public struct SupportModuleView: View {
             if loadingArticles {
                 ProgressView()
             } else  {
-                Text("No se encontraron resultados")
+                Text(CommonStrings.noExistResults)
             }
         }
     }
