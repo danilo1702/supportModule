@@ -18,12 +18,10 @@ struct ChatHistoryView: View {
                 ScrollView{
                     VStack {
                         ForEach(viewModel.historyMessages, id: \.uniqueId) { message in
-                            VStack{
-                                
-                                CardView(information: message, view: CardRecentMessageView(information: message).toAnyView(), indicator: .constant(message.indicator ?? false)) {
+                            VStack{        
+                                CardView(information: message, view: CardRecentMessageView(information: message).toAnyView()) {
                                     toUUID =  (message.toUUID ?? "" ==  Auth.auth().currentUser?.uid ? message.fromUUID ?? "" : message.toUUID ?? "")
                                     goToChat.toggle()
-                                
                                 }
                             }
                         }

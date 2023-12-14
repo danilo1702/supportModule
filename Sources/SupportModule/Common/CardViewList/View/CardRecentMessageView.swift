@@ -29,6 +29,11 @@ public struct CardRecentMessageView: View {
                 if information.toUUID != nil {
                     Spacer()
                 }
+                if information.indicator ?? false {
+                    Circle()
+                        .fill(.blue)
+                        .frame(width: 158, height: 15, alignment: .trailing)
+                }
             }
             
             HStack {

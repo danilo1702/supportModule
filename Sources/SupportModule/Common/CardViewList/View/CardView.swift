@@ -18,13 +18,11 @@ public struct CardView: View {
     @StateObject public var viewModel: CardViewModel = CardViewModel()
     @State public var isPresented: Bool = false
     @Binding public var activeNavigation: Bool
-    @Binding public var indicator: Bool
 
-    public init(information: CardModel, activeNavigation: Binding<Bool> = .constant(false), view: AnyView? = nil, indicator: Binding<Bool> = .constant(false), completion: @escaping () -> () ) {
+    public init(information: CardModel, activeNavigation: Binding<Bool> = .constant(false), view: AnyView? = nil, completion: @escaping () -> ()) {
         self.information = information
         self._activeNavigation = activeNavigation
         self.view = view
-        self._indicator = indicator
         self.completion = completion
     }
     
@@ -55,25 +53,14 @@ public struct CardView: View {
                     view
                 } else {
                     VStack(alignment: information.imageUrl != nil ? .leading : .center) {
-                        
-                        HStack {
-                            VStack {
-                                TextView(informationModel: information.titleFormat)
-                                    .padding()
-                                HStack {
-                                    Spacer()
-                                    TextView(informationModel: information.dateFormat ?? TextViewModel(text: CommonStrings.emptyString))
-                                        .padding(.horizontal)
-                                }
+
+                            TextView(informationModel: information.titleFormat)
+                                .padding()
+                            HStack {
+                                Spacer()
+                                TextView(informationModel: information.dateFormat ?? TextViewModel(text: CommonStrings.emptyString))
+                                    .padding(.horizontal)
                             }
-                            if indicator {
-                                Circle()
-                                    .fill(.blue)
-                                    .frame(width: 158, height: 15, alignment: .trailing)
-                            }
-                            
-                        }
-                        
                     }
                 }
                 
@@ -87,7 +74,6 @@ public struct CardView: View {
         .clipShape(RoundedRectangle(cornerRadius: information.designCard.cornerRaiuds))
         .shadow(radius: 0)
         .onTapGesture {
-            indicator = false
             viewModel.getActionCard(action: information.action, view: self)
             completion()
         }
