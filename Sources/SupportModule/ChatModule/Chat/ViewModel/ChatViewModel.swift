@@ -88,8 +88,9 @@ class ChatViewModel: ObservableObject {
     
     func saveLastMessage(fromUUID: String, message: inout [String: Any]) {
         
-        message["messageRead"] = false
         
+        var messageReceiver = message
+        messageReceiver ["messageRead"] = true
         let senderReference = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.lastMessages)
            .document(fromUUID)
             .collection(FirebaseConstants.messages)
@@ -103,7 +104,7 @@ class ChatViewModel: ObservableObject {
         let batch = FirebaseManagerData.initialization.dbFirestore.batch()
         
         batch.setData(message, forDocument: senderReference)
-        batch.setData(message, forDocument: receiverReference)
+        batch.setData(messageReceiver, forDocument: receiverReference)
         
         batch.commit { error in
             if let error = error {

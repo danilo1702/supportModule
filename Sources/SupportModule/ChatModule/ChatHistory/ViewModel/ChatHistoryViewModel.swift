@@ -49,7 +49,19 @@ public class ChatHistoryViewModel: ObservableObject {
             .document(uuid)
             .collection(FirebaseConstants.messages)
             .document(toUUID)
-        reference.updateData(["messageRead" : false])
+        
+        reference.getDocument { documentSnaphshot, error in
+            
+            guard let snapshot = documentSnaphshot, error == nil else { return }
+        
+            if let status = snapshot.data()?["messageRead"] as? Bool {
+                if status {
+                    reference.updateData(["messageRead" : false])
+                }
+            }
+        }
+        
+        
     }
     
     func converToCardModel(message: MessageModel, userUUID: String) -> CardModel  {
