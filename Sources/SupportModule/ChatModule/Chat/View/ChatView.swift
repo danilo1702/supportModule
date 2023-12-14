@@ -41,17 +41,18 @@ public struct ChatView: View {
                 DispatchQueue.main.async {
                     viewModel.fetchingMessages()
                     viewModel.chatStatus()
+                    
                 }
             }
             .navigationTitle(CommonStrings.chatSupport)
             if !viewModel.finishedChat {
-                let _ = showSheet = viewModel.finishedChat
+                 
                 TextFieldMessageView( completion: { text in
                         viewModel.sendMessage(message: text)
                 })
             }
         }  
-        .sheet(isPresented: $showSheet) {
+        .sheet(isPresented: $viewModel.finishedChat) {
             CalifiationView()
         }
     }
