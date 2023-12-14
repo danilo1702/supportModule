@@ -20,7 +20,7 @@ public struct CardView: View {
     @Binding public var activeNavigation: Bool
     @Binding public var indicator: Bool
 
-    public init(information: CardModel, activeNavigation: Binding<Bool> = .constant(false), view: AnyView? = nil, completion: @escaping () -> (), indicator: Binding<Bool> = .constant(false) ) {
+    public init(information: CardModel, activeNavigation: Binding<Bool> = .constant(false), view: AnyView? = nil, indicator: Binding<Bool> = .constant(false), completion: @escaping () -> () ) {
         self.information = information
         self._activeNavigation = activeNavigation
         self.view = view
@@ -87,6 +87,7 @@ public struct CardView: View {
         .clipShape(RoundedRectangle(cornerRadius: information.designCard.cornerRaiuds))
         .shadow(radius: 0)
         .onTapGesture {
+            indicator = false
             viewModel.getActionCard(action: information.action, view: self)
             completion()
         }

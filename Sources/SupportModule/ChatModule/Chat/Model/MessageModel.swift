@@ -18,14 +18,16 @@ public struct MessageModel: Codable, Identifiable {
     let toUUID: String
     let timestamp: Timestamp?
     let fromName: String
+    var messageRead: Bool?
     
-    public init(id: String? = nil, message: String, fromUUID: String, toUUID: String, timestamp: Timestamp? = nil, fromName: String) {
+    public init(id: String? = nil, message: String, fromUUID: String, toUUID: String, timestamp: Timestamp? = nil, fromName: String, messageRead: Bool? = false) {
         self.id = id
         self.message = message
         self.fromUUID = fromUUID
         self.toUUID = toUUID
         self.timestamp = timestamp
         self.fromName = fromName
+        self.messageRead = messageRead
     }
     enum CodingKeys: CodingKey {
         case id
