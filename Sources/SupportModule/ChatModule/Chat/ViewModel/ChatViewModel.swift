@@ -53,15 +53,13 @@ class ChatViewModel: ObservableObject {
     func chatStatus() {
         guard let uuid = FirebaseManagerData.initialization.dbAuth.currentUser?.uid else { return }
         
-        let reference = FirebaseManagerData.initialization.dbFirestore.collection("closedChats").document(uuid).collection("messsages").document(toUUID)
+        let reference = FirebaseManagerData.initialization.dbFirestore.collection("closedChats").document(uuid).collection("messages").document(toUUID)
 
-        reference.getDocument { documentSnapshot, error in
+        reference.addSnapshotListener { documentSnapshot, error in
             guard let document = documentSnapshot, error == nil else{ return }
             
             if let status =  document.data()?["finished"] as? Bool {
-                if status {
                     self.finishedChat = status
-                }
             }
         }
     }
