@@ -16,7 +16,7 @@ struct CalifiationView: View {
     @State var isSelected: Bool = false
     
     var toUUID: String
-    var rows: [GridItem] = [ GridItem(.fixed(150), spacing: 1, alignment: .center)
+    var rows: [GridItem] = [ GridItem(.fixed(150), spacing: 5, alignment: .center)
                              ,GridItem(.fixed(150), spacing: 1, alignment: .center)]
     var body: some View {
         VStack {
@@ -58,10 +58,9 @@ struct CalifiationView: View {
         
         guard let index = calificationViewModel.optionsCalification.firstIndex(where: {$0.model.id == option.model.id}) else {
             return }
-        calificationViewModel.optionsCalification = calificationViewModel.optionsCalification.map({ OptionsCalification(selected: false, model: $0.model)
+        calificationViewModel.optionsCalification = calificationViewModel.optionsCalification.map({ OptionsCalification(selected: option.model.id == $0.model.id ? true : false, model: $0.model)
         })
-        calificationViewModel.optionsCalification.remove(at: index)
-        calificationViewModel.optionsCalification.insert(OptionsCalification(selected: true, model: option.model), at: index)
+
         optionSelected = OptionSelected(id: option.model.id , name: option.model.titleFormat.text)
     }
     @ViewBuilder
