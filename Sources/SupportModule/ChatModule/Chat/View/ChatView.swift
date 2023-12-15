@@ -32,6 +32,9 @@ public struct ChatView: View {
                         HStack {
                             Spacer()
                         }.id(scrollBottom)
+                            .sheet(isPresented: $showSheet) {
+                                CalifiationView()
+                            }
                     }.onReceive(viewModel.$count, perform: { _ in
                         withAnimation(.smooth) {
                             scrollViewProxy.scrollTo(scrollBottom, anchor: .bottom)
@@ -39,9 +42,7 @@ public struct ChatView: View {
                     })
                 }
             }
-            .sheet(isPresented: $showSheet) {
-                CalifiationView()
-            }
+            
             .onAppear{
                 
                 DispatchQueue.main.async {
