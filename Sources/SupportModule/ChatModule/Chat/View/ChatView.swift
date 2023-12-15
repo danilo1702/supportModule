@@ -35,9 +35,6 @@ public struct ChatView: View {
                         }
                     })
                 }
-                .sheet(isPresented: $viewModel.finishedChat) {
-                    CalifiationView()
-                }
             }
             .onAppear{
                 
@@ -54,7 +51,10 @@ public struct ChatView: View {
                         viewModel.sendMessage(message: text)
                 })
             }
-        }  
+            
+        }.sheet(isPresented: $viewModel.finishedChat) {
+            CalifiationView()
+        }
         
     }
 }
