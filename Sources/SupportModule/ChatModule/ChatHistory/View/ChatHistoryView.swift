@@ -37,6 +37,7 @@ struct ChatHistoryView: View {
                             viewModel.gettingChatHistory()
                         }
                     }
+                    .navigationTitle("Historial")
                     
             }
     }

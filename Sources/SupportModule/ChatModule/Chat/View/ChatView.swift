@@ -39,13 +39,9 @@ public struct ChatView: View {
                     })
                 }
             }
-            
-            .alert("Hola", isPresented: $showSheet, actions: {
-                
-            })
-//            .sheet(isPresented: $viewModel.qualified) {
-//                CalifiationView()
-//            }
+            .sheet(isPresented: $viewModel.qualified) {
+                CalifiationView()
+            }
             .onAppear{
                 
                 DispatchQueue.main.async {
