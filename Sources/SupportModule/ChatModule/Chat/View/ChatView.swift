@@ -52,7 +52,7 @@ public struct ChatView: View {
                 })
             }
             
-        }.sheet(isPresented: $viewModel.finishedChat) {
+        }.sheet(isPresented: $viewModel.qualified) {
             CalifiationView()
         }
         
