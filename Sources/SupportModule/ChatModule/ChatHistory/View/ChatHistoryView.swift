@@ -33,7 +33,7 @@ struct ChatHistoryView: View {
                         EmptyView()
                     })
                     .onAppear {
-                        DispatchQueue.main.async {
+                      Task {
                             viewModel.gettingChatHistory()
                         }
                     }
