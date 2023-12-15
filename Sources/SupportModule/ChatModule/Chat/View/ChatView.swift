@@ -40,12 +40,6 @@ public struct ChatView: View {
                     })
                 }
             }
-            .sheet(isPresented: $viewModel.qualified) {
-             
-                   let _ = dismiss()
-                
-                CalifiationView()
-            }
             .onAppear{
                 
                 DispatchQueue.main.async {
@@ -62,6 +56,12 @@ public struct ChatView: View {
                         viewModel.sendMessage(message: text)
                 })
             }
+            NavigationLink(isActive: $viewModel.qualified) {
+                CalifiationView()
+            } label: {
+                EmptyView()
+            }
+
             
         }
     }
