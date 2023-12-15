@@ -19,29 +19,27 @@ public struct ChatView: View {
     public var body: some View {
         
         VStack {
-//            ScrollView{
-//                ScrollViewReader { scrollViewProxy in
-//                    VStack{
-//                        ForEach(viewModel.messages, id: \.uniqueID) { message in
-//                            
-//                           BumbleChat(message: message)
-//                                .onTapGesture {
-//                                    showSheet.toggle()
-//                                }
-//                        }
-//                        HStack {
-//                            Spacer()
-//                        }.id(scrollBottom)
-//                    }.onReceive(viewModel.$count, perform: { _ in
-//                        withAnimation(.smooth) {
-//                            scrollViewProxy.scrollTo(scrollBottom, anchor: .bottom)
-//                        }
-//                    })
-//                }
-//            }
-            Text("asd").onTapGesture {
-                showSheet.toggle()
+            ScrollView{
+                ScrollViewReader { scrollViewProxy in
+                    VStack{
+                        ForEach(viewModel.messages, id: \.uniqueID) { message in
+                            
+                           BumbleChat(message: message)
+                                .onTapGesture {
+                                    showSheet.toggle()
+                                }
+                        }
+                        HStack {
+                            Spacer()
+                        }.id(scrollBottom)
+                    }.onReceive(viewModel.$count, perform: { _ in
+                        withAnimation(.smooth) {
+                            scrollViewProxy.scrollTo(scrollBottom, anchor: .bottom)
+                        }
+                    })
+                }
             }
+            
             .alert("Hola", isPresented: $showSheet, actions: {
                 
             })
