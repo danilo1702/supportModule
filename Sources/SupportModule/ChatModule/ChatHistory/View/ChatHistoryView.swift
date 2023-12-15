@@ -39,7 +39,7 @@ struct ChatHistoryView: View {
                     }
                    
                     
-            } .navigationTitle("Historial")
+            }
     }
 }
 
