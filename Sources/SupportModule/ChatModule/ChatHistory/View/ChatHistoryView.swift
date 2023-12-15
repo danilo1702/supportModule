@@ -36,9 +36,7 @@ struct ChatHistoryView: View {
                       Task {
                             viewModel.gettingChatHistory()
                         }
-                    }
-                   
-                    
+                    }   
             }
     }
 }
