@@ -56,6 +56,6 @@ public struct ChatView: View {
                         viewModel.sendMessage(message: text)
                 })
             }
-        }
+        }.navigationTitle("Chat support")
     }
 }
