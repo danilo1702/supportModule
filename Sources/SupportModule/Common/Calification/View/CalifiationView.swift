@@ -9,9 +9,13 @@ import SwiftUI
 
 struct CalifiationView: View {
     @State var stairs: [RangeStairsModel] = [RangeStairsModel(position: 1, status: false), RangeStairsModel(position: 2, status: false),RangeStairsModel(position: 3, status: false),RangeStairsModel(position: 4, status: false),RangeStairsModel(position: 5, status: false)]
-    var mock: [CardModel] = [CardModel(id: "1", titleFormat: TextViewModel(text: "Profesional")),CardModel(id: "2", titleFormat: TextViewModel(text: "Regular")),CardModel(id: "3", titleFormat: TextViewModel(text: "Profesional")),CardModel(id: "4", titleFormat: TextViewModel(text: "Muy amable")),CardModel(id: "5", titleFormat: TextViewModel(text: "Malo")), CardModel(id: "6", titleFormat: TextViewModel(text: "Malo")),CardModel(id: "7", titleFormat: TextViewModel(text: "Malo")), CardModel(id: "8", titleFormat: TextViewModel(text: "Malo"))]
+    @Environment(\.dismiss) var dismiss
+    @StateObject var calificationViewModel = CalificationViewModel()
+    @State var optionSelected: OptionSelected = OptionSelected(id: "", name: "")
+    @State var comment: String = ""
+    var toUUID: String
     var rows: [GridItem] = [ GridItem(.fixed(50), spacing: 1, alignment: .center)
-                            ,GridItem(.fixed(50), spacing: 1, alignment: .center)]
+                             ,GridItem(.fixed(50), spacing: 1, alignment: .center)]
     var body: some View {
         VStack {
             
@@ -21,22 +25,30 @@ struct CalifiationView: View {
             showStairs()
                 .padding()
             
-            LazyHGrid(rows: rows) {
-                ForEach(mock , id: \.uniqueId) { mock in
-                    CardView(information: mock) {
-                        
+            LazyVGrid(columns: rows) {
+                ForEach(calificationViewModel.optionsCalification, id: \.uniqueId) { option in
+                    CardView(information: option) {
+                        optionSelected = OptionSelected(id: option.id, name: option.titleFormat.text)
                     }
                 }
             }
-            
             Button {
-                if let calification =  stairs.last(where: {$0.status == true}) {
-                    print(calification)
+                if allOk() {
+                    calificationViewModel.sendInformation(information: getInformationTosend(), toUUID: toUUID) { result in
+                        switch result {
+                            case .success( _ ):
+                                    dismiss()
+                        }
+                    }
                 }
             } label: {
                 Text("Enviar")
             }
-
+        }
+        .onAppear{
+            Task {
+                calificationViewModel.getOptions()
+            }
         }
         .navigationBarBackButtonHidden(true)
     }
@@ -59,8 +71,12 @@ struct CalifiationView: View {
         
         Image(systemName: selected ? "star.fill" : "star").foregroundStyle(.yellow)
     }
-}
-
-#Preview {
-    CalifiationView()
+    func allOk() -> Bool {
+        guard  let _ =  stairs.last(where: {$0.status == true}), optionSelected.name != "" else { return false }
+        return true
+    }
+    func getInformationTosend() -> SendCalification {
+        let stair = stairs.last(where: {$0.status == true})
+        return SendCalification(stairs: stair!.position,finished: true, qualified: true ,valoration: optionSelected, comment: comment)
+    }
 }

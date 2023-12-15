@@ -10,7 +10,7 @@ import SwiftUI
 public struct ChatView: View {
     
     @StateObject var viewModel: ChatViewModel
-    @Environment(\.dismiss) var dismiss
+    
     var scrollBottom = "scrollBottom"
     @State public var textToSend: String = ""
     @State var showSheet: Bool = false
@@ -56,7 +56,7 @@ public struct ChatView: View {
                 })
             }
             NavigationLink(isActive: $viewModel.qualified) {
-                CalifiationView()
+                CalifiationView(toUUID: viewModel.toUUID)
             } label: {
                 EmptyView()
             }
