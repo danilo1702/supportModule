@@ -55,8 +55,11 @@ struct CalifiationView: View {
         .navigationBarBackButtonHidden(true)
     }
     func activeCard(option: OptionsCalification) {
+        
         guard let index = calificationViewModel.optionsCalification.firstIndex(where: {$0.model.id == option.model.id}) else {
             return }
+        calificationViewModel.optionsCalification = calificationViewModel.optionsCalification.map({ OptionsCalification(selected: false, model: $0.model)
+        })
         calificationViewModel.optionsCalification.remove(at: index)
         calificationViewModel.optionsCalification.insert(OptionsCalification(selected: true, model: option.model), at: index)
         optionSelected = OptionSelected(id: option.model.id , name: option.model.titleFormat.text)
