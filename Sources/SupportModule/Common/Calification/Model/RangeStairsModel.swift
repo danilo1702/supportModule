@@ -40,3 +40,13 @@ public struct SendCalification: Codable {
         self.comment = comment
     }
 }
+public struct OptionsCalification {
+    var id: UUID = UUID()
+    var selected: Bool
+    var model: CardModel
+    
+    public init(selected: Bool, model: CardModel) {
+        self.selected = selected
+        self.model = model
+    }
+}

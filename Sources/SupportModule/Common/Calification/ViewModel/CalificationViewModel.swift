@@ -11,7 +11,7 @@ import SwiftUI
 
 public class CalificationViewModel: ObservableObject {
     
-    @Published public var optionsCalification: [CardModel] = []
+    @Published public var optionsCalification: [OptionsCalification] = []
     
     func getOptions() {
         
@@ -21,7 +21,7 @@ public class CalificationViewModel: ObservableObject {
             
             querySnapshot.documents.forEach { document in
                 if let document = try? document.data(as: InformationCardApi.self) {
-                    self.optionsCalification.append(document.convertToCardModel())
+                    self.optionsCalification.append(OptionsCalification(selected: false, model: document.convertToCardModel()))
                 }
             }
         }

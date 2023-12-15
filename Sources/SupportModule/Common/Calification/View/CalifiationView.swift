@@ -28,14 +28,9 @@ struct CalifiationView: View {
                 .padding()
             
             LazyVGrid(columns: rows) {
-                ForEach(calificationViewModel.optionsCalification, id: \.uniqueId) { option in
-                    CardView(information: option, isSelected: $isSelected) {
-                        optionSelected = OptionSelected(id: option.id, name: option.titleFormat.text)
-                        if option.id == optionSelected.id {
-                            isSelected = true
-                        } else {
-                            isSelected = false
-                        }
+                ForEach(calificationViewModel.optionsCalification, id: \.id) { option in
+                    CardView(information: option.model, isSelected: .constant(option.selected)) {
+                        activeCard(option: option)
                     }
                 }
             }
@@ -59,7 +54,13 @@ struct CalifiationView: View {
         }
         .navigationBarBackButtonHidden(true)
     }
-    
+    func activeCard(option: OptionsCalification) {
+        guard let index = calificationViewModel.optionsCalification.firstIndex(where: {$0.model.id == option.model.id}) else {
+            return }
+        calificationViewModel.optionsCalification.remove(at: index)
+        calificationViewModel.optionsCalification.insert(OptionsCalification(selected: true, model: option.model), at: index)
+        optionSelected = OptionSelected(id: option.model.id , name: option.model.titleFormat.text)
+    }
     @ViewBuilder
     func showStairs() -> some View {
         
