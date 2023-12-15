@@ -45,7 +45,6 @@ public struct ChatView: View {
                 DispatchQueue.main.async {
                     viewModel.fetchingMessages()
                     viewModel.chatStatus()
-                    
                 }
             }
             
@@ -57,9 +56,7 @@ public struct ChatView: View {
                 })
             }
             NavigationLink(isActive: $viewModel.qualified) {
-                
                 CalifiationView()
-                let _ = dismiss()
             } label: {
                 EmptyView()
             }

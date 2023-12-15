@@ -27,6 +27,7 @@ struct CalifiationView: View {
             }
 
         }
+        .navigationBarBackButtonHidden(true)
     }
     
     @ViewBuilder
