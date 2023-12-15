@@ -36,6 +36,9 @@ public struct ChatView: View {
                     })
                 }
             }
+            .sheet(isPresented: $viewModel.qualified) {
+                CalifiationView()
+            }
             .onAppear{
                 
                 DispatchQueue.main.async {
@@ -52,8 +55,6 @@ public struct ChatView: View {
                 })
             }
             
-        }.sheet(isPresented: $viewModel.qualified) {
-            CalifiationView()
         }
         
     }
