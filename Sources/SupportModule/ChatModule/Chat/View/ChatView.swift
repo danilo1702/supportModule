@@ -33,7 +33,7 @@ public struct ChatView: View {
                             Spacer()
                         }.id(scrollBottom)
                             .sheet(isPresented: $showSheet) {
-                                CalifiationView()
+                                Text("swsdasd")
                             }
                     }.onReceive(viewModel.$count, perform: { _ in
                         withAnimation(.smooth) {
