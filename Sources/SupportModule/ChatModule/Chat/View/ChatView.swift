@@ -60,8 +60,8 @@ public struct ChatView: View {
             }
             
         }
-        .navigationTitle(CommonStrings.chatSupport)
-        .navigationBarTitleDisplayMode(.inline)
+//        .navigationTitle(CommonStrings.chatSupport)
+//        .navigationBarTitleDisplayMode(.inline)
         
     }
 }
