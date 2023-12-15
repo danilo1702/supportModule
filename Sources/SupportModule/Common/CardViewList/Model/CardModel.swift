@@ -58,10 +58,12 @@ public struct ComponentDesign {
     
     public var backgroundColor: Color
     public var cornerRaiuds: CGFloat
+    public var colorSelected: Color
     
-    public init(backgroundColor: Color, cornerRaiuds: CGFloat) {
+    public init(backgroundColor: Color, cornerRaiuds: CGFloat, colorSelected: Color? = nil) {
         self.backgroundColor = backgroundColor
         self.cornerRaiuds = cornerRaiuds
+        self.colorSelected = colorSelected ?? backgroundColor
     }
 }
 

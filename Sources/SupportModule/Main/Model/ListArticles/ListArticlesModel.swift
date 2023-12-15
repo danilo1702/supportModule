@@ -51,10 +51,12 @@ public struct ComponentDesignApi: Codable {
     
     public var backgroundColor: String?
     public var cornerRaiuds: String?
+    public var colorSelected: String?
     
-    public init(backgroundColor: String? = nil, cornerRaiuds: String? = nil) {
+    public init(backgroundColor: String? = nil, cornerRaiuds: String? = nil, colorSelected: String? = nil) {
         self.backgroundColor = backgroundColor
         self.cornerRaiuds = cornerRaiuds
+        self.colorSelected = colorSelected
     }
 }
 public struct ImageModelApi: Codable {

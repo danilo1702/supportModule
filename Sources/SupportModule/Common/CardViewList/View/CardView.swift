@@ -18,10 +18,11 @@ public struct CardView: View {
     @StateObject public var viewModel: CardViewModel = CardViewModel()
     @State public var isPresented: Bool = false
     @Binding public var activeNavigation: Bool
-
-    public init(information: CardModel, activeNavigation: Binding<Bool> = .constant(false), view: AnyView? = nil, completion: @escaping () -> ()) {
+    @Binding public var isSelected: Bool
+    public init(information: CardModel, activeNavigation: Binding<Bool> = .constant(false), isSelected: Binding<Bool> = .constant(false), view: AnyView? = nil, completion: @escaping () -> ()) {
         self.information = information
         self._activeNavigation = activeNavigation
+        self._isSelected = isSelected
         self.view = view
         self.completion = completion
     }
@@ -72,8 +73,10 @@ public struct CardView: View {
         //.frame(idealWidth: .infinity, idealHeight:  information.imageUrl != nil ? 105 : 100, alignment: .center)
         .background(information.designCard.backgroundColor)
         .clipShape(RoundedRectangle(cornerRadius: information.designCard.cornerRaiuds))
+        .border(isSelected ? information.designCard.colorSelected : information.designCard.backgroundColor, width: 2)
         .shadow(radius: 0)
         .onTapGesture {
+            isSelected = true
             viewModel.getActionCard(action: information.action, view: self)
             completion()
         }

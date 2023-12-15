@@ -13,6 +13,8 @@ struct CalifiationView: View {
     @StateObject var calificationViewModel = CalificationViewModel()
     @State var optionSelected: OptionSelected = OptionSelected(id: "", name: "")
     @State var comment: String = ""
+    @State var isSelected: Bool = false
+    
     var toUUID: String
     var rows: [GridItem] = [ GridItem(.fixed(150), spacing: 1, alignment: .center)
                              ,GridItem(.fixed(150), spacing: 1, alignment: .center)]
@@ -27,8 +29,13 @@ struct CalifiationView: View {
             
             LazyVGrid(columns: rows) {
                 ForEach(calificationViewModel.optionsCalification, id: \.uniqueId) { option in
-                    CardView(information: option) {
+                    CardView(information: option, isSelected: $isSelected) {
                         optionSelected = OptionSelected(id: option.id, name: option.titleFormat.text)
+                        if option.id == optionSelected.id {
+                            isSelected = true
+                        } else {
+                            isSelected = false
+                        }
                     }
                 }
             }
