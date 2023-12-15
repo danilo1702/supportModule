@@ -77,7 +77,7 @@ public struct CardView: View {
         )
         .overlay(
             RoundedRectangle(cornerRadius: information.designCard.cornerRaiuds)
-                .stroke(isSelected ? information.designCard.colorSelected : information.designCard.backgroundColor, lineWidth: 2.0)
+                .stroke(isSelected ? information.designCard.colorSelected : information.designCard.backgroundColor, lineWidth: 1.0)
         )
         
         .shadow(radius: 0)
