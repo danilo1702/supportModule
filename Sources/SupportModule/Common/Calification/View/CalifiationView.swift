@@ -14,8 +14,8 @@ struct CalifiationView: View {
     @State var optionSelected: OptionSelected = OptionSelected(id: "", name: "")
     @State var comment: String = ""
     var toUUID: String
-    var rows: [GridItem] = [ GridItem(.fixed(50), spacing: 1, alignment: .center)
-                             ,GridItem(.fixed(50), spacing: 1, alignment: .center)]
+    var rows: [GridItem] = [ GridItem(.fixed(150), spacing: 1, alignment: .center)
+                             ,GridItem(.fixed(150), spacing: 1, alignment: .center)]
     var body: some View {
         VStack {
             
