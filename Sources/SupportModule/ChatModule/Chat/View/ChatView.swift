@@ -57,6 +57,7 @@ public struct ChatView: View {
                 })
             }
             NavigationLink(isActive: $viewModel.qualified) {
+                let _ = dismiss()
                 CalifiationView()
             } label: {
                 EmptyView()
