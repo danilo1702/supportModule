@@ -72,8 +72,13 @@ public struct CardView: View {
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
         //.frame(idealWidth: .infinity, idealHeight:  information.imageUrl != nil ? 105 : 100, alignment: .center)
         .background(information.designCard.backgroundColor)
-        .border(isSelected ? information.designCard.colorSelected : information.designCard.backgroundColor, width: 2)
-        .clipShape(RoundedRectangle(cornerRadius: information.designCard.cornerRaiuds))
+        .clipShape(
+            RoundedRectangle(cornerRadius: information.designCard.cornerRaiuds)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: information.designCard.cornerRaiuds)
+                .stroke(isSelected ? information.designCard.colorSelected : information.designCard.backgroundColor, lineWidth: 2.0)
+        )
         
         .shadow(radius: 0)
         .onTapGesture {
