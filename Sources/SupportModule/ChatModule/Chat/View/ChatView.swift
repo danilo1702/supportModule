@@ -42,7 +42,8 @@ public struct ChatView: View {
             }
             .sheet(isPresented: $viewModel.qualified, content: {
                 CalifiationView(toUUID: viewModel.toUUID)
-            }).interactiveDismissDisabled()
+                    .interactiveDismissDisabled()
+            })
             .onAppear{
                 DispatchQueue.main.async {
                     viewModel.fetchingMessages()
