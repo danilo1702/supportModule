@@ -51,8 +51,7 @@ public struct ChatView: View {
                 }
             }
             
-            .navigationTitle(CommonStrings.chatSupport)
-            .navigationBarTitleDisplayMode(.inline)
+            
             if !viewModel.finishedChat {
                  
                 TextFieldMessageView( completion: { text in
@@ -61,6 +60,8 @@ public struct ChatView: View {
             }
             
         }
+        .navigationTitle(CommonStrings.chatSupport)
+        .navigationBarTitleDisplayMode(.inline)
         
     }
 }
