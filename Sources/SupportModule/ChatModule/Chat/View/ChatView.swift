@@ -25,12 +25,13 @@ public struct ChatView: View {
                         ForEach(viewModel.messages, id: \.uniqueID) { message in
                             
                            BumbleChat(message: message)
-                                
+                                .onTapGesture {
+                                    showSheet.toggle()
+                                }
                         }
                         HStack {
                             Spacer()
                         }.id(scrollBottom)
-                            
                     }.onReceive(viewModel.$count, perform: { _ in
                         withAnimation(.smooth) {
                             scrollViewProxy.scrollTo(scrollBottom, anchor: .bottom)
@@ -38,18 +39,17 @@ public struct ChatView: View {
                     })
                 }
             }
-            Text("asd")
-                .onTapGesture {
-                    showSheet.toggle()
-                }
-                .sheet(isPresented: $showSheet) {
-                    Text("swsdasd")
-                }
+            .alert("Hola", isPresented: $showSheet, actions: {
+                
+            })
+//            .sheet(isPresented: $viewModel.qualified) {
+//                CalifiationView()
+//            }
             .onAppear{
                 
                 DispatchQueue.main.async {
-                    //viewModel.fetchingMessages()
-                    //viewModel.chatStatus()
+                    viewModel.fetchingMessages()
+                    viewModel.chatStatus()
                     
                 }
             }
