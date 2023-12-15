@@ -40,14 +40,15 @@ public struct ChatView: View {
                     })
                 }
             }
+            .sheet(isPresented: $viewModel.qualified, content: {
+                CalifiationView(toUUID: viewModel.toUUID)
+            })
             .onAppear{
-                
-                Task {
+                DispatchQueue.main.async {
                     viewModel.fetchingMessages()
                     viewModel.chatStatus()
                 }
             }
-            
             
             if !viewModel.finishedChat {
                  
@@ -55,13 +56,6 @@ public struct ChatView: View {
                         viewModel.sendMessage(message: text)
                 })
             }
-            NavigationLink(isActive: $viewModel.qualified) {
-                CalifiationView(toUUID: viewModel.toUUID)
-            } label: {
-                EmptyView()
-            }
-
-            
         }
     }
 }

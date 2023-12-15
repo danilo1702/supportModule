@@ -34,7 +34,7 @@ public struct SupportModuleView: View {
     
     public var body: some View {
         
-        NavigationView{
+       
             VStack {
                 showListArticles()
                     .padding(.horizontal)
@@ -105,7 +105,7 @@ public struct SupportModuleView: View {
                     }
                 }
             }
-        }
+        
     }
     func gettingArticles()  {
         

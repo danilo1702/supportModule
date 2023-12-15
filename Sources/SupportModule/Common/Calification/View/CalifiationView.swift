@@ -48,7 +48,7 @@ struct CalifiationView: View {
             }
         }
         .onAppear{
-            Task {
+            DispatchQueue.main.async {
                 calificationViewModel.getOptions()
             }
         }
