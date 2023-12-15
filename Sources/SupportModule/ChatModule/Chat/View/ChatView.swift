@@ -25,6 +25,9 @@ public struct ChatView: View {
                         ForEach(viewModel.messages, id: \.uniqueID) { message in
                             
                            BumbleChat(message: message)
+                                .onTapGesture {
+                                    showSheet.toggle()
+                                }
                         }
                         HStack {
                             Spacer()
@@ -36,7 +39,7 @@ public struct ChatView: View {
                     })
                 }
             }
-            .sheet(isPresented: $viewModel.qualified) {
+            .sheet(isPresented: $showSheet) {
                 CalifiationView()
             }
             .onAppear{
