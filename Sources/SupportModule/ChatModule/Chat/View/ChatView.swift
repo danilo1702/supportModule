@@ -41,6 +41,9 @@ public struct ChatView: View {
                 }
             }
             .sheet(isPresented: $viewModel.qualified) {
+             
+                   let _ = dismiss()
+                
                 CalifiationView()
             }
             .onAppear{
@@ -48,9 +51,7 @@ public struct ChatView: View {
                 DispatchQueue.main.async {
                     viewModel.fetchingMessages()
                     viewModel.chatStatus()
-                    if viewModel.qualified {
-                        dismiss()
-                    }
+                    
                 }
             }
             
