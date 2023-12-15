@@ -10,11 +10,13 @@ import FirebaseAuth
 import FirebaseFirestore
 import Combine
 
+
 class ChatViewModel: ObservableObject {
     var toUUID: String
     @Published var messages: [MessageModel] = []
     @Published var count: Int = 0
     @Published var finishedChat: Bool = false
+    @Published var qualified: Bool = false
     
     public init(toUUID: String) {
         self.toUUID = toUUID
@@ -53,14 +55,15 @@ class ChatViewModel: ObservableObject {
     func chatStatus() {
         guard let uuid = FirebaseManagerData.initialization.dbAuth.currentUser?.uid else { return }
         
-        let reference = FirebaseManagerData.initialization.dbFirestore.collection("closedChats").document(uuid).collection("messages").document(toUUID)
+        let reference = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.closedChats).document(uuid).collection(FirebaseConstants.messages).document(toUUID)
 
-        reference.addSnapshotListener { documentSnapshot, error in
-            guard let document = documentSnapshot, error == nil else{ return }
+        reference.addSnapshotListener { [weak self] documentSnapshot, error in
+            guard let self = self, let document = documentSnapshot, error == nil else{ return }
             
-            if let status =  document.data()?["finished"] as? Bool {
-                    self.finishedChat = status
-            }
+                if let status = try? document.data(as: ChatStatusModel.self) {
+                    self.finishedChat = status.finished
+                    self.qualified = status.qualified
+                }
         }
     }
     
