@@ -62,7 +62,7 @@ class ChatViewModel: ObservableObject {
             
                 if let status = try? document.data(as: ChatStatusModel.self) {
                     self.finishedChat = status.finished
-                    self.qualified = status.qualified
+                    self.qualified = !status.qualified
                 }
         }
     }
