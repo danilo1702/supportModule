@@ -52,7 +52,6 @@ struct CalifiationView: View {
                 calificationViewModel.getOptions()
             }
         }
-        .navigationBarBackButtonHidden(true)
     }
     func activeCard(option: OptionsCalification) {
         
