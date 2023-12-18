@@ -14,6 +14,7 @@ public struct ChatView: View {
     var scrollBottom = "scrollBottom"
     @State public var textToSend: String = ""
     @State var showSheet: Bool = false
+    @State var showFinishButton: Bool = false
     public init(toUUID: String) {
         self._viewModel = StateObject(wrappedValue: ChatViewModel(toUUID: toUUID))
     }
@@ -25,7 +26,7 @@ public struct ChatView: View {
                     VStack{
                         ForEach(viewModel.messages, id: \.uniqueID) { message in
                             
-                           BumbleChat(message: message)
+                            BumbleChat(message: message)
                                 .onTapGesture {
                                     showSheet.toggle()
                                 }
@@ -48,15 +49,34 @@ public struct ChatView: View {
                 DispatchQueue.main.async {
                     viewModel.fetchingMessages()
                     viewModel.chatStatus()
+                    viewModel.addFinishChatButton { result in
+                        switch result {
+                            case .success(let success):
+                                showFinishButton = success
+                            case .failure(_):
+                                break
+                        }
+                    }
                 }
             }
             
             if !viewModel.finishedChat {
-                 
+                
                 TextFieldMessageView( completion: { text in
-                        viewModel.sendMessage(message: text)
+                    viewModel.sendMessage(message: text)
                 })
             }
         }.navigationTitle("Chat support")
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    if showFinishButton {
+                        Button {
+                            viewModel.finishChat()
+                        } label: {
+                            Text("Finalizar")     
+                        }
+                    }
+                }
+            }
     }
 }
