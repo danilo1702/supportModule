@@ -61,13 +61,14 @@ class ChatViewModel: ObservableObject {
     }
     func addFinishChatButton() -> Bool{
         var result: Bool = false
-        guard let uuid = FirebaseManagerData.initialization.dbAuth.currentUser?.uid else { return result }
-        let reference = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.supports)
-        
-        reference.whereField("uuid", isEqualTo: uuid).getDocuments { documentSnapshot, error in
-          guard  let _ = documentSnapshot, error == nil else{ return  }
-            result = true
-        }
+        guard let uuid = Auth.auth().currentUser?.uid else { return result}
+            let reference = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.supports)
+            
+            reference.whereField("uuid", isEqualTo: uuid).getDocuments { documentSnapshot, error in
+              guard  let document = documentSnapshot, error == nil else{ return  }
+                guard let a = document.documents.first(where: {$0["uuid"] as? String == uuid}), a.documentID == uuid else { return }
+                result = true
+            }
         return result
     }
     func chatStatus() {
