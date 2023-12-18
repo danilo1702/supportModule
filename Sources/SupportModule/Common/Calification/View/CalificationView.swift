@@ -42,6 +42,7 @@ struct CalificationView: View {
                     ProgressView()
                 }
             }
+            Spacer()
             TextView(informationModel: TextViewModel(text: designView?.secondTitle.text ?? "", foregroundColor: Color(hex: designView?.secondTitle.foregroundColor ?? "#000000"), font: .system(size: designView?.secondTitle.fontSize.parseToCGFloat() ?? 14)))
             
             showStairs()
@@ -66,8 +67,8 @@ struct CalificationView: View {
             } label: {
                 TextView(informationModel: TextViewModel(text: designView?.completeButton.text.text ?? "", foregroundColor: Color(hex: designView?.completeButton.text.foregroundColor ?? "#000000"), font: .system(size: designView?.completeButton.text.fontSize.parseToCGFloat() ?? 14)))
                     .padding()
-                    .background(Color(hex: designView?.completeButton.backgroundColor ?? "#0040FF"))
                     .background(RoundedRectangle(cornerRadius: 15))
+                    .background(Color(hex: designView?.completeButton.backgroundColor ?? "#0040FF"))
                     
             }
             Spacer()
