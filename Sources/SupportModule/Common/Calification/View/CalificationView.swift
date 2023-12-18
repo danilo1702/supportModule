@@ -68,8 +68,8 @@ struct CalificationView: View {
                 TextView(informationModel: TextViewModel(text: designView?.completeButton.text.text ?? "", foregroundColor: Color(hex: designView?.completeButton.text.foregroundColor ?? "#000000"), font: .system(size: designView?.completeButton.text.fontSize.parseToCGFloat() ?? 14)))
             }
             .padding()
-            .background(Color(hex: designView?.completeButton.backgroundColor ?? "#F2F2F2"))
             .background(RoundedRectangle(cornerRadius: 15))
+            .background(Color(hex: designView?.completeButton.backgroundColor ?? "#F2F2F2"))
             Spacer()
         }
         .onAppear{
