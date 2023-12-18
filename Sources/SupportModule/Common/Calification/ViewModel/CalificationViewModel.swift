@@ -32,30 +32,36 @@ public class CalificationViewModel: ObservableObject {
     
     func getRemoteDesign() {
         let decoder = Firestore.Decoder()
-        FirebaseManagerData.initialization.dbRemoteConfig.fetchAndActivate { status, error in
-            if status == .successFetchedFromRemote {
+        let expirationDuration: TimeInterval = 3
+        
+        FirebaseManagerData.initialization.dbRemoteConfig.fetch(withExpirationDuration: expirationDuration) { status, error in
+            if status == .success {
                 
-                if let design = FirebaseManagerData.initialization.dbRemoteConfig["calificationView"].jsonValue as? [String: Any] {
-                    print("DESIGN: \(design)")
-                    do {
-                        let modelDesign = try design.map{try decoder.decode(CalificationDesignModel.self, from: $0)}
-                        print(modelDesign.count)
-                       
-                    } catch {
-                        print(error)
+                FirebaseManagerData.initialization.dbRemoteConfig.activate { _, _ in
+                    if let design = FirebaseManagerData.initialization.dbRemoteConfig["calificationView"].jsonValue as? [String: Any] {
+                        do {
+                            let modelDesign = try decoder.decode(CalificationDesignModel.self, from: design )
+                            print(modelDesign) 
+                        } catch {
+                            print(error)
+                        }
                     }
-                    
                 }
+ 
             }
         }
     }
     
     func getImage(completion: @escaping (Result<String, Never>) -> ()) {
-        FirebaseManagerData.initialization.dbRemoteConfig.fetchAndActivate { status, error in
-            if status == .successFetchedFromRemote {
-                if let companyLogo = FirebaseManagerData.initialization.dbRemoteConfig["companyLogo"].stringValue {
-                    completion(.success(companyLogo))
+        let expirationDuration: TimeInterval = 3
+        FirebaseManagerData.initialization.dbRemoteConfig.fetch(withExpirationDuration: expirationDuration) { status, error in
+            if status == .success {
+                FirebaseManagerData.initialization.dbRemoteConfig.activate { _, _ in
+                    if let companyLogo = FirebaseManagerData.initialization.dbRemoteConfig["companyLogo"].stringValue {
+                        completion(.success(companyLogo))
+                    }
                 }
+               
             }
         }
     }
