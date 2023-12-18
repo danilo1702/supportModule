@@ -69,9 +69,10 @@ struct CalificationView: View {
             }
             .padding()
             .background(Color(hex: designView?.completeButton.backgroundColor ?? "#E6E6E6"))
-            .clipShape(RoundedRectangle(cornerRadius: 28))
+            .clipShape(RoundedRectangle(cornerRadius: 18))
             Spacer()
         }
+        .shadow(radius: 15)
         .onAppear{
             DispatchQueue.main.async {
                 calificationViewModel.getRemoteDesign { result in
