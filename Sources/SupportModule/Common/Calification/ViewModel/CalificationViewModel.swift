@@ -37,9 +37,14 @@ public class CalificationViewModel: ObservableObject {
                 
                 if let design = FirebaseManagerData.initialization.dbRemoteConfig["calificationView"].jsonValue as? [String: Any] {
                     
-                    if let modelDesign = try?  Firestore.Decoder().decode(CalificationDesignModel.self, from: design) {
-                       print(modelDesign)
+                    do {
+                        let modelDesign = try  Firestore.Decoder().decode(CalificationDesignModel.self, from: design)
+                           print(modelDesign)
+                        
+                    } catch {
+                        print(error)
                     }
+                    
                 }
             }
         }
