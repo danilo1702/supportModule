@@ -22,10 +22,10 @@ struct CalifiationView: View {
     var body: some View {
         VStack {
             
-            Text("Califica tu experiencia")
-                .bold()
+            TextView(informationModel: TextViewModel(text: calificationViewModel.model?.mainTitle.text ?? "", foregroundColor: Color(hex: calificationViewModel.model?.mainTitle.foregroundColor ?? "#000000"), font: .system(size: calificationViewModel.model?.mainTitle.fontSize.parseToCGFloat() ?? 14)))
+               
             
-            AsyncImage(url: URL(string: companyLogo)) { phase in
+            AsyncImage(url: URL(string: calificationViewModel.model?.companyLogo ?? "")) { phase in
                 if let image = phase.image {
                     image
                         .resizable()
@@ -37,7 +37,7 @@ struct CalifiationView: View {
                     ProgressView()
                 }
             }
-            Text("¿Se resolvió tu inquietud?")
+            TextView(informationModel: TextViewModel(text: calificationViewModel.model?.secondTitle.text ?? "", foregroundColor: Color(hex: calificationViewModel.model?.secondTitle.foregroundColor ?? "#000000"), font: .system(size: calificationViewModel.model?.secondTitle.fontSize.parseToCGFloat() ?? 14)))
             
             showStairs()
                 .padding()
@@ -59,7 +59,9 @@ struct CalifiationView: View {
                     }
                 }
             } label: {
-                Text("Enviar")
+                TextView(informationModel: TextViewModel(text: calificationViewModel.model?.completeButton.text.text ?? "", foregroundColor: Color(hex: calificationViewModel.model?.completeButton.text.foregroundColor ?? "#000000"), font: .system(size: calificationViewModel.model?.completeButton.text.fontSize.parseToCGFloat() ?? 14)))
+                    .padding()
+                    .background(Color(hex: calificationViewModel.model?.completeButton.backgroundColor ?? "#0040FF"))
             }
         }
         .onAppear{
@@ -102,7 +104,7 @@ struct CalifiationView: View {
     @ViewBuilder
     func stairDesign(selected: Bool) -> some View {
         
-        Image(systemName: selected ? "star.fill" : "star").foregroundStyle(.yellow)
+        Image(systemName: selected ? calificationViewModel.model?.star.sfImageFill ?? "star.fill" : calificationViewModel.model?.star.sfImageFill ?? "star").foregroundStyle(Color(hex: calificationViewModel.model?.star.foregroundColor ?? "#0040FF"))
     }
     func allOk() -> Bool {
         guard  let _ =  stairs.last(where: {$0.status == true}), optionSelected.name != "" else { return false }
