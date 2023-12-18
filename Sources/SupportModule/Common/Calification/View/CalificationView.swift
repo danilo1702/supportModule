@@ -42,6 +42,7 @@ struct CalificationView: View {
                     ProgressView()
                 }
             }
+            .shadow(radius: 20)
             Spacer()
             TextView(informationModel: TextViewModel(text: designView?.secondTitle.text ?? "", foregroundColor: Color(hex: designView?.secondTitle.foregroundColor ?? "#000000"), font: .system(size: designView?.secondTitle.fontSize.parseToCGFloat() ?? 14).bold()))
             
@@ -55,6 +56,7 @@ struct CalificationView: View {
                     }
                 }
             }
+            Spacer()
             Button {
                 if allOk() {
                     calificationViewModel.sendInformation(information: getInformationTosend(), toUUID: toUUID) { result in
@@ -72,7 +74,6 @@ struct CalificationView: View {
             .clipShape(RoundedRectangle(cornerRadius: 18))
             Spacer()
         }
-        .shadow(radius: 15)
         .onAppear{
             DispatchQueue.main.async {
                 calificationViewModel.getRemoteDesign { result in
