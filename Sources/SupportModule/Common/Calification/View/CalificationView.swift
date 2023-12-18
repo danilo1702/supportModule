@@ -27,6 +27,7 @@ struct CalificationView: View {
             
             TextView(informationModel: TextViewModel(text: designView?.mainTitle.text ?? "", foregroundColor: Color(hex: designView?.mainTitle.foregroundColor ?? "#000000"), font: .system(size: designView?.mainTitle.fontSize.parseToCGFloat() ?? 14)))
                
+            Spacer()
             
             AsyncImage(url: URL(string: companyLogo)) { phase in
                 if let image = phase.image {
@@ -35,7 +36,7 @@ struct CalificationView: View {
                         .clipShape(Circle())
                         .frame(width: UIScreen.main.bounds.width * 0.3, height: UIScreen.main.bounds.width * 0.3, alignment: .center)
                 } else if phase.error != nil{
-                    Color.red
+    
                 } else {
                     ProgressView()
                 }
@@ -66,6 +67,7 @@ struct CalificationView: View {
                     .padding()
                     .background(Color(hex: designView?.completeButton.backgroundColor ?? "#0040FF"))
             }
+            Spacer()
         }
         .onAppear{
             DispatchQueue.main.async {
