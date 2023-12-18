@@ -20,7 +20,7 @@ struct CalificationView: View {
     
     
     var toUUID: String
-    var rows: [GridItem] = [ GridItem(.fixed(150), spacing: 5, alignment: .center)
+    var rows: [GridItem] = [ GridItem(.fixed(150), spacing: 10, alignment: .center)
                              ,GridItem(.fixed(150), spacing: 1, alignment: .center)]
     var body: some View {
         VStack {
