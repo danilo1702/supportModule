@@ -27,6 +27,7 @@ struct CalificationView: View {
             
             Spacer()
             TextView(informationModel: TextViewModel(text: designView?.mainTitle.text ?? "", foregroundColor: Color(hex: designView?.mainTitle.foregroundColor ?? "#000000"), font: .system(size: designView?.mainTitle.fontSize.parseToCGFloat() ?? 14).bold()))
+                .shadow(radius: 10)
                
             Spacer()
             
@@ -55,6 +56,7 @@ struct CalificationView: View {
                     CardView(information: option.model, isSelected: .constant(option.selected)) {
                         activeCard(option: option)
                     }
+                    .shadow(radius: 25)
                     
                 }
             }
