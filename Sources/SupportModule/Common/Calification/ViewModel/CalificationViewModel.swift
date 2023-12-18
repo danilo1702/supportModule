@@ -15,7 +15,7 @@ import FirebaseFirestore
 public class CalificationViewModel: ObservableObject {
     
     @Published public var optionsCalification: [OptionsCalification] = []
-
+    
     func getOptions() {
         
         let reference = FirebaseManagerData.initialization.dbFirestore.collection("optionsCalification")
@@ -41,6 +41,9 @@ public class CalificationViewModel: ObservableObject {
                     if let design = FirebaseManagerData.initialization.dbRemoteConfig["calificationView"].jsonValue as? [String: Any] {
                         do {
                             let modelDesign = try decoder.decode(CalificationDesignModel.self, from: design )
+#if DEBUG
+                            print(modelDesign)
+#endif
                             completion(.success(modelDesign))
                         } catch {
 #if DEBUG
