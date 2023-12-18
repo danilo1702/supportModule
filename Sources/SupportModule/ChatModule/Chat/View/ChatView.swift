@@ -42,7 +42,7 @@ public struct ChatView: View {
                 }
             }
             .sheet(isPresented: $viewModel.qualified, content: {
-                CalifiationView(toUUID: viewModel.toUUID)
+                CalificationView(toUUID: viewModel.toUUID)
                     .interactiveDismissDisabled()
             })
             .onAppear{

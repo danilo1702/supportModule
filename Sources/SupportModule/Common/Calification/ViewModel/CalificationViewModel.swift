@@ -15,11 +15,7 @@ import FirebaseFirestore
 public class CalificationViewModel: ObservableObject {
     
     @Published public var optionsCalification: [OptionsCalification] = []
-    @Published public var model: CalificationDesignModel?
-    
-    public init(model: CalificationDesignModel? = nil) {
-        self.optionsCalification = optionsCalification
-    }
+
     func getOptions() {
         
         let reference = FirebaseManagerData.initialization.dbFirestore.collection("optionsCalification")
@@ -34,7 +30,7 @@ public class CalificationViewModel: ObservableObject {
         }
     }
     
-    func getRemoteDesign() {
+    func getRemoteDesign(completion: @escaping (Result<CalificationDesignModel, Never>) -> () ) {
         let decoder = Firestore.Decoder()
         let expirationDuration: TimeInterval = 3
         
@@ -45,7 +41,7 @@ public class CalificationViewModel: ObservableObject {
                     if let design = FirebaseManagerData.initialization.dbRemoteConfig["calificationView"].jsonValue as? [String: Any] {
                         do {
                             let modelDesign = try decoder.decode(CalificationDesignModel.self, from: design )
-                            self.model = modelDesign
+                            completion(.success(modelDesign))
                         } catch {
 #if DEBUG
                             print(error)
@@ -53,7 +49,6 @@ public class CalificationViewModel: ObservableObject {
                         }
                     }
                 }
-                
             }
         }
     }

@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-struct CalifiationView: View {
+
+struct CalificationView: View {
     @State var stairs: [RangeStairsModel] = [RangeStairsModel(position: 1, status: false), RangeStairsModel(position: 2, status: false),RangeStairsModel(position: 3, status: false),RangeStairsModel(position: 4, status: false),RangeStairsModel(position: 5, status: false)]
     @Environment(\.dismiss) var dismiss
     @StateObject var calificationViewModel = CalificationViewModel()
@@ -15,6 +16,7 @@ struct CalifiationView: View {
     @State var comment: String = ""
     @State var isSelected: Bool = false
     @State var companyLogo: String = ""
+    @State var designView: CalificationDesignModel?
     
     var toUUID: String
     var rows: [GridItem] = [ GridItem(.fixed(150), spacing: 5, alignment: .center)
@@ -22,10 +24,10 @@ struct CalifiationView: View {
     var body: some View {
         VStack {
             
-            TextView(informationModel: TextViewModel(text: calificationViewModel.model?.mainTitle.text ?? "", foregroundColor: Color(hex: calificationViewModel.model?.mainTitle.foregroundColor ?? "#000000"), font: .system(size: calificationViewModel.model?.mainTitle.fontSize.parseToCGFloat() ?? 14)))
+            TextView(informationModel: TextViewModel(text: designView?.mainTitle.text ?? "", foregroundColor: Color(hex: designView?.mainTitle.foregroundColor ?? "#000000"), font: .system(size: designView?.mainTitle.fontSize.parseToCGFloat() ?? 14)))
                
             
-            AsyncImage(url: URL(string: calificationViewModel.model?.companyLogo ?? "")) { phase in
+            AsyncImage(url: URL(string: designView?.companyLogo ?? "")) { phase in
                 if let image = phase.image {
                     image
                         .resizable()
@@ -37,7 +39,7 @@ struct CalifiationView: View {
                     ProgressView()
                 }
             }
-            TextView(informationModel: TextViewModel(text: calificationViewModel.model?.secondTitle.text ?? "", foregroundColor: Color(hex: calificationViewModel.model?.secondTitle.foregroundColor ?? "#000000"), font: .system(size: calificationViewModel.model?.secondTitle.fontSize.parseToCGFloat() ?? 14)))
+            TextView(informationModel: TextViewModel(text: designView?.secondTitle.text ?? "", foregroundColor: Color(hex: designView?.secondTitle.foregroundColor ?? "#000000"), font: .system(size: designView?.secondTitle.fontSize.parseToCGFloat() ?? 14)))
             
             showStairs()
                 .padding()
@@ -59,29 +61,28 @@ struct CalifiationView: View {
                     }
                 }
             } label: {
-                TextView(informationModel: TextViewModel(text: calificationViewModel.model?.completeButton.text.text ?? "", foregroundColor: Color(hex: calificationViewModel.model?.completeButton.text.foregroundColor ?? "#000000"), font: .system(size: calificationViewModel.model?.completeButton.text.fontSize.parseToCGFloat() ?? 14)))
+                TextView(informationModel: TextViewModel(text: designView?.completeButton.text.text ?? "", foregroundColor: Color(hex: designView?.completeButton.text.foregroundColor ?? "#000000"), font: .system(size: designView?.completeButton.text.fontSize.parseToCGFloat() ?? 14)))
                     .padding()
-                    .background(Color(hex: calificationViewModel.model?.completeButton.backgroundColor ?? "#0040FF"))
+                    .background(Color(hex: designView?.completeButton.backgroundColor ?? "#0040FF"))
             }
         }
         .onAppear{
             DispatchQueue.main.async {
-                calificationViewModel.getOptions()
-                calificationViewModel.getRemoteDesign()
-                calificationViewModel.getImage { result in
+                calificationViewModel.getRemoteDesign { result in
                     switch result {
                         case .success(let success):
-                            companyLogo = success
-                        case .failure( _ ):
-                                break
+                            designView = success
+                        case .failure(_):
+                            break
                     }
                 }
+                calificationViewModel.getOptions()
             }
         }
     }
     func activeCard(option: OptionsCalification) {
         
-        guard let index = calificationViewModel.optionsCalification.firstIndex(where: {$0.model.id == option.model.id}) else {
+        guard let _ = calificationViewModel.optionsCalification.firstIndex(where: {$0.model.id == option.model.id}) else {
             return }
         calificationViewModel.optionsCalification = calificationViewModel.optionsCalification.map({ OptionsCalification(selected: option.model.id == $0.model.id ? true : false, model: $0.model)
         })
@@ -104,7 +105,8 @@ struct CalifiationView: View {
     @ViewBuilder
     func stairDesign(selected: Bool) -> some View {
         
-        Image(systemName: selected ? calificationViewModel.model?.star.sfImageFill ?? "star.fill" : calificationViewModel.model?.star.sfImageFill ?? "star").foregroundStyle(Color(hex: calificationViewModel.model?.star.foregroundColor ?? "#0040FF"))
+        Image(systemName: selected ? designView?.star.sfImageFill ?? "star.fill" : designView?.star.sfImageFill ?? "star")
+            .foregroundStyle(Color(hex: designView?.star.foregroundColor ?? "#0040FF"))
     }
     func allOk() -> Bool {
         guard  let _ =  stairs.last(where: {$0.status == true}), optionSelected.name != "" else { return false }
