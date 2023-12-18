@@ -56,7 +56,7 @@ struct CalificationView: View {
                     CardView(information: option.model, isSelected: .constant(option.selected)) {
                         activeCard(option: option)
                     }
-                    .shadow(radius: 25)
+                    .shadow(radius: CGFloat(designView?.shadowOptions ?? 0))
                     
                 }
             }
