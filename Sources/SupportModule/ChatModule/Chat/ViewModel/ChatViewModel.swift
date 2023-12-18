@@ -37,7 +37,7 @@ class ChatViewModel: ObservableObject {
             documentSnapshot.documentChanges.forEach { change in
                 if change.type == .added {
                     
-                
+                    
                     if let cm = try? change.document.data(as: MessageModel.self) {
                         self.messages.append(cm)
                         print("Appending chatMessage in Chat")
@@ -51,7 +51,7 @@ class ChatViewModel: ObservableObject {
             }
         }
     }
-
+    
     func finishChat() {
         guard let uuid = FirebaseManagerData.initialization.dbAuth.currentUser?.uid else { return }
         let reference = FirebaseManagerData.initialization.dbFirestore.collection("closedChats").document(uuid).collection(FirebaseConstants.messages)
@@ -59,30 +59,38 @@ class ChatViewModel: ObservableObject {
         
         reference.setData(["finished": false, "qualified": false])
     }
-    func addFinishChatButton() -> Bool{
-        var result: Bool = false
-        guard let uuid = Auth.auth().currentUser?.uid else { return result}
-            let reference = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.supports)
-            
-            reference.whereField("uuid", isEqualTo: uuid).getDocuments { documentSnapshot, error in
-              guard  let document = documentSnapshot, error == nil else{ return  }
-                guard let a = document.documents.first(where: {$0["uuid"] as? String == uuid}), a.documentID == uuid else { return }
-                result = true
+    func addFinishChatButton(completion: @escaping(Result<Bool, Never>) -> ()){
+        
+        guard let uuid = Auth.auth().currentUser?.uid else {
+            completion(.success(false))
+            return
+        }
+        let reference = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.supports)
+        
+        reference.whereField("uuid", isEqualTo: uuid).getDocuments { documentSnapshot, error in
+            guard  let document = documentSnapshot, error == nil else{
+                completion(.success(false))
+                return
             }
-        return result
+            guard let a = document.documents.first(where: {$0["uuid"] as? String == uuid}), a.documentID == uuid else {
+                completion(.success(false))
+                return
+            }
+            completion(.success(true))
+        }
     }
     func chatStatus() {
         guard let uuid = FirebaseManagerData.initialization.dbAuth.currentUser?.uid else { return }
         
         let reference = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.closedChats).document(uuid).collection(FirebaseConstants.messages).document(toUUID)
-
+        
         reference.addSnapshotListener { [weak self] documentSnapshot, error in
             guard let self = self, let document = documentSnapshot, error == nil else{ return }
             
-                if let status = try? document.data(as: ChatStatusModel.self) {
-                    self.finishedChat = status.finished
-                    self.qualified = !status.qualified
-                }
+            if let status = try? document.data(as: ChatStatusModel.self) {
+                self.finishedChat = status.finished
+                self.qualified = !status.qualified
+            }
         }
     }
     
@@ -117,7 +125,7 @@ class ChatViewModel: ObservableObject {
         }
         DispatchQueue.main.async {
             self.count += 1
-           
+            
             self.saveLastMessage(fromUUID: fromUUID, message: &message)
         }
     }
@@ -128,15 +136,15 @@ class ChatViewModel: ObservableObject {
         var messageReceiver = message
         messageReceiver [FirebaseConstants.messageRead] = true
         let senderReference = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.lastMessages)
-           .document(fromUUID)
+            .document(fromUUID)
             .collection(FirebaseConstants.messages)
             .document(toUUID)
-
+        
         let receiverReference = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.lastMessages)
             .document(toUUID)
             .collection(FirebaseConstants.messages)
             .document(fromUUID)
-
+        
         let batch = FirebaseManagerData.initialization.dbFirestore.batch()
         
         batch.setData(message, forDocument: senderReference)
