@@ -42,7 +42,8 @@ struct CalificationView: View {
                     ProgressView()
                 }
             }
-            .shadow(radius: 20)
+            
+            .shadow(radius: 30)
             Spacer()
             TextView(informationModel: TextViewModel(text: designView?.secondTitle.text ?? "", foregroundColor: Color(hex: designView?.secondTitle.foregroundColor ?? "#000000"), font: .system(size: designView?.secondTitle.fontSize.parseToCGFloat() ?? 14).bold()))
             
@@ -54,7 +55,7 @@ struct CalificationView: View {
                     CardView(information: option.model, isSelected: .constant(option.selected)) {
                         activeCard(option: option)
                     }
-                    .shadow(radius: 10)
+                    .shadow(radius: 2)
                 }
             }
             Spacer()
@@ -73,7 +74,7 @@ struct CalificationView: View {
             .padding()
             .background(Color(hex: designView?.completeButton.backgroundColor ?? "#E6E6E6"))
             .clipShape(RoundedRectangle(cornerRadius: 18))
-            .shadow(radius: 10)
+            .shadow(radius: 2)
             Spacer()
         }
         .onAppear{
