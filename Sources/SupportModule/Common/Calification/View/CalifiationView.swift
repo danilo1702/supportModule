@@ -14,6 +14,7 @@ struct CalifiationView: View {
     @State var optionSelected: OptionSelected = OptionSelected(id: "", name: "")
     @State var comment: String = ""
     @State var isSelected: Bool = false
+    @State var companyLogo: String = ""
     
     var toUUID: String
     var rows: [GridItem] = [ GridItem(.fixed(150), spacing: 5, alignment: .center)
@@ -22,6 +23,20 @@ struct CalifiationView: View {
         VStack {
             
             Text("Califica tu experiencia")
+                .bold()
+            
+            AsyncImage(url: URL(string: companyLogo)) { phase in
+                if let image = phase.image {
+                    image
+                        .resizable()
+                        .clipShape(Circle())
+                        .frame(width: UIScreen.main.bounds.width * 0.3, height: UIScreen.main.bounds.width * 0.3, alignment: .center)
+                } else if phase.error != nil{
+                   
+                } else {
+                    ProgressView()
+                }
+            }
             Text("¿Se resolvió tu inquietud?")
             
             showStairs()
@@ -50,6 +65,14 @@ struct CalifiationView: View {
         .onAppear{
             DispatchQueue.main.async {
                 calificationViewModel.getOptions()
+                calificationViewModel.getImage { result in
+                    switch result {
+                        case .success(let success):
+                            companyLogo = success
+                        case .failure( _ ):
+                                break
+                    }
+                }
             }
         }
     }

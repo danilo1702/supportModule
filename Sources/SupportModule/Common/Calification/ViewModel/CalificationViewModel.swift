@@ -26,6 +26,15 @@ public class CalificationViewModel: ObservableObject {
             }
         }
     }
+    func getImage(completion: @escaping (Result<String, Never>) -> ()) {
+        FirebaseManagerData.initialization.dbRemoteConfig.fetchAndActivate { status, error in
+            if status == .successFetchedFromRemote {
+                if let companyLogo = FirebaseManagerData.initialization.dbRemoteConfig["companyLogo"].stringValue {
+                    completion(.success(companyLogo))
+                }
+            }
+        }
+    }
     func sendInformation(information: SendCalification, toUUID: String, completion: @escaping (Result<Bool, Never>) -> ()) {
         guard let uuid = FirebaseManagerData.initialization.dbAuth.currentUser?.uid else { return }
         let reference = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.closedChats).document(uuid).collection(FirebaseConstants.messages).document(toUUID)
