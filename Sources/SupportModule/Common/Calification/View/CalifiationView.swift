@@ -65,6 +65,7 @@ struct CalifiationView: View {
         .onAppear{
             DispatchQueue.main.async {
                 calificationViewModel.getOptions()
+                calificationViewModel.getRemoteDesign()
                 calificationViewModel.getImage { result in
                     switch result {
                         case .success(let success):

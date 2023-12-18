@@ -7,6 +7,9 @@
 
 import Foundation
 import SwiftUI
+import FirebaseRemoteConfig
+import FirebaseRemoteConfigInternal
+import FirebaseFirestore
 
 
 public class CalificationViewModel: ObservableObject {
@@ -26,6 +29,22 @@ public class CalificationViewModel: ObservableObject {
             }
         }
     }
+    
+    func getRemoteDesign() {
+        
+        FirebaseManagerData.initialization.dbRemoteConfig.fetchAndActivate { status, error in
+            if status == .successFetchedFromRemote {
+                
+                if let design = FirebaseManagerData.initialization.dbRemoteConfig["calificationView"].jsonValue as? [String: Any] {
+                    
+                    if let modelDesign = try?  Firestore.Decoder().decode(CalificationDesignModel.self, from: design) {
+                       print(modelDesign)
+                    }
+                }
+            }
+        }
+    }
+    
     func getImage(completion: @escaping (Result<String, Never>) -> ()) {
         FirebaseManagerData.initialization.dbRemoteConfig.fetchAndActivate { status, error in
             if status == .successFetchedFromRemote {
