@@ -18,6 +18,7 @@ struct CalificationView: View {
     @State var companyLogo: String = ""
     @State var designView: CalificationDesignModel?
     
+    
     var toUUID: String
     var rows: [GridItem] = [ GridItem(.fixed(150), spacing: 5, alignment: .center)
                              ,GridItem(.fixed(150), spacing: 1, alignment: .center)]
@@ -27,7 +28,7 @@ struct CalificationView: View {
             TextView(informationModel: TextViewModel(text: designView?.mainTitle.text ?? "", foregroundColor: Color(hex: designView?.mainTitle.foregroundColor ?? "#000000"), font: .system(size: designView?.mainTitle.fontSize.parseToCGFloat() ?? 14)))
                
             
-            AsyncImage(url: URL(string: designView?.companyLogo ?? "")) { phase in
+            AsyncImage(url: URL(string: companyLogo)) { phase in
                 if let image = phase.image {
                     image
                         .resizable()
@@ -72,6 +73,7 @@ struct CalificationView: View {
                     switch result {
                         case .success(let success):
                             designView = success
+                            companyLogo = success.companyLogo
                         case .failure(_):
                             break
                     }
@@ -105,7 +107,7 @@ struct CalificationView: View {
     @ViewBuilder
     func stairDesign(selected: Bool) -> some View {
         
-        Image(systemName: selected ? designView?.star.sfImageFill ?? "star.fill" :  "star")
+        Image(systemName: selected ? designView?.star.sfImageFill ?? "star.fill" : designView?.star.sfImage ?? "star")
             .foregroundStyle(Color(hex: designView?.star.foregroundColor ?? "#0040FF"))
     }
     func allOk() -> Bool {
