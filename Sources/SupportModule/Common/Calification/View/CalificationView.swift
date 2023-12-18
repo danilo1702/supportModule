@@ -35,7 +35,7 @@ struct CalificationView: View {
                         .clipShape(Circle())
                         .frame(width: UIScreen.main.bounds.width * 0.3, height: UIScreen.main.bounds.width * 0.3, alignment: .center)
                 } else if phase.error != nil{
-                   
+                    Color.red
                 } else {
                     ProgressView()
                 }
@@ -72,8 +72,8 @@ struct CalificationView: View {
                 calificationViewModel.getRemoteDesign { result in
                     switch result {
                         case .success(let success):
-                            designView = success
                             companyLogo = success.companyLogo
+                            designView = success
                         case .failure(_):
                             break
                     }
