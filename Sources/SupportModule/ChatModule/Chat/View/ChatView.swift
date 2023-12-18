@@ -49,14 +49,7 @@ public struct ChatView: View {
                 DispatchQueue.main.async {
                     viewModel.fetchingMessages()
                     viewModel.chatStatus()
-                    viewModel.addFinishChatButton { result in
-                        switch result {
-                            case .success(let success):
-                                showFinishButton = success
-                            case .failure(_):
-                                break
-                        }
-                    }
+                    showFinishButton = viewModel.addFinishChatButton()
                 }
             }
             
@@ -73,7 +66,7 @@ public struct ChatView: View {
                         Button {
                             viewModel.finishChat()
                         } label: {
-                            Text("Finalizar")     
+                            Text("Finalizar")
                         }
                     }
                 }

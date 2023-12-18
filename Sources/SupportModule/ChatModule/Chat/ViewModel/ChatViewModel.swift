@@ -59,19 +59,16 @@ class ChatViewModel: ObservableObject {
         
         reference.setData(["finished": false, "qualified": false])
     }
-    func addFinishChatButton(completion: @escaping (Result<Bool, Never>) -> ()) {
-        guard let uuid = FirebaseManagerData.initialization.dbAuth.currentUser?.uid else { return }
-        let reference = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.supports).document()
+    func addFinishChatButton() -> Bool{
+        var result: Bool = false
+        guard let uuid = FirebaseManagerData.initialization.dbAuth.currentUser?.uid else { return result }
+        let reference = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.supports)
         
-        reference.getDocument { documentSnapshot, error in
-            guard let documentSnapshot = documentSnapshot, error == nil else { return }
-            
-            if documentSnapshot.documentID == uuid {
-                completion(.success(true))
-            }else {
-                completion(.success(false))
-            }
+        reference.whereField("uuid", isEqualTo: uuid).getDocuments { documentSnapshot, error in
+          guard  let _ = documentSnapshot, error == nil else{ return  }
+            result = true
         }
+        return result
     }
     func chatStatus() {
         guard let uuid = FirebaseManagerData.initialization.dbAuth.currentUser?.uid else { return }
