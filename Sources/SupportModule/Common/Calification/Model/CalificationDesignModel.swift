@@ -22,6 +22,14 @@ public struct CalificationDesignModel: Codable {
         self.star = star
         self.completeButton = completeButton
     }
+    
+    enum CodingKeys: CodingKey {
+        case mainTitle
+        case companyLogo
+        case secondTitle
+        case star
+        case completeButton
+    }
 
 }
 public struct ButtonDesignModel: Codable {
@@ -32,8 +40,25 @@ public struct ButtonDesignModel: Codable {
         self.text = text
         self.backgroundColor = backgroundColor
     }
+    
+    enum CodingKeys: CodingKey {
+        case text
+        case backgroundColor
+    }
 }
 
 public struct Star: Codable {
+    
     let sfImageFill, sfImage, foregroundColor: String
+    
+    public init(sfImageFill: String, sfImage: String, foregroundColor: String) {
+        self.sfImageFill = sfImageFill
+        self.sfImage = sfImage
+        self.foregroundColor = foregroundColor
+    }
+    enum CodingKeys: CodingKey {
+        case sfImageFill
+        case sfImage
+        case foregroundColor
+    }
 }
