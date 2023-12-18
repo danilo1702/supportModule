@@ -54,6 +54,7 @@ struct CalificationView: View {
                     CardView(information: option.model, isSelected: .constant(option.selected)) {
                         activeCard(option: option)
                     }
+                    .shadow(radius: 10)
                 }
             }
             Spacer()
@@ -72,6 +73,7 @@ struct CalificationView: View {
             .padding()
             .background(Color(hex: designView?.completeButton.backgroundColor ?? "#E6E6E6"))
             .clipShape(RoundedRectangle(cornerRadius: 18))
+            .shadow(radius: 10)
             Spacer()
         }
         .onAppear{
