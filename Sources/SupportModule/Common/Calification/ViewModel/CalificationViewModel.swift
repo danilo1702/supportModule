@@ -31,16 +31,16 @@ public class CalificationViewModel: ObservableObject {
     }
     
     func getRemoteDesign() {
-        
+        let decoder = Firestore.Decoder()
         FirebaseManagerData.initialization.dbRemoteConfig.fetchAndActivate { status, error in
             if status == .successFetchedFromRemote {
                 
                 if let design = FirebaseManagerData.initialization.dbRemoteConfig["calificationView"].jsonValue as? [String: Any] {
-                    
+                    print("DESIGN: \(design)")
                     do {
-                        let modelDesign = try  Firestore.Decoder().decode(CalificationDesignModel.self, from: design)
-                           print(modelDesign)
-                        
+                        let modelDesign = try design.map{try decoder.decode(CalificationDesignModel.self, from: $0)}
+                        print(modelDesign.count)
+                       
                     } catch {
                         print(error)
                     }
