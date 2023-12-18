@@ -105,7 +105,7 @@ struct CalificationView: View {
     @ViewBuilder
     func stairDesign(selected: Bool) -> some View {
         
-        Image(systemName: selected ? designView!.star.sfImageFill  : designView!.star.sfImageFill)
+        Image(systemName: selected ? designView?.star.sfImageFill ?? "star.fill" :  "star")
             .foregroundStyle(Color(hex: designView?.star.foregroundColor ?? "#0040FF"))
     }
     func allOk() -> Bool {
