@@ -54,7 +54,7 @@ class ChatViewModel: ObservableObject {
     
     func finishChat() {
         guard let uuid = FirebaseManagerData.initialization.dbAuth.currentUser?.uid else { return }
-        let reference = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.closedChats).document(toUUID).collection(FirebaseConstants.messages)
+        let reference = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.closedChats).document(toUUID).collection(FirebaseConstants.calification)
             .document(uuid)
         
         reference.setData([FirebaseConstants.finished: false, FirebaseConstants.qualified: false])
@@ -82,7 +82,7 @@ class ChatViewModel: ObservableObject {
     func chatStatus() {
         guard let uuid = FirebaseManagerData.initialization.dbAuth.currentUser?.uid else { return }
         
-        let reference = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.closedChats).document(uuid).collection(FirebaseConstants.messages).document(toUUID)
+        let reference = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.closedChats).document(uuid).collection(FirebaseConstants.calification).document(toUUID)
         
         reference.addSnapshotListener { [weak self] documentSnapshot, error in
             guard let self = self, let document = documentSnapshot, error == nil else{ return }

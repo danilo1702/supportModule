@@ -23,5 +23,6 @@ struct FirebaseConstants {
     static let fromUUID = "fromUUID"
     static let toUUID = "toUUID"
     static let fromName = "fromName"
+    static let calification = "calification"
     
 }
