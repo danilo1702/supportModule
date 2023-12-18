@@ -43,7 +43,7 @@ struct CalificationView: View {
                 }
             }
             Spacer()
-            TextView(informationModel: TextViewModel(text: designView?.secondTitle.text ?? "", foregroundColor: Color(hex: designView?.secondTitle.foregroundColor ?? "#000000"), font: .system(size: designView?.secondTitle.fontSize.parseToCGFloat() ?? 14)))
+            TextView(informationModel: TextViewModel(text: designView?.secondTitle.text ?? "", foregroundColor: Color(hex: designView?.secondTitle.foregroundColor ?? "#000000"), font: .system(size: designView?.secondTitle.fontSize.parseToCGFloat() ?? 14).bold()))
             
             showStairs()
                 .padding()
