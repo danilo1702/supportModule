@@ -54,10 +54,10 @@ class ChatViewModel: ObservableObject {
     
     func finishChat() {
         guard let uuid = FirebaseManagerData.initialization.dbAuth.currentUser?.uid else { return }
-        let reference = FirebaseManagerData.initialization.dbFirestore.collection("closedChats").document(uuid).collection(FirebaseConstants.messages)
-            .document(toUUID)
+        let reference = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.closedChats).document(toUUID).collection(FirebaseConstants.messages)
+            .document(uuid)
         
-        reference.setData(["finished": false, "qualified": false])
+        reference.setData([FirebaseConstants.finished: false, FirebaseConstants.qualified: false])
     }
     func addFinishChatButton(completion: @escaping(Result<Bool, Never>) -> ()){
         
@@ -67,12 +67,12 @@ class ChatViewModel: ObservableObject {
         }
         let reference = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.supports)
         
-        reference.whereField("uuid", isEqualTo: uuid).getDocuments { documentSnapshot, error in
+        reference.whereField(FirebaseConstants.uuid, isEqualTo: uuid).getDocuments { documentSnapshot, error in
             guard  let document = documentSnapshot, error == nil else{
                 completion(.success(false))
                 return
             }
-            guard let a = document.documents.first(where: {$0["uuid"] as? String == uuid}), a.documentID == uuid else {
+            guard let a = document.documents.first(where: {$0[FirebaseConstants.uuid] as? String == uuid}), a.documentID == uuid else {
                 completion(.success(false))
                 return
             }
@@ -98,13 +98,12 @@ class ChatViewModel: ObservableObject {
         
         guard let fromUUID = FirebaseManagerData.initialization.dbAuth.currentUser?.uid else { return }
         
-        
         let referenceSender = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.messages)
             .document(fromUUID)
             .collection(toUUID)
             .document()
         
-        var message = ["message": message, "fromUUID": fromUUID, "toUUID": toUUID, "timestamp": Timestamp(), "fromName": UIDevice.modelName] as [String: Any]
+        var message = [FirebaseConstants.message: message, FirebaseConstants.fromUUID: fromUUID, FirebaseConstants.toUUID: toUUID, FirebaseConstants.timestamp: Timestamp(), FirebaseConstants.fromName: UIDevice.modelName] as [String: Any]
         referenceSender.setData(message) { error in
             if error != nil {
                 print("Errro sending de message ")
