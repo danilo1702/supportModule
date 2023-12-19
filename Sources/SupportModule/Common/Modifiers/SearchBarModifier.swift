@@ -14,10 +14,10 @@ public struct SearchBarModifier: ViewModifier {
     public var completion: () -> ()
     @State var searching: Bool = false
     @State var oldValue: String = ""
-    @State var remoteConfig: RemoteConfigModelMainView
+    @Binding var remoteConfig: RemoteConfigModelMainView
     
-    public init(remoteConfig: RemoteConfigModelMainView ,textSearch: Binding<String>, completion: @escaping () -> ()) {
-        self._remoteConfig = State(wrappedValue: remoteConfig)
+    public init(remoteConfig: Binding<RemoteConfigModelMainView> ,textSearch: Binding<String>, completion: @escaping () -> ()) {
+        self._remoteConfig = remoteConfig
         self._textSearch = textSearch
         self.completion = completion
     }

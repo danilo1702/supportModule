@@ -12,7 +12,7 @@ extension View {
     func imageCardView() -> some View {
        modifier(ImageCardViewModifer()) 
     }
-    func addSearchbar(remoteConfig: RemoteConfigModelMainView,textSearch: Binding<String>, completion: @escaping () -> () ) -> some View {
+    func addSearchbar(remoteConfig: Binding<RemoteConfigModelMainView>,textSearch: Binding<String>, completion: @escaping () -> () ) -> some View {
         self.modifier(SearchBarModifier(remoteConfig: remoteConfig,textSearch: textSearch, completion: completion))
     }
     func showNavigationLink(link: String, show: Binding<Bool>) -> some View {

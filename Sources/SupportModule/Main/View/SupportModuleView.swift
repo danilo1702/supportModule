@@ -78,7 +78,7 @@ public struct SupportModuleView: View {
                 .shadow(radius: 5)
                 navigationLinks()
             }
-            .addSearchbar(remoteConfig: configuration, textSearch: $textSearch, completion: {
+            .addSearchbar(remoteConfig: $configuration, textSearch: $textSearch, completion: {
                 gettingArticles()
             })
             .ignoresSafeArea()
