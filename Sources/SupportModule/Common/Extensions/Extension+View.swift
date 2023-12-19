@@ -12,8 +12,8 @@ extension View {
     func imageCardView() -> some View {
        modifier(ImageCardViewModifer()) 
     }
-    func addSearchbar(textSearch: Binding<String>, placeHolder: String, title: TextViewModel?, completion: @escaping () -> () ) -> some View {
-        self.modifier(SearchBarModifier(textSearch: textSearch, placeHolder: placeHolder, title: title, completion: completion))
+    func addSearchbar(remoteConfig: RemoteConfigModelMainView,textSearch: Binding<String>, completion: @escaping () -> () ) -> some View {
+        self.modifier(SearchBarModifier(remoteConfig: remoteConfig,textSearch: textSearch, completion: completion))
     }
     func showNavigationLink(link: String, show: Binding<Bool>) -> some View {
         self.modifier(ShowLinkNavigationModifier(link: link, show: show))

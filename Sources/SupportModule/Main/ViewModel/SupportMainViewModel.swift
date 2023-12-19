@@ -196,6 +196,24 @@ public class SupportMainViewModel: ObservableObject {
             }
         }
     }
+    func getRemoteConfig(completion: @escaping (Result<RemoteConfigModelMainView, Never>) ->() ) {
+        let cacheDuration: TimeInterval = 1
+        let decoder = Firestore.Decoder()
+        FirebaseManagerData.initialization.dbRemoteConfig.fetch(withExpirationDuration: cacheDuration) { status, error in
+            if status == .success {
+                FirebaseManagerData.initialization.dbRemoteConfig.activate { _, _ in
+                    if let config = FirebaseManagerData.initialization.dbRemoteConfig["mainView"].jsonValue as? [String: Any] {
+                        do {
+                            let configInformation = try decoder.decode(RemoteConfigModelMainView.self, from: config)
+                            completion(.success(configInformation))
+                        }catch {
+                            print(error)
+                        }
+                    }
+                }
+            }
+        }
+    }
     
     func convertToCardModel(articlesHelp: [InformationCardApi]) {
         articles = []

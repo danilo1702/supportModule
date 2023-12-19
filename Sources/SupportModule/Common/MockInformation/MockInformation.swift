@@ -10,6 +10,8 @@ import SwiftUI
 
 public struct MockInformation {
 
+    static let initialMainView: RemoteConfigModelMainView = RemoteConfigModelMainView(colorbackgroundImage: "#0064FF", mainTitle: TextViewModelInfoApi(text: "Bienvenido", fontSize: "24", foregroundColor: "#000000"), searchBar: SearchBarModel(backgroundColor: "#FFFFFF", placeHolder: TextViewModelInfoApi(text: "Buscar articulo", fontSize: "15", foregroundColor: "#6feddc")))
+    
     static let metaDataCheckBox: DVMetaData = DVMetaData(id: "checkBox", label: "Selecciona una opcion", saveField: true, options: [OptionItemModelV2(value: "cedula", label: "Cedula", foregroundColor: "#003865"),OptionItemModelV2(value: "tarjetaIdentidad", label: "Tarjeta de identidad", foregroundColor: "#000000")], textColor: "#003865", fontSize: 15.0, isRequired: true, name: "NoseNombre", additionalInfo: AdditionalInfo(bold: true, color: "#000000", fontSize: "15", textAlign: "Center"))
     static let metaDataCheckBox2: DVMetaData = DVMetaData(id: "checkBox", label: "Selecciona una opcion", saveField: true, options: [OptionItemModelV2(value: "cedula1", label: "Cedula", foregroundColor: "#003865"),OptionItemModelV2(value: "tarjetaIdentidad2", label: "Tarjeta de identidad", foregroundColor: "#000000")], textColor: "#003865", fontSize: 15.0, isRequired: true, name: "NoseNombre", additionalInfo: AdditionalInfo(bold: true, color: "#000000", fontSize: "15", textAlign: "Center"))
     

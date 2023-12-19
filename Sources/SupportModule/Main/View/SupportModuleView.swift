@@ -27,7 +27,7 @@ public struct SupportModuleView: View {
     @State public var toUUID: String = ""
     @StateObject public var viewModel: SupportMainViewModel = SupportMainViewModel()
     @StateObject public var chatHistoryViewModel = ChatHistoryViewModel()
-    
+    @State var configuration: RemoteConfigModelMainView = MockInformation.initialMainView
     public var generalConfiguration: GeneralConfiguration = MockInformation.generalConfiguration
     
     public init() {}
@@ -78,11 +78,12 @@ public struct SupportModuleView: View {
                 .shadow(radius: 5)
                 navigationLinks()
             }
-            .addSearchbar(textSearch: $textSearch, placeHolder: generalConfiguration.placeHolderSearchBar, title: generalConfiguration.titleModule, completion: {
+            .addSearchbar(remoteConfig: configuration, textSearch: $textSearch, completion: {
                 gettingArticles()
             })
             .ignoresSafeArea()
             .onAppear{
+                
                 viewModel.registerUserFirebase{ result in
                     switch result {
                         case .success(let success):
@@ -92,6 +93,14 @@ public struct SupportModuleView: View {
                                         case .success((let status, let user)):
                                             if status {
                                                 DispatchQueue.main.async {
+                                                    viewModel.getRemoteConfig { result in
+                                                        switch result {
+                                                            case .success(let success):
+                                                                configuration = success
+                                                            case .failure(_):
+                                                                break
+                                                        }
+                                                    }
                                                     viewModel.getLastChats()
                                                     gettingArticles()
                                                 }
@@ -198,6 +207,7 @@ struct ProgramTurnView: View {
                 } .alert(CommonStrings.programTurn, isPresented: $showAlert) {}
                 
             } .padding()
-        }.addSearchbar(textSearch: $textSearch, placeHolder: "Buscar por zona", title: nil, completion: {})
+        }
+        //.addSearchbar(textSearch: $textSearch, placeHolder: "Buscar por zona", title: nil, completion: {})
     }
 }

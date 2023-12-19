@@ -214,6 +214,7 @@ public struct AdditionalInfo  {
     public var cornerRadius: String?
     public var backgroundBorder: String?
     
+
     public init(bold: Bool, color: String, fontSize: String, paddingTop: String? = nil, paddingBottom: String? = nil ,paddingLeft: String? = nil, paddingRight: String? = nil , textAlign: String, action: String? = nil, background: String? = nil , backgroundDisable: String? = nil, backgroundBorder: String? = nil, textColor: String? = nil, cornerRadius: String? = nil) {
         self.bold = bold
         self.color = color
