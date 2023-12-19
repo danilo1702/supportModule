@@ -73,7 +73,7 @@ public struct SearchBarModifier: ViewModifier {
                                     withAnimation(.smooth) {
                                         actionButton()
                                     }
-                                   
+                                    
                                 }, label: {
                                     Text( searching ? "Cancelar" : "Buscar")
                                         .padding(.init(top: 20, leading: 0, bottom: 20, trailing: 10))
@@ -89,9 +89,10 @@ public struct SearchBarModifier: ViewModifier {
                         Spacer()
                         content
                     }
-                    .background(.clear)
                 }
-            }}
+                .ignoresSafeArea()
+            }
+        }
     }
     func actionButton() -> () {
         oldValue = textSearch
