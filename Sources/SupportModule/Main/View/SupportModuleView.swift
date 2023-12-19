@@ -81,6 +81,7 @@ public struct SupportModuleView: View {
             .addSearchbar(textSearch: $textSearch, placeHolder: generalConfiguration.placeHolderSearchBar, title: generalConfiguration.titleModule, completion: {
                 gettingArticles()
             })
+            .ignoresSafeArea()
             .onAppear{
                 viewModel.registerUserFirebase{ result in
                     switch result {

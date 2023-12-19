@@ -31,7 +31,7 @@ public struct SearchBarModifier: ViewModifier {
                 ZStack{
                     ShapeMainView()
                         .fill(.blue)
-                        .edgesIgnoringSafeArea(.top)
+                        .ignoresSafeArea()
                         .shadow(radius: 20)
                     VStack {
                         if let text = title {
@@ -89,9 +89,9 @@ public struct SearchBarModifier: ViewModifier {
                         Spacer()
                         content
                     }
-                }
+                }.ignoresSafeArea()
                 
-            }
+            }.ignoresSafeArea()
         }.ignoresSafeArea()
     }
     func actionButton() -> () {
