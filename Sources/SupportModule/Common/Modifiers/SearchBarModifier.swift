@@ -27,12 +27,12 @@ public struct SearchBarModifier: ViewModifier {
     
     public func body(content: Content) -> some View {
         NavigationView {
-            ScrollView {
-                ZStack{
-                    ShapeMainView()
-                        .fill(.blue)
-                        .ignoresSafeArea()
-                        .shadow(radius: 20)
+            ZStack {
+                ShapeMainView()
+                    .fill(.blue)
+                    .shadow(radius: 20)
+                    .ignoresSafeArea()
+                ScrollView {
                     VStack {
                         if let text = title {
                             HStack {
@@ -90,7 +90,6 @@ public struct SearchBarModifier: ViewModifier {
                         content
                     }
                 }.ignoresSafeArea()
-                
             }.ignoresSafeArea()
         }.ignoresSafeArea()
     }
