@@ -35,52 +35,48 @@ public struct SupportModuleView: View {
     public var body: some View {
         
        
-            ZStack{
-                ShapeMainView()
-                VStack {
-                    showListArticles()
-                        .padding(.horizontal)
-                        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.4, alignment: .center)
-                    
-                    if viewModel.recentMessage.count > 0 {
-                        VStack {
-                            HStack{
-                                TextView(informationModel: generalConfiguration.titleLastChat)
-                                    .shadow(radius: 7)
-                                Spacer()
-                                Button(action: {chatHistory.toggle()}, label: {
-                                    Text(CommonStrings.historial)
-                                })
-                                
-                            }.padding(19)
+            VStack {
+                showListArticles()
+                    .padding(.horizontal)
+                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.4, alignment: .center)
+                
+                if viewModel.recentMessage.count > 0 {
+                    VStack {
+                        HStack{
+                            TextView(informationModel: generalConfiguration.titleLastChat)
+                                .shadow(radius: 7)
+                            Spacer()
+                            Button(action: {chatHistory.toggle()}, label: {
+                                Text(CommonStrings.historial)
+                            })
                             
-                            CardView(information: viewModel.recentMessage[0], activeNavigation: $navigationChat, view: CardRecentMessageView(information: viewModel.recentMessage[0]).toAnyView()) {
-                                toUUID = (viewModel.recentMessage.count > 0 ? viewModel.recentMessage[0].toUUID ?? "" ==  Auth.auth().currentUser?.uid ? viewModel.recentMessage[0].fromUUID ?? "" : viewModel.recentMessage[0].toUUID ?? "" : "")
-                                chatHistoryViewModel.updateToReadChat(toUUID: toUUID)
-                            }
-                            .padding(.horizontal)
-                            
+                        }.padding(19)
+                        
+                        CardView(information: viewModel.recentMessage[0], activeNavigation: $navigationChat, view: CardRecentMessageView(information: viewModel.recentMessage[0]).toAnyView()) {
+                            toUUID = (viewModel.recentMessage.count > 0 ? viewModel.recentMessage[0].toUUID ?? "" ==  Auth.auth().currentUser?.uid ? viewModel.recentMessage[0].fromUUID ?? "" : viewModel.recentMessage[0].toUUID ?? "" : "")
+                            chatHistoryViewModel.updateToReadChat(toUUID: toUUID)
                         }
+                        .padding(.horizontal)
+                        
                     }
-                    Spacer()
-                    ButtonView(informationButton:ButtonModel(designButton: ComponentDesign(backgroundColor: .blue, cornerRaiuds: 15), title: TextViewModel(text: "Agendar turno", foregroundColor: .white, font: .system(size: 14), expandable: false)) ) {
-                        showAlert.toggle()
-                    }
-                    .sheet(isPresented: $showAlert, content: {
-                        ProgramTurnView()
-                    })
-                    
-                    
-                    ButtonView(informationButton: generalConfiguration.buttonInformationStartChat) {
-                        newConversacion.toggle()
-                    }
-                    .padding()
-                    .frame(alignment: .center)
-                    
-                    .shadow(radius: 5)
-                    navigationLinks()
                 }
-                .background(.clear)
+                Spacer()
+                ButtonView(informationButton:ButtonModel(designButton: ComponentDesign(backgroundColor: .blue, cornerRaiuds: 15), title: TextViewModel(text: "Agendar turno", foregroundColor: .white, font: .system(size: 14), expandable: false)) ) {
+                    showAlert.toggle()
+                }
+                .sheet(isPresented: $showAlert, content: {
+                    ProgramTurnView()
+                })
+                
+                
+                ButtonView(informationButton: generalConfiguration.buttonInformationStartChat) {
+                    newConversacion.toggle()
+                }
+                .padding()
+                .frame(alignment: .center)
+                
+                .shadow(radius: 5)
+                navigationLinks()
             }
             .addSearchbar(textSearch: $textSearch, placeHolder: generalConfiguration.placeHolderSearchBar, title: generalConfiguration.titleModule, completion: {
                 gettingArticles()
