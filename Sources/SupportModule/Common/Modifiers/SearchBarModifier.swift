@@ -34,7 +34,7 @@ public struct SearchBarModifier: ViewModifier {
                       
                         VStack {
                                 HStack {
-                                    TextView(informationModel: TextViewModel(text: remoteConfig.mainTitle.text, foregroundColor: Color(hex: remoteConfig.mainTitle.foregroundColor), font: .system(size: remoteConfig.mainTitle.fontSize.parseToCGFloat())))
+                                    TextView(informationModel: TextViewModel(text: remoteConfig.mainTitle.text, foregroundColor: Color(hex: remoteConfig.mainTitle.foregroundColor), font: .system(size: remoteConfig.mainTitle.fontSize.parseToCGFloat()).bold()))
                                         .shadow(radius: 6)
                                     Spacer()
                                 }.padding()
