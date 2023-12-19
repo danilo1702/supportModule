@@ -58,7 +58,7 @@ struct SelectTypeConversationView: View {
                         }
                     }
                 }
-                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.5 , alignment: .center)
+                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.3 , alignment: .center)
             }
         }
     }
