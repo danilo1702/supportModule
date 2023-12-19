@@ -30,8 +30,11 @@ public struct SearchBarModifier: ViewModifier {
             ScrollView {
                 VStack {
                     if let text = title {
-                        TextView(informationModel: text)
-                            .shadow(radius: 6)
+                        HStack {
+                            TextView(informationModel: text)
+                                .shadow(radius: 6)
+                            Spacer()
+                        }.padding()
                     }
                     HStack {
                         
