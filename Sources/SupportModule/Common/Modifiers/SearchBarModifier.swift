@@ -62,7 +62,7 @@ public struct SearchBarModifier: ViewModifier {
                             .background(
                                 RoundedRectangle(cornerRadius: 15)
                                     .strokeBorder(.gray, lineWidth: 0.2)
-                                    .background(.gray.opacity(0.2)))
+                                    .background(.white))
                             .cornerRadius(CGFloat( 15.0))
                             .padding(.init(top: 20, leading: 20, bottom: 20, trailing: textSearch.isEmpty ? 20 : 10))
                             .onTapGesture {
@@ -90,9 +90,9 @@ public struct SearchBarModifier: ViewModifier {
                         content
                     }
                 }
-                .ignoresSafeArea()
+                
             }
-        }
+        }.ignoresSafeArea()
     }
     func actionButton() -> () {
         oldValue = textSearch
