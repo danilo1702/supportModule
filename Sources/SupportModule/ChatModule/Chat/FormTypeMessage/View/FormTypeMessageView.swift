@@ -57,7 +57,7 @@ public struct FormTypeMessageView: View {
            }
         } else {
             HStack {
-                Text("Opción 1:")
+                Text("Opción \(saveOptions.count + 1):")
                textField
            }
         }
