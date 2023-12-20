@@ -30,9 +30,9 @@ public struct TextFieldViewPersonalizedForm: View, Hashable {
     func insertOption() {
         if let index = saveOption.firstIndex(where: {$0.id == "\(id)"}), !text.isEmpty {
             saveOption.remove(at: index)
-            saveOption.insert(OptionsMessage(id: "\(id)", text: text, position: saveOption[index].position), at: index)
+            saveOption.insert(OptionsMessage(id: "\(id)", text: text, position: index + 1), at: index)
         } else if !text.isEmpty{
-            saveOption.append(OptionsMessage(id: "\(id)", text: text, position: 1))
+            saveOption.append(OptionsMessage(id: "\(id)", text: text, position: saveOption.count + 1))
         }
     }
     
