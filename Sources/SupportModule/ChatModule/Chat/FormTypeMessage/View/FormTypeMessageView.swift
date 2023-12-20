@@ -29,7 +29,7 @@ public struct FormTypeMessageView: View {
                         
                         ForEach(arrayOptions, id: \.self) { textField in
                             HStack {
-                                Text("\(showOption(textField: textField))")
+                                Text("Opción \(showOption(textField: textField)):")
                                 textField
                             }
                             
