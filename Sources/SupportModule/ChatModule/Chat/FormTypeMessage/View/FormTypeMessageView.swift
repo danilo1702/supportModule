@@ -39,27 +39,19 @@ public struct FormTypeMessageView: View {
                         Text("Agregar")
                     })
                 }
-                
-                
             } header: {
                 Text("Mensaje personalizado")
             }
-            
         }
     }
     
     @ViewBuilder
     func showOption(textField: TextFieldViewPersonalizedForm) -> some View {
-        if let position = saveOptions.firstIndex(where: {$0.id == "\(textField.id)"}){
-            HStack {
-                Text("Opción \(saveOptions[position].position):")
-               textField
-           }
-        } else {
+         
             HStack {
                 Text("Opción \(arrayOptions.count):")
-               textField
-           }
-        }
+                textField
+            }
+        
     }
 }
