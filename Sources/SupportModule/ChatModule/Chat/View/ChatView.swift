@@ -75,6 +75,11 @@ public struct ChatView: View {
                         } label: {
                             Text("Finalizar")
                         }
+                        Button {
+                            viewModel.finishChat()
+                        } label: {
+                            Text("type")
+                        }
                     }
                 }
             }
