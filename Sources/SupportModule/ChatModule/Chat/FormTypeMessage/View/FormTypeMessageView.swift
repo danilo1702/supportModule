@@ -24,20 +24,25 @@ public struct FormTypeMessageView: View {
                     }
                 }.pickerStyle(.menu)
                 
-                if selectionType.text == TypeMessage.multipleChoice.rawValue || selectionType.text == TypeMessage.onChoice.rawValue {
-                    
-                    ForEach(arrayOptions, id: \.self) {
-                        showOption(textField: $0)
+                VStack{
+                    if selectionType.text == TypeMessage.multipleChoice.rawValue || selectionType.text == TypeMessage.onChoice.rawValue {
                         
-                    }
-                    Button(action: {
-                        arrayOptions.append(TextFieldViewPersonalizedForm(saveOption: $saveOptions))
-                        saveOptions.forEach { option in
-                            print(option.text)
+                        ForEach(arrayOptions, id: \.self) { textField in
+                            HStack {
+                                Text("\(showOption(textField: textField))")
+                                textField
+                            }
+                            
                         }
-                    }, label: {
-                        Text("Agregar")
-                    })
+                        Button(action: {
+                            arrayOptions.append(TextFieldViewPersonalizedForm(saveOption: $saveOptions))
+                            saveOptions.forEach { option in
+                                print(option.text)
+                            }
+                        }, label: {
+                            Text("Agregar")
+                        })
+                    }
                 }
             } header: {
                 Text("Mensaje personalizado")
@@ -45,13 +50,12 @@ public struct FormTypeMessageView: View {
         }
     }
     
-    @ViewBuilder
-    func showOption(textField: TextFieldViewPersonalizedForm) -> some View {
-         
-            HStack {
-                Text("Opción \(arrayOptions.count):")
-                textField
-            }
-        
+  
+    func showOption(textField: TextFieldViewPersonalizedForm) -> Int {
+        if let position = saveOptions.firstIndex(where: {$0.id == "\(textField.id)"}){
+            saveOptions[position].position
+        } else {
+            arrayOptions.count
+        }
     }
 }
