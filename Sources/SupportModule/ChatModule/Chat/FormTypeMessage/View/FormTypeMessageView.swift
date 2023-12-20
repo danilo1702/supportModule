@@ -42,6 +42,9 @@ public struct FormTypeMessageView: View {
                         }, label: {
                             Text("Agregar")
                         })
+                    }else {
+                       let _ = arrayOptions = []
+                        let _ = saveOptions = []
                     }
                 }
             } header: {
