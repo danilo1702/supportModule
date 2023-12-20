@@ -77,7 +77,7 @@ public struct ChatView: View {
                         }
                     }
                 }
-                ToolbarItem(placement: .cancellationAction) {
+                ToolbarItem(placement: .destructiveAction) {
                     if showFinishButton {
                         Button {
                             viewModel.finishChat()
