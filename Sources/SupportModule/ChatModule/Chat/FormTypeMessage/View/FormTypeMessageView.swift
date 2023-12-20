@@ -13,6 +13,7 @@ public struct FormTypeMessageView: View {
     var arrayOptionsType = [OptionsMessageModel(text: "Seleccion unica"), OptionsMessageModel(text: "Multiple seleccion"), OptionsMessageModel(text: "Otra opcion")]
     @State public var saveOptions: [OptionsMessage] = []
     @State var arrayOptions: [TextFieldViewPersonalizedForm] = []
+    @State var count: Int = 0
     
     public var body: some View {
         Form {
@@ -26,10 +27,8 @@ public struct FormTypeMessageView: View {
                 if selectionType.text == TypeMessage.multipleChoice.rawValue || selectionType.text == TypeMessage.onChoice.rawValue {
                     
                     ForEach(arrayOptions, id: \.self) {
-                        $0
+                        showOption(textField: $0)
                     }
-                    
-                    
                     Button(action: {
                         arrayOptions.append(TextFieldViewPersonalizedForm(saveOption: $saveOptions))
                         saveOptions.forEach { option in
@@ -45,6 +44,14 @@ public struct FormTypeMessageView: View {
                 Text("Mensaje personalizado")
             }
             
+        }
+    }
+    
+    func showOption(textField: TextFieldViewPersonalizedForm) -> some View {
+        count += 1
+        return HStack {
+            Text("Opción \(count):")
+            textField
         }
     }
 }
