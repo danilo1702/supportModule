@@ -14,7 +14,11 @@ public struct FormTypeMessageView: View {
     @State public var saveOptions: [OptionsMessage] = []
     @State var arrayOptions: [TextFieldViewPersonalizedForm] = []
     @State var count: Int = 0
-    
+    @StateObject var viewModel: FormTypeMessageViewModel
+    @State var text: String = ""
+    public init (toUUID: String) {
+        self._viewModel = StateObject(wrappedValue: FormTypeMessageViewModel(toUUID: toUUID))
+    }
     public var body: some View {
         Form {
             Section {
@@ -25,6 +29,11 @@ public struct FormTypeMessageView: View {
                 }.pickerStyle(.menu)
                 
                 VStack{
+                    TextField("Mensaje", text: $text)
+                        .padding()
+                        .background(.gray.opacity(0.2))
+                        .clipShape(RoundedRectangle(cornerRadius: 18))
+                        .shadow(radius: 15)
                     if selectionType.text == TypeMessage.multipleChoice.rawValue || selectionType.text == TypeMessage.onChoice.rawValue {
                         
                         ForEach(arrayOptions, id: \.self) { textField in
@@ -32,7 +41,6 @@ public struct FormTypeMessageView: View {
                                 Text("Opción \(showOption(textField: textField)):")
                                 textField
                             }
-                            
                         }
                         Button(action: {
                             arrayOptions.append(TextFieldViewPersonalizedForm(saveOption: $saveOptions))
@@ -40,11 +48,13 @@ public struct FormTypeMessageView: View {
                                 print(option.text)
                             }
                         }, label: {
-                            Text("Agregar")
+                            Text("Añadir opción")
                         })
-                    }else {
-                       let _ = arrayOptions = []
-                        let _ = saveOptions = []
+                        Button(action: {
+                            viewModel.sendMessage(message: text, type: TypeMessage.onChoice.rawValue, options: saveOptions)
+                        }, label: {
+                            Text("Enviar mensaje")
+                        })
                     }
                 }
             } header: {

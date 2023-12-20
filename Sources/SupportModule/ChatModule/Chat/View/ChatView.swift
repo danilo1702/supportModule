@@ -47,7 +47,7 @@ public struct ChatView: View {
                     .interactiveDismissDisabled()
             })
             .sheet(isPresented: $showAddMessagePersonalized, content: {
-                FormTypeMessageView()
+                FormTypeMessageView(toUUID: viewModel.toUUID)
             })
             .onAppear{
                 DispatchQueue.main.async {
