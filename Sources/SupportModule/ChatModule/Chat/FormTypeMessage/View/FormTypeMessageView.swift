@@ -55,6 +55,11 @@ public struct FormTypeMessageView: View {
                 Text("Opción \(saveOptions[position].position):")
                textField
            }
+        } else {
+            HStack {
+                Text("Opción 1:")
+               textField
+           }
         }
     }
 }
