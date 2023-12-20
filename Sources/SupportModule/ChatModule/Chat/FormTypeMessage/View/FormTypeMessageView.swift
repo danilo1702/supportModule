@@ -47,18 +47,19 @@ public struct FormTypeMessageView: View {
                         }, label: {
                             Text("Añadir opción").padding()
                         })
-//                        Button(action: {
-//                            viewModel.sendMessage(message: text, type: TypeMessage.onChoice.rawValue, options: saveOptions)
-//                        }, label: {
-//                            Text("Enviar mensaje").foregroundColor(.white)
-//                        }).padding()
-//                        .background(.blue)
-//                        .clipShape(RoundedRectangle(cornerRadius: 18))
+
                     }
                 }
             } header: {
                 Text("Mensaje personalizado")
             }
+            Button(action: {
+                viewModel.sendMessage(message: text, type: TypeMessage.onChoice.rawValue, options: saveOptions)
+            }, label: {
+                Text("Enviar mensaje").foregroundColor(.white)
+            }).padding()
+            .background(.blue)
+            .clipShape(RoundedRectangle(cornerRadius: 18))
         }
     }
     
