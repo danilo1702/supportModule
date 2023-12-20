@@ -15,6 +15,7 @@ public struct ChatView: View {
     @State public var textToSend: String = ""
     @State var showSheet: Bool = false
     @State var showFinishButton: Bool = false
+    @State var showAddMessagePersonalized: Bool = false
     public init(toUUID: String) {
         self._viewModel = StateObject(wrappedValue: ChatViewModel(toUUID: toUUID))
     }
@@ -44,6 +45,9 @@ public struct ChatView: View {
             .sheet(isPresented: $viewModel.qualified, content: {
                 CalificationView(toUUID: viewModel.toUUID)
                     .interactiveDismissDisabled()
+            })
+            .sheet(isPresented: $showAddMessagePersonalized, content: {
+                FormTypeMessageView()
             })
             .onAppear{
                 DispatchQueue.main.async {
@@ -80,7 +84,7 @@ public struct ChatView: View {
                 ToolbarItem(placement: .destructiveAction) {
                     if showFinishButton {
                         Button {
-                            viewModel.finishChat()
+                            showAddMessagePersonalized.toggle()
                         } label: {
                             Text("type")
                         }

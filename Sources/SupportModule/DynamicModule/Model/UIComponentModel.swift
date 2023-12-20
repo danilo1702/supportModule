@@ -7,8 +7,3 @@
 
 import Foundation
 
-public protocol UIComponent: Hashable {
-    var meta: DVMetaData  { get set}
-    var uniqueId: UUID { get }
-    //func render(mainView: MainView) -> AnyView
-}

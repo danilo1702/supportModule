@@ -46,11 +46,17 @@ public struct MessageModel: Codable, Identifiable {
     }
 }
 
-public struct OptionsMessageModel: Codable {
+public struct OptionsMessageModel: Codable, Hashable {
     
     var id: UUID = UUID()
     let text: String
     public init(text: String) {
         self.text = text
     }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    public static func == (lhs: OptionsMessageModel, rhs: OptionsMessageModel) -> Bool {
+        return lhs.id == rhs.id
+        }
 }
