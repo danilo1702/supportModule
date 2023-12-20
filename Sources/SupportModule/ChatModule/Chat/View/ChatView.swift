@@ -75,6 +75,10 @@ public struct ChatView: View {
                         } label: {
                             Text("Finalizar")
                         }
+                    }
+                }
+                ToolbarItem(placement: .cancellationAction) {
+                    if showFinishButton {
                         Button {
                             viewModel.finishChat()
                         } label: {
