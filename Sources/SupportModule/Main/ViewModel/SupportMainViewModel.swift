@@ -17,7 +17,7 @@ public class SupportMainViewModel: ObservableObject {
     
     @Published public var articles: [CardModel] = []
     @Published public var recentMessage: [CardModel] = []
-    @Published public var supportInformation = MessageModel(message: "", fromUUID: "", toUUID: "", fromName: "")
+    @Published public var supportInformation = MessageModel(message: "", fromUUID: "", toUUID: "", fromName: "", type: "")
     var deviceInformation = InformationDevice()
     var arrayArticles: [InformationCardApi] = []
     
@@ -74,7 +74,7 @@ public class SupportMainViewModel: ObservableObject {
                 if let message = try? change.document.data(as: MessageModel.self) {
                     
                     DispatchQueue.main.async {
-                        self.supportInformation = MessageModel(message: message.message, fromUUID: message.fromUUID, toUUID: message.toUUID,timestamp: message.timestamp, fromName: message.fromName)
+                        self.supportInformation = MessageModel(message: message.message, fromUUID: message.fromUUID, toUUID: message.toUUID,timestamp: message.timestamp, fromName: message.fromName, type: message.type)
                         
                         self.recentMessage.insert(CardModel(id: message.id ?? "1", titleFormat: TextViewModel(text: message.message, foregroundColor: .black, font: .system(size: 14), expandable: false), dateFormat: TextViewModel(text: "\(String(describing: message.timestamp!.dateValue().formatted(date: .numeric, time: .shortened)))", foregroundColor: .gray, font: .system(size: 11), expandable: false), nameFormat:  TextViewModel(text: userUUID == message.fromUUID ? "Tú:" : message.fromName, foregroundColor: .black, font: .system(size: 13, weight: .bold), expandable: false) , designCard: ComponentDesign(backgroundColor: .gray.opacity(0.1), cornerRaiuds: 15),fromUUID: message.fromUUID ,toUUID: message.toUUID, indicator: message.messageRead ,action: "chat"), at: 0)
                     }

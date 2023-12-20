@@ -19,8 +19,10 @@ public struct MessageModel: Codable, Identifiable {
     let timestamp: Timestamp?
     let fromName: String
     let messageRead: Bool?
+    let type: String
+    let options: OptionsMessageModel?
     
-    public init(id: String? = nil, message: String, fromUUID: String, toUUID: String, timestamp: Timestamp? = nil, fromName: String, messageRead: Bool? = false) {
+    public init(id: String? = nil, message: String, fromUUID: String, toUUID: String, timestamp: Timestamp? = nil, fromName: String, messageRead: Bool? = false, type: String, options: OptionsMessageModel? = nil) {
         self.id = id
         self.message = message
         self.fromUUID = fromUUID
@@ -28,6 +30,8 @@ public struct MessageModel: Codable, Identifiable {
         self.timestamp = timestamp
         self.fromName = fromName
         self.messageRead = messageRead
+        self.type = type
+        self.options = options
     }
     enum CodingKeys: CodingKey {
         case id
@@ -37,6 +41,16 @@ public struct MessageModel: Codable, Identifiable {
         case timestamp
         case fromName
         case messageRead
+        case type
+        case options
     }
+}
 
+public struct OptionsMessageModel: Codable {
+    
+    var id: UUID = UUID()
+    let text: String
+    public init(text: String) {
+        self.text = text
+    }
 }
