@@ -28,6 +28,7 @@ public struct FormTypeMessageView: View {
                     
                     ForEach(arrayOptions, id: \.self) {
                         showOption(textField: $0)
+                        
                     }
                     Button(action: {
                         arrayOptions.append(TextFieldViewPersonalizedForm(saveOption: $saveOptions))
@@ -47,11 +48,13 @@ public struct FormTypeMessageView: View {
         }
     }
     
+    @ViewBuilder
     func showOption(textField: TextFieldViewPersonalizedForm) -> some View {
-        count += 1
-        return HStack {
-            Text("Opción \(count):")
-            textField
+        if let position = saveOptions.firstIndex(where: {$0.id == "\(textField.id)"}){
+            HStack {
+                Text("Opción \(saveOptions[position].position):")
+               textField
+           }
         }
     }
 }
