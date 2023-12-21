@@ -37,12 +37,15 @@ class ChatViewModel: ObservableObject {
             documentSnapshot.documentChanges.forEach { change in
                 if change.type == .added {
                     
-                    
-                    if let cm = try? change.document.data(as: MessageModel.self) {
+                    do {
+                        
+                   
+                    let cm = try change.document.data(as: MessageModel.self)
                         self.messages.append(cm)
                         print("Appending chatMessage in Chat")
-                    }else {
-                        print("Error decoding *//*-/*-*-/-*/-/**-/*-/")
+                    
+                    } catch {
+                        print(error)
                     }
                 }
             }
