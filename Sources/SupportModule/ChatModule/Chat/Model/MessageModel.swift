@@ -20,9 +20,9 @@ public struct MessageModel: Codable, Identifiable {
     let fromName: String
     let messageRead: Bool?
     let type: String
-    let options: OptionsMessageModel?
+    let options: [OptionsMessageModel]?
     
-    public init(id: String? = nil, message: String, fromUUID: String, toUUID: String, timestamp: Timestamp? = nil, fromName: String, messageRead: Bool? = false, type: String, options: OptionsMessageModel? = nil) {
+    public init(id: String? = nil, message: String, fromUUID: String, toUUID: String, timestamp: Timestamp? = nil, fromName: String, messageRead: Bool? = false, type: String, options: [OptionsMessageModel]? = nil) {
         self.id = id
         self.message = message
         self.fromUUID = fromUUID
