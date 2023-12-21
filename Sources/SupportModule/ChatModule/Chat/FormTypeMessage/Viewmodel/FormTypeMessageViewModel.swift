@@ -15,7 +15,7 @@ public class FormTypeMessageViewModel: ObservableObject {
     public init (toUUID: String) {
         self.toUUID = toUUID
     }
-    func sendMessage(message: String, type: String, options: [OptionsMessage]) {
+    func sendMessage(message: String, type: String, options: [OptionsMessage], completion: @escaping (Result<Bool, Never>) -> ()) {
         
         guard let fromUUID = FirebaseManagerData.initialization.dbAuth.currentUser?.uid else { return }
         
@@ -48,6 +48,7 @@ public class FormTypeMessageViewModel: ObservableObject {
         DispatchQueue.main.async {
             self.saveLastMessage(fromUUID: fromUUID, message: &message)
         }
+        completion(.success(true))
     }
     func saveLastMessage(fromUUID: String, message: inout [String: Any]) {
         

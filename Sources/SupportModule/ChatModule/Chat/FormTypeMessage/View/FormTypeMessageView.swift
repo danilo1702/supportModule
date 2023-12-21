@@ -9,6 +9,7 @@ import SwiftUI
 
 public struct FormTypeMessageView: View {
     
+    @Environment(\.dismiss) var dismiss
     @State var selectionType: OptionsMessageModel = OptionsMessageModel(text: "Seleccion unica")
     var arrayOptionsType = [OptionsMessageModel(text: "Seleccion unica"), OptionsMessageModel(text: "Multiple seleccion"), OptionsMessageModel(text: "Otra opcion")]
     @State public var saveOptions: [OptionsMessage] = []
@@ -55,7 +56,15 @@ public struct FormTypeMessageView: View {
             }
             Section {
                 Button(action: {
-                    viewModel.sendMessage(message: text, type: TypeMessage.onChoice.rawValue, options: saveOptions)
+                    viewModel.sendMessage(message: text, type: TypeMessage.onChoice.rawValue, options: saveOptions, completion: {
+                        status in
+                        switch status {
+                            case .success(_):
+                                dismiss()
+                            case .failure(_):
+                                break
+                        }
+                    })
                 }, label: {
                     Text("Enviar mensaje").foregroundColor(.white)
                 }).padding()
