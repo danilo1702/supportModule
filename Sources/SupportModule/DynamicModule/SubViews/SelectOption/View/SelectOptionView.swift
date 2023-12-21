@@ -63,7 +63,7 @@ struct SelectOptionViewV2: View {
         VStack(alignment: .leading) {
             Text(messageModel.message)
                 .font(.system(size:  18.0, weight: .bold ,design: .rounded))
-                .foregroundStyle(Color(hex: CommonStrings.ColorString.black))
+                
                
             ForEach(messageModel.options ?? [], id: \.id) { item in
                 showItems(item)
@@ -86,7 +86,7 @@ struct SelectOptionViewV2: View {
             })
             
             Text(item.text)
-                .foregroundStyle(Color(hex: CommonStrings.ColorString.black))
+                
         }
     }
 }
