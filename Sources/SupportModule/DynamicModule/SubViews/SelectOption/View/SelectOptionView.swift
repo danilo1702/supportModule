@@ -70,7 +70,7 @@ struct SelectOptionViewV2: View {
             }
         }
         .padding()
-        .frame(width: .infinity, height: .infinity, alignment: .leading)
+        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: .leading)
     }
     @ViewBuilder
     func showItems(_ item: OptionsMessageModel) -> some View {
