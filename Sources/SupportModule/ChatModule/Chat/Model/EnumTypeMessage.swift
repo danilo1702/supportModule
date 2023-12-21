@@ -10,5 +10,5 @@ import Foundation
 public enum TypeMessage: String {
     case multipleChoice = "Multiple seleccion"
     case onChoice = "Seleccion unica"
-    case otherOption = "Otra opcion"
+    case text = "text"
 }

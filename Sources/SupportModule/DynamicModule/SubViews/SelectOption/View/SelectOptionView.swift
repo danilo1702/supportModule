@@ -45,6 +45,52 @@ struct SelectOptionView: View {
     }
 }
 
-#Preview {
-    SelectOptionView(messageModel: SpecialMessage(metaData: MockInformation.metaDataCheckBox))
+//#Preview {
+//    SelectOptionView(messageModel: SpecialMessage(metaData: MockInformation.metaDataCheckBox))
+//}
+
+struct SelectOptionViewV2: View {
+    public var messageModel: MessageModel
+
+    @Binding public var selection: String
+    
+    init(messageModel: MessageModel, selection: Binding<String>) {
+        self.messageModel = messageModel
+        self._selection = selection
+    }
+    var body: some View {
+        
+        VStack(alignment: .leading) {
+            Text(messageModel.message)
+                .font(.system(size:  18.0, weight: .bold ,design: .rounded))
+                .foregroundStyle(Color(hex: CommonStrings.ColorString.black))
+               
+            ForEach(messageModel.options ?? [], id: \.id) { item in
+                showItems(item)
+            }
+        }
+        .padding()
+        .frame(width: .infinity, height: .infinity, alignment: .leading)
+    }
+    @ViewBuilder
+    func showItems(_ item: OptionsMessageModel) -> some View {
+        HStack {
+            
+            Button(action: {
+                selection = item.text
+            }, label: {
+                Image(systemName: selection == item.text ? CommonStrings.ImagesString.circleFill : CommonStrings.ImagesString.circleEmpty)
+                    .resizable()
+                    .frame(width: UIScreen.main.bounds.width * 0.06, height: UIScreen.main.bounds.width * 0.06, alignment: .leading)
+                    .aspectRatio(contentMode: .fit)
+            })
+            
+            Text(item.text)
+                .foregroundStyle(Color(hex: CommonStrings.ColorString.black))
+        }
+    }
 }
+
+//#Preview {
+//    SelectOptionViewV2(messageModel: MessageModel(id: "2", message: "Hola", fromUUID: "22", toUUID: "33", fromName: "Danilo", messageRead: false, type: "", options: [OptionsMessageModel(text: "Cedula"), OptionsMessageModel(text: "Tarjeta")]), selection: .constant(""))
+//}

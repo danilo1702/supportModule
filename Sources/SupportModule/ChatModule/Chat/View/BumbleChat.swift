@@ -11,6 +11,11 @@ import FirebaseAuth
 
 struct BumbleChat: View {
     var message: MessageModel
+    @State var selection : String = ""
+    
+    init(message: MessageModel) {
+        self.message = message
+    }
     
     var body: some View {
         VStack {
@@ -19,7 +24,7 @@ struct BumbleChat: View {
                   
                     Spacer()
                     HStack {
-                        Text(message.message)
+                        showMessage()
                             .foregroundStyle(.white)
                     }
                     .padding()
@@ -30,7 +35,7 @@ struct BumbleChat: View {
                 
                 HStack {
                     HStack {
-                        Text(message.message)
+                        showMessage()
                             .foregroundStyle(.black)
                     }
                     
@@ -40,6 +45,24 @@ struct BumbleChat: View {
                     Spacer()
                 }
             }
+        }
+    }
+    
+    @ViewBuilder
+    func showMessage() -> some View {
+        
+       let type =  TypeMessage(rawValue: message.type)
+        
+        switch type {
+            case .multipleChoice:
+                 SelectOptionViewV2(messageModel: message, selection: $selection)
+            case .onChoice:
+                SelectOptionViewV2(messageModel: message, selection: $selection)
+            case .text:
+                Text(message.message)
+            case nil:
+                EmptyView()
+            
         }
     }
 }
