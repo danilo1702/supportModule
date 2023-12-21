@@ -23,7 +23,9 @@ public class FormTypeMessageViewModel: ObservableObject {
             .document(fromUUID)
             .collection(toUUID)
             .document()
-        guard  let options = options as? [[String: Any]] else { return }
+        let options = options.map { option  in
+            return ["id": option.id, "text": option.text, "position": option.position]
+        }
         var message = [FirebaseConstants.message: message, FirebaseConstants.fromUUID: fromUUID, FirebaseConstants.toUUID: toUUID, FirebaseConstants.timestamp: Timestamp(), FirebaseConstants.fromName: UIDevice.modelName, "type": type, "options": options] as [String: Any]
         referenceSender.setData(message) { error in
             if error != nil {
