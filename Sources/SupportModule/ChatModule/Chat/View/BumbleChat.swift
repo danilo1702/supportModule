@@ -64,7 +64,7 @@ struct BumbleChat: View {
             case .signature:
                 DrawViewChat(image: $imageSignature, messageModel: message)
             case .image:
-                AsyncImage(url: URL(string: message.message)).frame(width: 250, height: 250, alignment: .center)
+                ShowImage(message: message)
                 
             case nil:
                 EmptyView()
@@ -75,3 +75,20 @@ struct BumbleChat: View {
 //#Preview {
 //    BumbleChat(message: MessageModel(message: "Hola buen dia", fromUUID: "hola", toUUID: "", timestamp: Timestamp()))
 //}
+
+struct ShowImage: View {
+    var message: MessageModel
+    var body: some View {
+        AsyncImage(url: URL(string: message.message)) { phase in
+            if let image = phase.image {
+                image.resizable()
+                    .frame(width: 250, height: 250, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                
+            } else if phase.error != nil {
+                Color.red
+            } else {
+                Color.blue
+            }
+        }
+    }
+}
