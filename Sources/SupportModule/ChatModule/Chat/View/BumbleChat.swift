@@ -62,7 +62,7 @@ struct BumbleChat: View {
             case .text:
                 Text(message.message)
             case .signature:
-                DrawViewChat(image: $imageSignature)
+                DrawViewChat(image: $imageSignature, messageModel: message)
             case nil:
                 EmptyView()
         }
