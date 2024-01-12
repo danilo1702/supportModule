@@ -12,6 +12,7 @@ import FirebaseAuth
 struct BumbleChat: View {
     var message: MessageModel
     @State var selection : String = ""
+    @State var imageSignature: UIImage? = nil
     
     init(message: MessageModel) {
         self.message = message
@@ -60,9 +61,10 @@ struct BumbleChat: View {
                 SelectOptionViewV2(messageModel: message, selection: $selection)
             case .text:
                 Text(message.message)
+            case .signature:
+                DrawViewChat(image: $imageSignature)
             case nil:
                 EmptyView()
-            
         }
     }
 }

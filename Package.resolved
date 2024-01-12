@@ -19,6 +19,15 @@
       }
     },
     {
+      "identity" : "drawing",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/danilo1702/Drawing.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "64b2fbfb2e7e790dc96218f90d41295e43d6d729"
+      }
+    },
+    {
       "identity" : "firebase-ios-sdk",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/firebase-ios-sdk.git",

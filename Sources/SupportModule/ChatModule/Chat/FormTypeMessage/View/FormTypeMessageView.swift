@@ -70,6 +70,21 @@ public struct FormTypeMessageView: View {
                 }).padding()
                 .background(.blue)
                 .clipShape(RoundedRectangle(cornerRadius: 18))
+                Button(action: {
+                    viewModel.sendMessage(message: text, type: TypeMessage.signature.rawValue, options: saveOptions, completion: {
+                        status in
+                        switch status {
+                            case .success(_):
+                                dismiss()
+                            case .failure(_):
+                                break
+                        }
+                    })
+                }, label: {
+                    Text("Enviar mensaje").foregroundColor(.white)
+                }).padding()
+                .background(.blue)
+                .clipShape(RoundedRectangle(cornerRadius: 18))
             }
            
         }
