@@ -38,8 +38,6 @@ class ChatViewModel: ObservableObject {
                 if change.type == .added {
                     
                     do {
-                        
-                   
                     let cm = try change.document.data(as: MessageModel.self)
                         self.messages.append(cm)
                         print("Appending chatMessage in Chat")

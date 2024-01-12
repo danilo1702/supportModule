@@ -39,6 +39,7 @@ struct SelectOptionView: View {
                     .aspectRatio(contentMode: .fit)
             })
             
+            
             Text(item.label)
                 .foregroundStyle(Color(hex: item.foregroundColor))
         }

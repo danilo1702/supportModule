@@ -57,7 +57,7 @@ public struct ChatView: View {
                         switch result {
                             case .success(let success):
                                 showFinishButton = success
-                            case .failure(let _):
+                            case .failure(_):
                                 break
                         }
                     }
