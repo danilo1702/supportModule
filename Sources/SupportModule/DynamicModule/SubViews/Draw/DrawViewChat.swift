@@ -41,6 +41,9 @@ public class DrawingViewModelChat : ObservableObject {
     }
     
     func saveImageToPhotoLibrary(_ image: UIImage) {
+        guard let fromUUID = FirebaseManagerData.initialization.dbAuth.currentUser?.uid else { return }
+        guard messageModel.toUUID != fromUUID  else { return }
+        let chat = FormTypeMessageViewModel(toUUID: messageModel.toUUID)
         let storage = Storage.storage()
         let storageRef = storage.reference()
         let uuid = UUID().uuidString
@@ -66,6 +69,14 @@ public class DrawingViewModelChat : ObservableObject {
                     return
                 }
                 print(downloadURL)
+                chat.sendMessage(message: "\(downloadURL)", type: TypeMessage.image.rawValue, options: []) { result in
+                    switch result {
+                        case .success(let success):
+                            print("IMAGEN GUARDADA")
+                        case .failure(let failure):
+                            print(failure)
+                    }
+                }
             }
         }
     }

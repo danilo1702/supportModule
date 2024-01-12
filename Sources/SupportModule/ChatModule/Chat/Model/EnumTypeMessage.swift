@@ -12,4 +12,5 @@ public enum TypeMessage: String {
     case onChoice = "Seleccion unica"
     case text = "text"
     case signature = "signature"
+    case image = "image"
 }

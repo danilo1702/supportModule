@@ -63,6 +63,9 @@ struct BumbleChat: View {
                 Text(message.message)
             case .signature:
                 DrawViewChat(image: $imageSignature, messageModel: message)
+            case .image:
+                AsyncImage(url: URL(string: message.message)).frame(width: 250, height: 250, alignment: .center)
+                
             case nil:
                 EmptyView()
         }
