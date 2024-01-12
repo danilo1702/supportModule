@@ -43,7 +43,7 @@ public class DrawingViewModelChat : ObservableObject {
     func saveImageToPhotoLibrary(_ image: UIImage) {
         guard let fromUUID = FirebaseManagerData.initialization.dbAuth.currentUser?.uid else { return }
         guard messageModel.toUUID != fromUUID  else { return }
-        let chat = FormTypeMessageViewModel(toUUID: messageModel.toUUID)
+        let chat = FormTypeMessageViewModel(toUUID: messageModel.fromUUID)
         let storage = Storage.storage()
         let storageRef = storage.reference()
         let uuid = UUID().uuidString
