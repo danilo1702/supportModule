@@ -13,6 +13,7 @@ struct DrawViewChat: View {
     @Binding public var image: UIImage?
     public var messageModel: MessageModel
     @StateObject var viewModel: DrawingViewModelChat
+    @State public var lines: [LineModel] = []
     public init(image: Binding<UIImage?>, messageModel: MessageModel) {
         self._image = image
         self.messageModel = messageModel
@@ -20,7 +21,7 @@ struct DrawViewChat: View {
     }
     var body: some View {
         
-        DrawingView(activeLineWidth: false, multipleColor: false, colors: [.black], uiimage: $image)
+        DrawingView(activeLineWidth: false, multipleColor: false, colors: [.black], uiimage: $image, lines: $lines)
             .frame(width: 300, height: 300, alignment: .center)
         if image != nil {
             let _ = viewModel.saveImageToPhotoLibrary(image!)
