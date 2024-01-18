@@ -8,6 +8,8 @@
 import Foundation
 import FirebaseFirestoreSwift
 import FirebaseFirestore
+import Drawing
+import SwiftUI
 
 public struct MessageModel: Codable, Identifiable {
     
@@ -50,8 +52,10 @@ public struct OptionsMessageModel: Codable, Hashable {
     
     var id: UUID = UUID()
     let text: String
-    public init(text: String) {
+    //let lines: [LineModel]
+    public init(text: String, lines: [LineModel] = []) {
         self.text = text
+        //self.lines = lines
     }
     public func hash(into hasher: inout Hasher) {
         hasher.combine(id)
@@ -60,3 +64,4 @@ public struct OptionsMessageModel: Codable, Hashable {
         return lhs.id == rhs.id
         }
 }
+

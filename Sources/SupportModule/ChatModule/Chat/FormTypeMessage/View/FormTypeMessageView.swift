@@ -71,6 +71,7 @@ public struct FormTypeMessageView: View {
                 .background(.blue)
                 .clipShape(RoundedRectangle(cornerRadius: 18))
                 Button(action: {
+                    
                     viewModel.sendMessage(message: text, type: TypeMessage.signature.rawValue, options: saveOptions, completion: {
                         status in
                         switch status {
@@ -81,7 +82,7 @@ public struct FormTypeMessageView: View {
                         }
                     })
                 }, label: {
-                    Text("Enviar mensaje").foregroundColor(.white)
+                    Text("Enviar firma").foregroundColor(.white)
                 }).padding()
                 .background(.blue)
                 .clipShape(RoundedRectangle(cornerRadius: 18))
@@ -93,7 +94,7 @@ public struct FormTypeMessageView: View {
   
     func showOption(textField: TextFieldViewPersonalizedForm) -> Int {
         if let position = saveOptions.firstIndex(where: {$0.id == "\(textField.id)"}){
-            saveOptions[position].position
+            saveOptions[position].position ?? 1
         } else {
             arrayOptions.count
         }

@@ -6,15 +6,18 @@
 //
 
 import Foundation
+import Drawing
 
 public struct OptionsMessage {
     public var id: String
-    public var text: String
-    public var position: Int
+    public var text: String?
+    public var position: Int?
+    public var lines: [LineModel] = []
     
-    public init(id: String, text: String, position: Int) {
+    public init(id: String, text: String? = nil, position: Int? = nil, lines: [LineModel] = []) {
         self.id = id
         self.text = text
         self.position = position
+        self.lines = []
     }
 }
