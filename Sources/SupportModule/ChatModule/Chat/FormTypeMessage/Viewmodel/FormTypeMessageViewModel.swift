@@ -24,7 +24,7 @@ public class FormTypeMessageViewModel: ObservableObject {
             .collection(toUUID)
             .document()
         let options = options.map { option  in
-            return ["id": option.id, "text": option.text, "position": option.position]
+            return ["id": option.id, "text": option.text, "position": option.position, "line": option.lines]
         }
         var message = [FirebaseConstants.message: message, FirebaseConstants.fromUUID: fromUUID, FirebaseConstants.toUUID: toUUID, FirebaseConstants.timestamp: Timestamp(), FirebaseConstants.fromName: UIDevice.modelName, "type": type, "options": options] as [String: Any]
         referenceSender.setData(message) { error in
