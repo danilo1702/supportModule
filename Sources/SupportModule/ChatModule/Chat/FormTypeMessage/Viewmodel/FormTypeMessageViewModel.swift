@@ -16,16 +16,21 @@ public class FormTypeMessageViewModel: ObservableObject {
         self.toUUID = toUUID
     }
     func sendMessage(message: String, type: String, options: [OptionsMessage], completion: @escaping (Result<Bool, Never>) -> ()) {
-        
+        var optionsToSend : [[String: Any]] = []
         guard let fromUUID = FirebaseManagerData.initialization.dbAuth.currentUser?.uid else { return }
         
         let referenceSender = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.messages)
             .document(fromUUID)
             .collection(toUUID)
             .document()
-        let options = options.map { option  in
-            return ["id": option.id, "text": option.text, "position": option.position, "line": option.lines]
+        if let lines = options[0].lines {
+            optionsToSend = [["id": options[0].id, "lines": lines]]
+        } else {
+            optionsToSend = options.map { option  in
+                return ["id": option.id, "text": option.text, "position": option.position]
+            }
         }
+        
         var message = [FirebaseConstants.message: message, FirebaseConstants.fromUUID: fromUUID, FirebaseConstants.toUUID: toUUID, FirebaseConstants.timestamp: Timestamp(), FirebaseConstants.fromName: UIDevice.modelName, "type": type, "options": options] as [String: Any]
         referenceSender.setData(message) { error in
             if error != nil {
