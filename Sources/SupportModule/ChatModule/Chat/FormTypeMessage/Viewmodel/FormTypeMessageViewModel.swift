@@ -23,11 +23,13 @@ public class FormTypeMessageViewModel: ObservableObject {
             .document(fromUUID)
             .collection(toUUID)
             .document()
-        if let lines = options[0].lines {
-            optionsToSend = [["id": options[0].id, "lines": lines]]
+        if options.count > 0, let firstOption = options.first, let lines = firstOption.lines {
+            optionsToSend = [["id": firstOption.id, "lines": lines]]
         } else {
+           
             optionsToSend = options.map { option  in
-                return ["id": option.id, "text": option.text, "position": option.position]
+                guard let text = option.text, let position = option.position else { return [:]}
+                return ["id": option.id, "text": text, "position": position]
             }
         }
         
