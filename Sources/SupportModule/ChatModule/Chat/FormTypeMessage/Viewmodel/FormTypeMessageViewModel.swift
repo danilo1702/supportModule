@@ -46,7 +46,7 @@ public class FormTypeMessageViewModel: ObservableObject {
         let referenceReceiver = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.messages)
             .document(toUUID)
             .collection(fromUUID)
-            .document()
+            .document(referenceSender.documentID)
         
         referenceReceiver.setData(message) { error in
             if error != nil {
