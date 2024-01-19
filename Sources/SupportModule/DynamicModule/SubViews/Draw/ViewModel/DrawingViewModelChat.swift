@@ -46,10 +46,9 @@ public class DrawingViewModelChat : ObservableObject {
                     //aqui el error
                     return
                 }
-                print(downloadURL)
-                print("Array lines:/-*/*-*-/*-/*-/*-/-/* \(lines)")
-                chat.sendLine(line: lines)
-                chat.sendMessage(message: "\(downloadURL)", type: TypeMessage.image.rawValue, options: [OptionsMessage(id: UUID().uuidString, lines: lines)]) { result in
+                let option = [OptionsMessage(id: UUID().uuidString, lines: lines)]
+                
+                chat.sendMessage(message: "\(downloadURL)", type: TypeMessage.image.rawValue, options:  option) { result in
                     switch result {
                         case .success(let success):
                             print("IMAGEN GUARDADA")

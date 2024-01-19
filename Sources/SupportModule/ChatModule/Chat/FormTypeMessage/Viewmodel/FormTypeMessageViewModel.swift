@@ -62,9 +62,6 @@ public class FormTypeMessageViewModel: ObservableObject {
         }
         completion(.success(true))
     }
-    func sendLine(line: [LineModel])  {
-        print(line)
-    }
     func saveLastMessage(fromUUID: String, message: inout [String: Any]) {
         
         
