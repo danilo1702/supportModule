@@ -16,6 +16,7 @@ public struct ChatView: View {
     @State var showSheet: Bool = false
     @State var showFinishButton: Bool = false
     @State var showAddMessagePersonalized: Bool = false
+    @State var messageModel: MessageModel?
     public init(toUUID: String) {
         self._viewModel = StateObject(wrappedValue: ChatViewModel(toUUID: toUUID))
     }
@@ -26,7 +27,7 @@ public struct ChatView: View {
                 ScrollViewReader { scrollViewProxy in
                     VStack{
                         ForEach(viewModel.messages, id: \.uniqueID) { message in
-                            
+                            let _ = messageModel = message
                             BumbleChat(message: message)
                                 .onTapGesture {
                                     showSheet.toggle()
@@ -47,7 +48,7 @@ public struct ChatView: View {
                     .interactiveDismissDisabled()
             })
             .sheet(isPresented: $showAddMessagePersonalized, content: {
-                FormTypeMessageView(toUUID: viewModel.toUUID)
+                FormTypeMessageView(toUUID: viewModel.toUUID, messageModel: messageModel)
             })
             .onAppear{
                 DispatchQueue.main.async {

@@ -25,9 +25,10 @@ struct DrawViewChat: View {
         VStack {
             drawing
                 .frame(width: 300, height: 300, alignment: .center)
-            
+        }
+        .task {
             if image != nil {
-                let _ = viewModel.saveImageToPhotoLibrary(image!, lines: lines)
+                    await viewModel.saveImageToPhotoLibrary(image!, lines: lines)
             }
         }
         .onAppear {

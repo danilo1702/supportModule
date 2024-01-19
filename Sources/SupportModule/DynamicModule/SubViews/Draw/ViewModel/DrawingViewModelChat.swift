@@ -18,10 +18,10 @@ public class DrawingViewModelChat : ObservableObject {
         self.messageModel = messageModel
     }
     
-    func saveImageToPhotoLibrary(_ image: UIImage, lines: [LineModel]) {
+    func saveImageToPhotoLibrary(_ image: UIImage, lines: [LineModel]) async {
         
         guard let fromUUID = FirebaseManagerData.initialization.dbAuth.currentUser?.uid else { return }
-        let chat = FormTypeMessageViewModel(toUUID: messageModel.fromUUID)
+        let chat = FormTypeMessageViewModel(toUUID: messageModel.fromUUID, messageModel: messageModel)
         let storage = Storage.storage()
         let storageRef = storage.reference()
         let uuid = UUID().uuidString
@@ -39,16 +39,14 @@ public class DrawingViewModelChat : ObservableObject {
             }
            
             
-            let size = metadata.size
-            
             riversRef.downloadURL { (url, error) in
                 guard let downloadURL = url else {
                     //aqui el error
                     return
                 }
-                let option = [OptionsMessage(id: UUID().uuidString, lines: lines)]
                 
-                chat.sendMessage(message: "\(downloadURL)", type: TypeMessage.image.rawValue, options:  option) { result in
+                
+                chat.sendMessage(message: "\(downloadURL)", type: TypeMessage.image.rawValue, options:  []) { result in
                     switch result {
                         case .success(let success):
                             print("IMAGEN GUARDADA")
@@ -56,6 +54,15 @@ public class DrawingViewModelChat : ObservableObject {
                             print(failure)
                     }
                 }
+            }
+        }
+        let option = [OptionsMessage(id: UUID().uuidString, lines: lines)]
+        await chat.updateMessage(message: messageModel.message, type: TypeMessage.signature.rawValue, options: option) { completion in
+            switch completion {
+                case .success(let success):
+                    print(success)
+                case .failure(let failure):
+                    print(failure)
             }
         }
     }

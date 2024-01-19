@@ -17,8 +17,11 @@ public struct FormTypeMessageView: View {
     @State var count: Int = 0
     @StateObject var viewModel: FormTypeMessageViewModel
     @State var text: String = ""
-    public init (toUUID: String) {
-        self._viewModel = StateObject(wrappedValue: FormTypeMessageViewModel(toUUID: toUUID))
+    var messageModel: MessageModel?
+    public init (toUUID: String, messageModel: MessageModel?) {
+        self.messageModel = messageModel
+        self._viewModel = StateObject(wrappedValue: FormTypeMessageViewModel(toUUID: toUUID, messageModel: messageModel))
+        
     }
     public var body: some View {
         Form {

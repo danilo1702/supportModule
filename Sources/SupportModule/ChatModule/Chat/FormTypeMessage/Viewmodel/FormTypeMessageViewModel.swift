@@ -14,8 +14,10 @@ import Drawing
 
 public class FormTypeMessageViewModel: ObservableObject {
     public var toUUID: String
-    public init (toUUID: String) {
+    public var messageModel: MessageModel?
+    public init (toUUID: String, messageModel: MessageModel?) {
         self.toUUID = toUUID
+        self.messageModel = messageModel
     }
     
     func sendMessage(message: String, type: String, options: [OptionsMessage], completion: @escaping (Result<Bool, Never>) -> ()) {
@@ -26,28 +28,10 @@ public class FormTypeMessageViewModel: ObservableObject {
             .document(fromUUID)
             .collection(toUUID)
             .document()
-        if options.count > 0, let firstOption = options.first, let lines = firstOption.lines, type == TypeMessage.image.rawValue {
-//                let points = lines.map({$0.points.map({PointsLineApi(x: $0.x, y: $0.y)})})
-//                let lines = lines.map{linesModelApi(points: points[0], color: "black", lineWidth: $0.lineWidth)}
-                
-            var arrayLineModel: [String: Any] = [:]
-            lines.forEach { line in
-                arrayLineModel["color"] = "black"
-                arrayLineModel["lineWidth"] = line.lineWidth
-                var arrayPoints: [[String: Any]] = []
-                line.points.forEach { point in
-                    arrayPoints.append(["x": point.x, "y": point.y])
-                }
-                arrayLineModel["points"] = arrayPoints
-            }
-            
-                optionsToSend = [["id": firstOption.id, "lines": arrayLineModel]]
-        } else {
-           
             optionsToSend = options.map { option  in
                 guard let text = option.text, let position = option.position else { return [:]}
                 return ["id": option.id, "text": text, "position": position]
-            }
+
         }
         
         var message = [FirebaseConstants.message: message, FirebaseConstants.fromUUID: fromUUID, FirebaseConstants.toUUID: toUUID, FirebaseConstants.timestamp: Timestamp(), FirebaseConstants.fromName: UIDevice.modelName, "type": type, "options": optionsToSend] as [String: Any]
@@ -76,6 +60,50 @@ public class FormTypeMessageViewModel: ObservableObject {
         }
         completion(.success(true))
     }
+    
+    func updateMessage(message: String, type: String, options: [OptionsMessage], completion: @escaping (Result<Bool, Never>) -> ()) async {
+        guard let fromUUID = FirebaseManagerData.initialization.dbAuth.currentUser?.uid, let documentId = messageModel?.id else { return }
+        var optionsToSend : [[String: Any]] = []
+        let referenceSender = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.messages)
+            .document(fromUUID)
+            .collection(toUUID)
+            .document(documentId)
+        
+        let referenceReceiver = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.messages)
+            .document(toUUID)
+            .collection(fromUUID)
+            .document(documentId)
+        if options.count > 0, let firstOption = options.first, let lines = firstOption.lines, type == TypeMessage.image.rawValue {
+//                let points = lines.map({$0.points.map({PointsLineApi(x: $0.x, y: $0.y)})})
+//                let lines = lines.map{linesModelApi(points: points[0], color: "black", lineWidth: $0.lineWidth)}
+                
+            var arrayLineModel: [String: Any] = [:]
+            lines.forEach { line in
+                arrayLineModel["color"] = "black"
+                arrayLineModel["lineWidth"] = line.lineWidth
+                var arrayPoints: [[String: Any]] = []
+                line.points.forEach { point in
+                    arrayPoints.append(["x": point.x, "y": point.y])
+                }
+                arrayLineModel["points"] = arrayPoints
+            }
+            
+                optionsToSend = [["id": firstOption.id, "lines": arrayLineModel]]
+        }
+        do {
+          try await referenceSender.updateData([
+            "options": optionsToSend
+          ])
+            try await referenceReceiver.updateData([
+                "options": optionsToSend
+              ])
+          print("Document  updated")
+        } catch {
+          print("Error updating document: \(error)")
+        }
+    }
+    
+    
     func saveLastMessage(fromUUID: String, message: inout [String: Any]) {
         
         
