@@ -9,7 +9,7 @@ import Foundation
 import FirebaseAuth
 import FirebaseFirestore
 import SwiftUI
-
+import Drawing
 
 
 public class FormTypeMessageViewModel: ObservableObject {
@@ -26,8 +26,15 @@ public class FormTypeMessageViewModel: ObservableObject {
             .collection(toUUID)
             .document()
         if options.count > 0, let firstOption = options.first, let lines = firstOption.lines {
-
-            optionsToSend = [["id": firstOption.id, "lines": lines]]
+            do {
+                let lines = lines.map{linesModelApi(points: $0.points, color: "black", lineWidth: $0.lineWidth)}
+                let toSend = try JSONEncoder().encode(lines)
+                optionsToSend = [["id": firstOption.id, "lines": toSend]]
+                
+            }catch {
+                
+            }
+           
         } else {
            
             optionsToSend = options.map { option  in

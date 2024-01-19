@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/app-check.git",
       "state" : {
-        "revision" : "5746b2d35c91c50581590ed97abe4c06b5037274",
-        "version" : "10.18.0"
+        "revision" : "3e464dad87dad2d29bb29a97836789bf0f8f67d2",
+        "version" : "10.18.1"
       }
     },
     {
@@ -24,7 +24,7 @@
       "location" : "https://github.com/danilo1702/Drawing.git",
       "state" : {
         "branch" : "main",
-        "revision" : "e35470c04624d1203442743ec831c8ddf65e6371"
+        "revision" : "24c862c44b6990fe24563c52b2cdcd079631bc03"
       }
     },
     {
