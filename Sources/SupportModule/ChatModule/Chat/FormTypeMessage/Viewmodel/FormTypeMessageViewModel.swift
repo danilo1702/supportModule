@@ -39,17 +39,25 @@ public class FormTypeMessageViewModel: ObservableObject {
         }
         
         var message = [FirebaseConstants.message: message, FirebaseConstants.fromUUID: fromUUID, FirebaseConstants.toUUID: toUUID, FirebaseConstants.timestamp: Timestamp(), FirebaseConstants.fromName: UIDevice.modelName, "type": type, "options": optionsToSend] as [String: Any]
-        referenceSender.setData(message) { error in
-            if error != nil {
-                print("Errro sending de message ")
-                return
+        do {
+            
+            try referenceSender.setData(message) { error in
+                if error != nil {
+                    print("Errro sending de message ")
+                    return
+                }
             }
+            
+        }catch {
+         print("/*-**********************************\(error)")
         }
+      
         
         let referenceReceiver = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.messages)
             .document(toUUID)
             .collection(fromUUID)
             .document()
+        
         referenceReceiver.setData(message) { error in
             if error != nil {
                 print("Error saving the message receiver")
