@@ -19,7 +19,7 @@ public class DrawingViewModelChat : ObservableObject {
     }
     
     func saveImageToPhotoLibrary(_ image: UIImage, lines: [LineModel]) async {
-        
+        var downloadURL: String = ""
         guard let fromUUID = FirebaseManagerData.initialization.dbAuth.currentUser?.uid else { return }
         let chat = FormTypeMessageViewModel(toUUID: messageModel.fromUUID, messageModel: messageModel)
         let storage = Storage.storage()
@@ -38,34 +38,34 @@ public class DrawingViewModelChat : ObservableObject {
                 return
             }
            
-            
-            riversRef.downloadURL { (url, error) in
-                guard let downloadURL = url else {
-                    //aqui el error
-                    return
-                }
-                
-                
-                chat.sendMessage(message: "\(downloadURL)", type: TypeMessage.image.rawValue, options:  []) { result in
-                    switch result {
-                        case .success(let success):
-                            print("IMAGEN GUARDADA")
-                        case .failure(let failure):
-                            print(failure)
-                    }
-                }
+        }
+        riversRef.downloadURL { (url, error) in
+            guard let url = url else {
+                //aqui el error
+                return
             }
+            downloadURL = url.relativeString
         }
         let option = [OptionsMessage(id: UUID().uuidString, lines: lines)]
-        await chat.updateMessage(message: messageModel.message, type: TypeMessage.signature.rawValue, options: option) { completion in
-            switch completion {
-                case .success(let success):
-                    print(success)
-                case .failure(let failure):
-                    print(failure)
-            }
-        }
-    }
+            await chat.sendMessage(message: "\(downloadURL)", type: TypeMessage.image.rawValue, options:  option) { result in
+                 switch result {
+                     case .success(let success):
+                         print("IMAGEN GUARDADA")
+                         
+                         await chat.updateMessage(message: self.messageModel.message, type: TypeMessage.signature.rawValue, options: option) { completion in
+                             switch completion {
+                                 case .success(let success):
+                                     print(success)
+                                 case .failure(let failure):
+                                     print(failure)
+                             }
+                         }
+                     case .failure(let failure):
+                         print(failure)
+                 }
+             }
+         }
+        
     func showLineasFromMessage() {
         guard let options = messageModel.options else { return }
         options.forEach { optionMessage in

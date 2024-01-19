@@ -51,7 +51,6 @@ public struct FormTypeMessageView: View {
                         }, label: {
                             Text("Añadir opción").padding()
                         })
-
                     }
                 }
             } header: {
@@ -59,15 +58,17 @@ public struct FormTypeMessageView: View {
             }
             Section {
                 Button(action: {
-                    viewModel.sendMessage(message: text, type: TypeMessage.onChoice.rawValue, options: saveOptions, completion: {
-                        status in
-                        switch status {
-                            case .success(_):
-                                dismiss()
-                            case .failure(_):
-                                break
-                        }
-                    })
+                    Task {
+                        await viewModel.sendMessage(message: text, type: TypeMessage.onChoice.rawValue, options: saveOptions, completion: {
+                            status in
+                            switch status {
+                                case .success(_):
+                                    dismiss()
+                                case .failure(_):
+                                    break
+                            }
+                        })
+                    }
                 }, label: {
                     Text("Enviar mensaje").foregroundColor(.white)
                 }).padding()
@@ -75,22 +76,23 @@ public struct FormTypeMessageView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 18))
                 Button(action: {
                     
-                    viewModel.sendMessage(message: text, type: TypeMessage.signature.rawValue, options: saveOptions, completion: {
-                        status in
-                        switch status {
-                            case .success(_):
-                                dismiss()
-                            case .failure(_):
-                                break
-                        }
-                    })
+                    Task {
+                        await viewModel.sendMessage(message: text, type: TypeMessage.signature.rawValue, options: saveOptions, completion: {
+                            status in
+                            switch status {
+                                case .success(_):
+                                    dismiss()
+                                case .failure(_):
+                                    break
+                            }
+                        })
+                    }
                 }, label: {
                     Text("Enviar firma").foregroundColor(.white)
                 }).padding()
                 .background(.blue)
                 .clipShape(RoundedRectangle(cornerRadius: 18))
             }
-           
         }
     }
     
