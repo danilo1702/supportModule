@@ -37,15 +37,15 @@ public class DrawingViewModelChat : ObservableObject {
                 print("error al subir la imagen")
                 return
             }
-           
-        }
-        riversRef.downloadURL { (url, error) in
-            guard let url = url else {
-                //aqui el error
-                return
+            riversRef.downloadURL { (url, error) in
+                guard let url = url else {
+                    //aqui el error
+                    return
+                }
+                downloadURL = url.relativeString
             }
-            downloadURL = url.relativeString
         }
+       
         let option = [OptionsMessage(id: UUID().uuidString, lines: lines)]
             await chat.sendMessage(message: "\(downloadURL)", type: TypeMessage.image.rawValue, options:  option) { result in
                  switch result {
