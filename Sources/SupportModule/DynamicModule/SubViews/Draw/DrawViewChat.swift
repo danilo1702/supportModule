@@ -25,15 +25,19 @@ struct DrawViewChat: View {
         VStack {
             drawing
                 .frame(width: 300, height: 300, alignment: .center)
-        }
-        .task {
             if image != nil {
-                    await viewModel.saveImageToPhotoLibrary(image!, lines: lines)
+                let _ = asyncTaskCaller()
             }
         }
+        
         .onAppear {
             
             self.drawing = DrawingView(activeLineWidth: false, multipleColor: false, colors: [.black], uiimage: self.$image, lines: self.$lines)
+        }
+    }
+    func asyncTaskCaller() {
+        Task {
+            await viewModel.saveImageToPhotoLibrary(image!, lines: lines)
         }
     }
 }
