@@ -26,15 +26,10 @@ public class FormTypeMessageViewModel: ObservableObject {
             .collection(toUUID)
             .document()
         if options.count > 0, let firstOption = options.first, let lines = firstOption.lines {
-            do {
-                let lines = lines.map{linesModelApi(points: $0.points, color: "black", lineWidth: $0.lineWidth)}
-                let toSend = try JSONEncoder().encode(lines)
-                optionsToSend = [["id": firstOption.id, "lines": toSend]]
+                let points = lines.map({$0.points.map({PointsLineApi(x: $0.x, y: $0.y)})})
+                let lines = lines.map{linesModelApi(points: points[0], color: "black", lineWidth: $0.lineWidth)}
                 
-            }catch {
-                
-            }
-           
+                optionsToSend = [["id": firstOption.id, "lines": lines]]
         } else {
            
             optionsToSend = options.map { option  in
