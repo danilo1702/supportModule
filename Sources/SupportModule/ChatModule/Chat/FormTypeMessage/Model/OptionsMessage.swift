@@ -17,6 +17,6 @@ public struct OptionsMessage {
         self.id = id
         self.text = text
         self.position = position
-        self.lines = []
+        self.lines = lines
     }
 }
