@@ -19,7 +19,7 @@ public class DrawingViewModelChat : ObservableObject {
     }
     
     func saveImageToPhotoLibrary(_ image: UIImage, lines: [LineModel]) async {
-        var downloadURL: String = ""
+        var downloadURL: URL?
         guard let fromUUID = FirebaseManagerData.initialization.dbAuth.currentUser?.uid else { return }
         let chat = FormTypeMessageViewModel(toUUID: messageModel.fromUUID, messageModel: messageModel)
         let storage = Storage.storage()
@@ -42,7 +42,7 @@ public class DrawingViewModelChat : ObservableObject {
                     //aqui el error
                     return
                 }
-                downloadURL = url.relativeString
+                downloadURL = url
             }
         }
        
