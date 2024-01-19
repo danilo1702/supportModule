@@ -47,6 +47,7 @@ public class DrawingViewModelChat : ObservableObject {
                     return
                 }
                 print(downloadURL)
+                print("Array lines:/-*/*-*-/*-/*-/*-/-/* \(lines)")
                 chat.sendMessage(message: "\(downloadURL)", type: TypeMessage.image.rawValue, options: [OptionsMessage(id: UUID().uuidString, lines: lines)]) { result in
                     switch result {
                         case .success(let success):

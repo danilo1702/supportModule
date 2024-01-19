@@ -10,6 +10,8 @@ import FirebaseAuth
 import FirebaseFirestore
 import SwiftUI
 
+
+
 public class FormTypeMessageViewModel: ObservableObject {
     public var toUUID: String
     public init (toUUID: String) {
@@ -24,6 +26,7 @@ public class FormTypeMessageViewModel: ObservableObject {
             .collection(toUUID)
             .document()
         if options.count > 0, let firstOption = options.first, let lines = firstOption.lines {
+
             optionsToSend = [["id": firstOption.id, "lines": lines]]
         } else {
            
