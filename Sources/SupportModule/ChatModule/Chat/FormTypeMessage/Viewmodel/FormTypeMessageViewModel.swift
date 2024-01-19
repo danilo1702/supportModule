@@ -73,7 +73,7 @@ public class FormTypeMessageViewModel: ObservableObject {
             .document(toUUID)
             .collection(fromUUID)
             .document(documentId)
-        if options.count > 0, let firstOption = options.first, let lines = firstOption.lines, type == TypeMessage.image.rawValue {
+        if options.count > 0, let firstOption = options.first, let lines = firstOption.lines, type == TypeMessage.signature.rawValue {
 //                let points = lines.map({$0.points.map({PointsLineApi(x: $0.x, y: $0.y)})})
 //                let lines = lines.map{linesModelApi(points: points[0], color: "black", lineWidth: $0.lineWidth)}
                 
