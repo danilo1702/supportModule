@@ -17,18 +17,7 @@ public class FormTypeMessageViewModel: ObservableObject {
     public init (toUUID: String) {
         self.toUUID = toUUID
     }
-    func convertirStructADiccionario<T>(estructura: T) -> [String: Any] {
-        let mirror = Mirror(reflecting: estructura)
-        var diccionario: [String: Any] = [:]
-
-        for (key, value) in mirror.children {
-            if let key = key {
-                diccionario[key] = value
-            }
-        }
-
-        return diccionario
-    }
+    
     func sendMessage(message: String, type: String, options: [OptionsMessage], completion: @escaping (Result<Bool, Never>) -> ()) {
         var optionsToSend : [[String: Any]] = []
         guard let fromUUID = FirebaseManagerData.initialization.dbAuth.currentUser?.uid else { return }
@@ -38,21 +27,21 @@ public class FormTypeMessageViewModel: ObservableObject {
             .collection(toUUID)
             .document()
         if options.count > 0, let firstOption = options.first, let lines = firstOption.lines, type == TypeMessage.image.rawValue {
-                let points = lines.map({$0.points.map({PointsLineApi(x: $0.x, y: $0.y)})})
-                let lines = lines.map{linesModelApi(points: points[0], color: "black", lineWidth: $0.lineWidth)}
+//                let points = lines.map({$0.points.map({PointsLineApi(x: $0.x, y: $0.y)})})
+//                let lines = lines.map{linesModelApi(points: points[0], color: "black", lineWidth: $0.lineWidth)}
                 
-//            var arrayLineModel: [String: Any] = [:]
-//            lines.forEach { line in
-//                arrayLineModel["color"] = "black"
-//                arrayLineModel["lineWidth"] = line.lineWidth
-//                var arrayPoints: [[String: Any]] = []
-//                line.points.forEach { point in
-//                    arrayPoints.append(["x": point.x, "y": point.y])
-//                }
-//                arrayLineModel["points"] = arrayPoints
-//            }
+            var arrayLineModel: [String: Any] = [:]
+            lines.forEach { line in
+                arrayLineModel["color"] = "black"
+                arrayLineModel["lineWidth"] = line.lineWidth
+                var arrayPoints: [[String: Any]] = []
+                line.points.forEach { point in
+                    arrayPoints.append(["x": point.x, "y": point.y])
+                }
+                arrayLineModel["points"] = arrayPoints
+            }
             
-                optionsToSend = [["id": firstOption.id, "lines": convertirStructADiccionario(estructura: lines[0])]]
+                optionsToSend = [["id": firstOption.id, "lines": arrayLineModel]]
         } else {
            
             optionsToSend = options.map { option  in
