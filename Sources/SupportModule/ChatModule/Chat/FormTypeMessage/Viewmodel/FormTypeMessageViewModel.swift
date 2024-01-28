@@ -23,23 +23,26 @@ public class FormTypeMessageViewModel: ObservableObject {
     func sendMessage(message: String, type: String, options: [OptionsMessage], completion: @escaping (Result<Bool, Never>) async -> ()) async {
     
         var optionsToSend : [[String: Any]] = []
+        var messageToSend: [String : Any]
         guard let fromUUID = FirebaseManagerData.initialization.dbAuth.currentUser?.uid else { return }
         
         let referenceSender = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.messages)
             .document(fromUUID)
             .collection(toUUID)
             .document()
+        
             optionsToSend = options.map { option  in
                 guard let text = option.text, let position = option.position else { return [:]}
                 return ["id": option.id, "text": text, "position": position]
 
         }
         
-
-           var message = [FirebaseConstants.message: message, FirebaseConstants.fromUUID: fromUUID, FirebaseConstants.toUUID: toUUID, FirebaseConstants.timestamp: Timestamp(), FirebaseConstants.fromName: UIDevice.modelName, "type": type, "options": optionsToSend] as [String: Any]
-
-        
-         referenceSender.setData(message) { error in
+        if type == TypeMessage.image.rawValue {
+            messageToSend = [FirebaseConstants.message: message, FirebaseConstants.fromUUID: fromUUID, FirebaseConstants.toUUID: toUUID, FirebaseConstants.timestamp: Timestamp(), FirebaseConstants.fromName: UIDevice.modelName, "type": type] as [String: Any]
+        } else {
+            messageToSend = [FirebaseConstants.message: message, FirebaseConstants.fromUUID: fromUUID, FirebaseConstants.toUUID: toUUID, FirebaseConstants.timestamp: Timestamp(), FirebaseConstants.fromName: UIDevice.modelName, "type": type, "options": optionsToSend] as [String: Any]
+        }
+         referenceSender.setData(messageToSend) { error in
                 if error != nil {
                     print("Errro sending de message ")
                     return
@@ -51,15 +54,15 @@ public class FormTypeMessageViewModel: ObservableObject {
             .collection(fromUUID)
             .document(referenceSender.documentID)
         
-        referenceReceiver.setData(message) { error in
+        referenceReceiver.setData(messageToSend) { error in
             if error != nil {
                 print("Error saving the message receiver")
                 return
             }
-            print(message)
+            print(messageToSend)
         }
         DispatchQueue.main.async {
-            self.saveLastMessage(fromUUID: fromUUID, message: &message)
+            self.saveLastMessage(fromUUID: fromUUID, message: &messageToSend)
         }
         await completion(.success(true))
     }

@@ -52,10 +52,10 @@ public struct OptionsMessageModel: Codable, Hashable {
     
     var id: UUID = UUID()
     let text: String
-    //let lines: [LineModel]
-    public init(text: String, lines: [LineModel] = []) {
+    let lines: [linesModelApi]
+    public init(text: String, lines: [linesModelApi] = []) {
         self.text = text
-        //self.lines = lines
+        self.lines = lines
     }
     public func hash(into hasher: inout Hasher) {
         hasher.combine(id)
