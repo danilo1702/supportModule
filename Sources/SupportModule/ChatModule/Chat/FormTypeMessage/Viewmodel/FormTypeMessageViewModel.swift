@@ -85,11 +85,12 @@ public class FormTypeMessageViewModel: ObservableObject {
                 
             var arrayLineModel: [String: Any] = [:]
             lines.forEach { line in
+                arrayLineModel["text"] = "Signature"
                 arrayLineModel["color"] = "black"
                 arrayLineModel["lineWidth"] = line.lineWidth
                 var arrayPoints: [[String: Any]] = []
                 line.points.forEach { point in
-                    arrayPoints.append(["x": point.x, "y": point.y])
+                    arrayPoints.append(["x": "\(point.x)", "y": "\(point.y)"])
                 }
                 arrayLineModel["points"] = arrayPoints
             }

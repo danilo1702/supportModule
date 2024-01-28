@@ -52,10 +52,11 @@ public struct OptionsMessageModel: Codable, Hashable {
     
     var id: UUID = UUID()
     let text: String
-    //let lines: [LineModel]
-    public init(text: String, lines: [LineModel] = []) {
+    let lines: linesModelDrwApi?
+    
+    public init(text: String, lines: linesModelDrwApi? = nil) {
         self.text = text
-        //self.lines = lines
+        self.lines = lines
     }
     public func hash(into hasher: inout Hasher) {
         hasher.combine(id)
@@ -63,5 +64,25 @@ public struct OptionsMessageModel: Codable, Hashable {
     public static func == (lhs: OptionsMessageModel, rhs: OptionsMessageModel) -> Bool {
         return lhs.id == rhs.id
         }
+}
+
+public struct linesModelDrwApi: Codable {
+    public var points: [PointsLineApi]
+    public var color: String
+    public var lineWidth: Double
+    public init(points: [PointsLineApi], color: String, lineWidth: Double) {
+        self.points = points
+        self.color = color
+        self.lineWidth = lineWidth
+    }
+}
+public struct PointsLineApi: Codable {
+    public var x: Double
+    public var y: Double
+    
+    public init(x: Double, y: Double) {
+        self.x = x
+        self.y = y
+    }
 }
 
