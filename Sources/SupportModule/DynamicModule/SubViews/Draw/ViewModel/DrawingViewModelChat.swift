@@ -25,7 +25,7 @@ public class DrawingViewModelChat : ObservableObject {
         let storageRef = storage.reference()
         let uuid = UUID().uuidString
         
-        try await uploadImage(image: image, storageRef: storageRef, uuid: uuid) { completion in
+         await uploadImage(image: image, storageRef: storageRef, uuid: uuid) { completion in
             switch completion {
                 case .success(let url):
                     
@@ -63,14 +63,14 @@ public class DrawingViewModelChat : ObservableObject {
         let uploadMeta = StorageMetadata.init()
         uploadMeta.contentType = "image/jpg"
         
-        let uploadTask = riversRef.putData(imageData, metadata: uploadMeta) { (metadata, error) in
+         riversRef.putData(imageData, metadata: uploadMeta) { (metadata, error) in
             guard error == nil else {
                 print("error al subir la imagen")
                 return
             }
             riversRef.downloadURL { (url, error) in
                 guard let url = url else {
-                    //aqui el error
+                    print("error downloadURL \(String(describing: error)) *******-**  \(String(describing: error?.localizedDescription))")
                     return
                 }
                 urlImage = url
