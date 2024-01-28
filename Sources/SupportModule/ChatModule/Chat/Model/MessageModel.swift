@@ -50,19 +50,21 @@ public struct MessageModel: Codable, Identifiable {
 
 public struct OptionsMessageModel: Codable, Hashable {
     
-    var id: UUID = UUID()
+    var uniqueid: UUID = UUID()
+    let id: String
     let text: String
     let lines: linesModelDrwApi?
     
-    public init(text: String, lines: linesModelDrwApi? = nil) {
+    public init(text: String, lines: linesModelDrwApi? = nil, id: String) {
         self.text = text
         self.lines = lines
+        self.id = id
     }
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
+        hasher.combine(uniqueid)
     }
     public static func == (lhs: OptionsMessageModel, rhs: OptionsMessageModel) -> Bool {
-        return lhs.id == rhs.id
+        return lhs.uniqueid == rhs.uniqueid
         }
 }
 
@@ -70,17 +72,17 @@ public struct linesModelDrwApi: Codable {
     public var points: [PointsLineApi]
     public var color: String
     public var lineWidth: Double
-    public init(points: [PointsLineApi], color: String, lineWidth: Double) {
+    public init( color: String, lineWidth: Double, points: [PointsLineApi]) {
         self.points = points
         self.color = color
         self.lineWidth = lineWidth
     }
 }
 public struct PointsLineApi: Codable {
-    public var x: Double
-    public var y: Double
+    public var x: String
+    public var y: String
     
-    public init(x: Double, y: Double) {
+    public init(x: String, y: String) {
         self.x = x
         self.y = y
     }

@@ -10,8 +10,8 @@ import SwiftUI
 public struct FormTypeMessageView: View {
     
     @Environment(\.dismiss) var dismiss
-    @State var selectionType: OptionsMessageModel = OptionsMessageModel(text: "Seleccion unica")
-    var arrayOptionsType = [OptionsMessageModel(text: "Seleccion unica"), OptionsMessageModel(text: "Multiple seleccion"), OptionsMessageModel(text: "Otra opcion")]
+    @State var selectionType: OptionsMessageModel = OptionsMessageModel(text: "Seleccion unica", id: "1")
+    var arrayOptionsType = [OptionsMessageModel(text: "Seleccion unica", id: "1"), OptionsMessageModel(text: "Multiple seleccion", id: "2"), OptionsMessageModel(text: "Otra opcion", id: "3")]
     @State public var saveOptions: [OptionsMessage] = []
     @State var arrayOptions: [TextFieldViewPersonalizedForm] = []
     @State var count: Int = 0
