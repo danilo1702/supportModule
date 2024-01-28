@@ -93,8 +93,35 @@ public struct Lines: Codable {
     let points: [Point]
 }
 
+// MARK: - Point
+struct Point: Codable {
+    let x, y: X
+}
 
-public struct Point: Codable {
-    let x: String
-    let y: String
+enum X: Codable {
+    case integer(Int)
+    case string(String)
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let x = try? container.decode(Int.self) {
+            self = .integer(x)
+            return
+        }
+        if let x = try? container.decode(String.self) {
+            self = .string(x)
+            return
+        }
+        throw DecodingError.typeMismatch(X.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for X"))
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case .integer(let x):
+            try container.encode(x)
+        case .string(let x):
+            try container.encode(x)
+        }
+    }
 }
