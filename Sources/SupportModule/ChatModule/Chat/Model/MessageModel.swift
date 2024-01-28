@@ -65,12 +65,17 @@ public struct MessageModel: Codable, Identifiable {
 //        }
 //}
 
+
+//typeMismatch(Swift.String, Swift.DecodingError.Context(codingPath: 
+//                                                        [CodingKeys(stringValue: "options", intValue: nil), _JSONKey(stringValue: "Index 0", intValue: 0), CodingKeys(stringValue: "lines", intValue: nil), CodingKeys(stringValue: "points", intValue: nil), _JSONKey(stringValue: "Index 0", intValue: 0), CodingKeys(stringValue: "y", intValue: nil)], debugDescription: "Expected to decode String but found a number instead.", underlyingError: nil))
+
 public struct OptionsMessageModel: Codable, Hashable {
     let text: String?
-    var id: UUID = UUID()
+    var id: String
     let lines: Lines
-    public init(text: String? = nil, lines: Lines) {
+    public init(id: String, text: String? = nil, lines: Lines) {
         self.text = text
+        self.id = id
         self.lines = lines
     }
         public func hash(into hasher: inout Hasher) {
@@ -90,34 +95,6 @@ public struct Lines: Codable {
 
 
 public struct Point: Codable {
-    let x: X
+    let x: String
     let y: String
-}
-
-public enum X: Codable {
-    case double(Double)
-    case string(String)
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        if let x = try? container.decode(Double.self) {
-            self = .double(x)
-            return
-        }
-        if let x = try? container.decode(String.self) {
-            self = .string(x)
-            return
-        }
-        throw DecodingError.typeMismatch(X.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for X"))
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case .double(let x):
-            try container.encode(x)
-        case .string(let x):
-            try container.encode(x)
-        }
-    }
 }
