@@ -44,6 +44,7 @@ class ChatViewModel: ObservableObject {
                     
                     } catch {
                         print(error)
+                        print("********Response: ******** \(change.document.data())")
                     }
                 }
             }
