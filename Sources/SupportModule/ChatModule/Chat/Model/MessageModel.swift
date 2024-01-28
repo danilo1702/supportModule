@@ -48,79 +48,20 @@ public struct MessageModel: Codable, Identifiable {
     }
 }
 
-//public struct OptionsMessageModel: Codable, Hashable {
-//    
-//    var id: UUID = UUID()
-//    let text: String
-//    let lines: [linesModelApi]
-//    public init(text: String, lines: [linesModelApi] = []) {
-//        self.text = text
-//        self.lines = lines
-//    }
-//    public func hash(into hasher: inout Hasher) {
-//        hasher.combine(id)
-//    }
-//    public static func == (lhs: OptionsMessageModel, rhs: OptionsMessageModel) -> Bool {
-//        return lhs.id == rhs.id
-//        }
-//}
-
-
-//typeMismatch(Swift.String, Swift.DecodingError.Context(codingPath: 
-//                                                        [CodingKeys(stringValue: "options", intValue: nil), _JSONKey(stringValue: "Index 0", intValue: 0), CodingKeys(stringValue: "lines", intValue: nil), CodingKeys(stringValue: "points", intValue: nil), _JSONKey(stringValue: "Index 0", intValue: 0), CodingKeys(stringValue: "y", intValue: nil)], debugDescription: "Expected to decode String but found a number instead.", underlyingError: nil))
-
 public struct OptionsMessageModel: Codable, Hashable {
-    let text: String?
-    var id: String
-    let lines: Lines
-    public init(id: String, text: String? = nil, lines: Lines) {
+    
+    var id: UUID = UUID()
+    let text: String
+    //let lines: [LineModel]
+    public init(text: String, lines: [LineModel] = []) {
         self.text = text
-        self.id = id
-        self.lines = lines
+        //self.lines = lines
     }
-        public func hash(into hasher: inout Hasher) {
-            hasher.combine(id)
-        }
-        public static func == (lhs: OptionsMessageModel, rhs: OptionsMessageModel) -> Bool {
-            return lhs.id == rhs.id
-            }
-}
-
-
-public struct Lines: Codable {
-    let color: String
-    let lineWidth: Int
-    let points: [Point]
-}
-
-struct Point: Codable {
-    let x, y: X
-}
-
-enum X: Codable {
-    case integer(Int)
-    case string(String)
-
-    init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        if let x = try? container.decode(Int.self) {
-            self = .integer(x)
-            return
-        }
-        if let x = try? container.decode(String.self) {
-            self = .string(x)
-            return
-        }
-        throw DecodingError.typeMismatch(X.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for X"))
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
     }
-
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case .integer(let x):
-            try container.encode(x)
-        case .string(let x):
-            try container.encode(x)
+    public static func == (lhs: OptionsMessageModel, rhs: OptionsMessageModel) -> Bool {
+        return lhs.id == rhs.id
         }
-    }
 }
+
