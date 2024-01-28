@@ -85,7 +85,6 @@ public class FormTypeMessageViewModel: ObservableObject {
                 
             var arrayLineModel: [String: Any] = [:]
             lines.forEach { line in
-                arrayLineModel["text"] = "Signature"
                 arrayLineModel["color"] = "black"
                 arrayLineModel["lineWidth"] = line.lineWidth
                 var arrayPoints: [[String: Any]] = []
@@ -95,7 +94,7 @@ public class FormTypeMessageViewModel: ObservableObject {
                 arrayLineModel["points"] = arrayPoints
             }
             
-                optionsToSend = [["id": firstOption.id, "lines": arrayLineModel]]
+            optionsToSend = [["id": firstOption.id, "text": "Signature", "lines": arrayLineModel]]
         }
         do {
           try await referenceSender.updateData([
