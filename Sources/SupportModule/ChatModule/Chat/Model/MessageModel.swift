@@ -50,7 +50,7 @@ public struct MessageModel: Codable, Identifiable {
 
 public struct OptionsMessageModel: Codable, Hashable {
     
-    var uniqueid: UUID = UUID()
+    
     let id: String
     let text: String
     let lines: linesModelDrwApi?
@@ -61,10 +61,10 @@ public struct OptionsMessageModel: Codable, Hashable {
         self.id = id
     }
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(uniqueid)
+        hasher.combine(id)
     }
     public static func == (lhs: OptionsMessageModel, rhs: OptionsMessageModel) -> Bool {
-        return lhs.uniqueid == rhs.uniqueid
+        return lhs.id == rhs.id
         }
 }
 
