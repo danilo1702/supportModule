@@ -21,7 +21,9 @@ public class FormTypeMessageViewModel: ObservableObject {
     }
     
     func sendMessage(message: String, type: String, options: [OptionsMessage], completion: @escaping (Result<Bool, Never>) async -> ()) async {
+    
         var optionsToSend : [[String: Any]] = []
+        var message: [String: Any] = [:]
         guard let fromUUID = FirebaseManagerData.initialization.dbAuth.currentUser?.uid else { return }
         
         let referenceSender = FirebaseManagerData.initialization.dbFirestore.collection(FirebaseConstants.messages)
@@ -29,12 +31,16 @@ public class FormTypeMessageViewModel: ObservableObject {
             .collection(toUUID)
             .document()
             optionsToSend = options.map { option  in
-                guard let text = option.text, let position = option.position else { return ["id": " ", "text": " ", "position": ""]}
+                guard let text = option.text, let position = option.position else { return [:]}
                 return ["id": option.id, "text": text, "position": position]
 
         }
         
-        var message = [FirebaseConstants.message: message, FirebaseConstants.fromUUID: fromUUID, FirebaseConstants.toUUID: toUUID, FirebaseConstants.timestamp: Timestamp(), FirebaseConstants.fromName: UIDevice.modelName, "type": type, "options": optionsToSend] as [String: Any]
+        if type == TypeMessage.image.rawValue {
+            message = [FirebaseConstants.message: message, FirebaseConstants.fromUUID: fromUUID, FirebaseConstants.toUUID: toUUID, FirebaseConstants.timestamp: Timestamp(), FirebaseConstants.fromName: UIDevice.modelName, "type": type] as [String: Any]
+        } else {
+            message = [FirebaseConstants.message: message, FirebaseConstants.fromUUID: fromUUID, FirebaseConstants.toUUID: toUUID, FirebaseConstants.timestamp: Timestamp(), FirebaseConstants.fromName: UIDevice.modelName, "type": type, "options": optionsToSend] as [String: Any]
+        }
         
          referenceSender.setData(message) { error in
                 if error != nil {
