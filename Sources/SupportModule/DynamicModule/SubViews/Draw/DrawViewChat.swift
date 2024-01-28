@@ -31,10 +31,21 @@ struct DrawViewChat: View {
         }
         
         .onAppear {
-            
+
+            putLines()
             self.drawing = DrawingView(activeLineWidth: false, multipleColor: false, colors: [.black], uiimage: self.$image, lines: self.$lines)
         }
     }
+    
+    func putLines() {
+        guard let options = messageModel.options, let firstOption = options.first, let lines = firstOption.lines else  { return }
+        let arrayPoints = lines.points.map { point in
+            return CGPoint(x: Double(point.x) ?? 0.0, y: Double(point.y) ?? 0.0)
+        }
+        let lineModel = LineModel(points: arrayPoints, color: .black, lineWidth: lines.lineWidth)
+        self.lines = [lineModel]
+    }
+    
     func asyncTaskCaller() {
         Task {
             await viewModel.saveImageToPhotoLibrary(image!, lines: lines)

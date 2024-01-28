@@ -38,13 +38,15 @@ class ChatViewModel: ObservableObject {
                 if change.type == .added {
                     
                     do {
-                    let cm = try change.document.data(as: MessageModel.self)
+                        let cm = try change.document.data(as: MessageModel.self)
                         self.messages.append(cm)
                         print("Appending chatMessage in Chat")
-                    
+                        
                     } catch {
+#if DEBUG
                         print(error)
                         print("********Response: ******** \(change.document.data().values)")
+#endif
                     }
                 }
             }
@@ -117,7 +119,7 @@ class ChatViewModel: ObservableObject {
             .document(toUUID)
             .collection(fromUUID)
             .document(referenceSender.documentID)
-            
+        
         
         referenceReceiver.setData(message) { error in
             if error != nil {
