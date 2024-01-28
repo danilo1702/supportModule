@@ -48,20 +48,76 @@ public struct MessageModel: Codable, Identifiable {
     }
 }
 
+//public struct OptionsMessageModel: Codable, Hashable {
+//    
+//    var id: UUID = UUID()
+//    let text: String
+//    let lines: [linesModelApi]
+//    public init(text: String, lines: [linesModelApi] = []) {
+//        self.text = text
+//        self.lines = lines
+//    }
+//    public func hash(into hasher: inout Hasher) {
+//        hasher.combine(id)
+//    }
+//    public static func == (lhs: OptionsMessageModel, rhs: OptionsMessageModel) -> Bool {
+//        return lhs.id == rhs.id
+//        }
+//}
+
 public struct OptionsMessageModel: Codable, Hashable {
-    
+    let text: String?
     var id: UUID = UUID()
-    let text: String
-    let lines: [linesModelApi]
-    public init(text: String, lines: [linesModelApi] = []) {
+    let lines: Lines
+    public init(text: String? = nil, lines: Lines) {
         self.text = text
         self.lines = lines
     }
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-    public static func == (lhs: OptionsMessageModel, rhs: OptionsMessageModel) -> Bool {
-        return lhs.id == rhs.id
+        public func hash(into hasher: inout Hasher) {
+            hasher.combine(id)
         }
+        public static func == (lhs: OptionsMessageModel, rhs: OptionsMessageModel) -> Bool {
+            return lhs.id == rhs.id
+            }
 }
 
+
+public struct Lines: Codable {
+    let color: String
+    let lineWidth: Int
+    let points: [Point]
+}
+
+
+public struct Point: Codable {
+    let x: X
+    let y: String
+}
+
+public enum X: Codable {
+    case double(Double)
+    case string(String)
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let x = try? container.decode(Double.self) {
+            self = .double(x)
+            return
+        }
+        if let x = try? container.decode(String.self) {
+            self = .string(x)
+            return
+        }
+        throw DecodingError.typeMismatch(X.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for X"))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case .double(let x):
+            try container.encode(x)
+        case .string(let x):
+            try container.encode(x)
+        }
+    }
+}

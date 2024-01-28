@@ -78,7 +78,7 @@ struct SelectOptionViewV2: View {
         HStack {
             
             Button(action: {
-                selection = item.text
+                selection = item.text ?? ""
             }, label: {
                 Image(systemName: selection == item.text ? CommonStrings.ImagesString.circleFill : CommonStrings.ImagesString.circleEmpty)
                     .resizable()
@@ -86,7 +86,7 @@ struct SelectOptionViewV2: View {
                     .aspectRatio(contentMode: .fit)
             })
             
-            Text(item.text)
+            Text(item.text ?? "")
                 
         }
     }

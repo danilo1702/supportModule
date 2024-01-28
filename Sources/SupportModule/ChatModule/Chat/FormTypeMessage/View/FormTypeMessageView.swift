@@ -10,8 +10,8 @@ import SwiftUI
 public struct FormTypeMessageView: View {
     
     @Environment(\.dismiss) var dismiss
-    @State var selectionType: OptionsMessageModel = OptionsMessageModel(text: "Seleccion unica")
-    var arrayOptionsType = [OptionsMessageModel(text: "Seleccion unica"), OptionsMessageModel(text: "Multiple seleccion"), OptionsMessageModel(text: "Otra opcion")]
+    @State var selectionType: OptionsMessageModel = OptionsMessageModel(text: "Seleccion unica", lines: Lines(color: "", lineWidth: 1, points: []))
+    var arrayOptionsType = [OptionsMessageModel(text: "Seleccion unica", lines: Lines(color: "", lineWidth: 1, points: [])), OptionsMessageModel(text: "Multiple seleccion", lines: Lines(color: "", lineWidth: 1, points: [])), OptionsMessageModel(text: "Otra opcion", lines: Lines(color: "", lineWidth: 1, points: []))]
     @State public var saveOptions: [OptionsMessage] = []
     @State var arrayOptions: [TextFieldViewPersonalizedForm] = []
     @State var count: Int = 0
@@ -28,7 +28,7 @@ public struct FormTypeMessageView: View {
             Section {
                 Picker("Tipo de mensaje", selection: $selectionType) {
                     ForEach(arrayOptionsType, id: \.self) {
-                        Text($0.text)
+                        Text($0.text ?? "")
                     }
                 }.pickerStyle(.menu)
                 
