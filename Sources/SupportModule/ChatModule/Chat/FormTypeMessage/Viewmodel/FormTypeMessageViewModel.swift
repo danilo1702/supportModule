@@ -29,7 +29,7 @@ public class FormTypeMessageViewModel: ObservableObject {
             .collection(toUUID)
             .document()
             optionsToSend = options.map { option  in
-                guard let text = option.text, let position = option.position else { return [:]}
+                guard let text = option.text, let position = option.position else { return ["0" :OptionsMessage(id: "")]}
                 return ["id": option.id, "text": text, "position": position]
 
         }
