@@ -14,9 +14,8 @@ import Combine
 public class DrawingViewModelChat : ObservableObject {
     
     public var messageModel: MessageModel
-    var uploadedImage = PassthroughSubject<URL, Error> ()
+    var uploadedImage = PassthroughSubject<(URL, [LineModel]), Error> ()
     var cancellable = Set<AnyCancellable>()
-    var lines: [LineModel]?
     
     public init(messageModel: MessageModel) {
         self.messageModel = messageModel
@@ -24,7 +23,7 @@ public class DrawingViewModelChat : ObservableObject {
     }
     
     func configureSubscriber() {
-        let option = [OptionsMessage(id: UUID().uuidString, lines: lines)]
+       
         let chat = FormTypeMessageViewModel(toUUID: messageModel.fromUUID, messageModel: messageModel)
         uploadedImage.sink { completion in
             switch completion {
@@ -33,7 +32,8 @@ public class DrawingViewModelChat : ObservableObject {
                 case .failure(let error):
                     print(error)
             }
-        } receiveValue: { url in
+        } receiveValue: { (url, lines) in
+            let option = [OptionsMessage(id: UUID().uuidString, lines: lines)]
             Task {
                 await chat.sendMessage(message: "\(url)", type: TypeMessage.image.rawValue, options:  option) { result in
                     switch result {
@@ -57,17 +57,10 @@ public class DrawingViewModelChat : ObservableObject {
     }
     
     func saveImageToPhotoLibrary(_ image: UIImage, lines: [LineModel]) async {
-        self.lines = lines
+        
         let storage = Storage.storage()
         let storageRef = storage.reference()
         let uuid = UUID().uuidString
-        
-          uploadImage(image: image, storageRef: storageRef, uuid: uuid)
-    }
-    
-    
-    
-    func uploadImage(image:UIImage, storageRef: StorageReference, uuid: String) {
         
         let riversRef = storageRef.child("messageImage/\(uuid).jpg")
         guard let imageData = image.jpegData(compressionQuality: 0.75) else{ return }
@@ -84,9 +77,16 @@ public class DrawingViewModelChat : ObservableObject {
                     print("error downloadURL \(String(describing: error)) *******-**  \(String(describing: error?.localizedDescription))")
                     return
                 }
-                self.uploadedImage.send(url)
+                self.uploadedImage.send((url, lines))
             }
         }
+    }
+    
+    
+    
+    func uploadImage(image:UIImage, storageRef: StorageReference, uuid: String) {
+        
+        
     }
     func showLineasFromMessage() {
         guard let options = messageModel.options else { return }
