@@ -93,7 +93,6 @@ public struct Lines: Codable {
     let points: [Point]
 }
 
-// MARK: - Point
 struct Point: Codable {
     let x, y: X
 }
