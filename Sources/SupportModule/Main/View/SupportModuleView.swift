@@ -191,6 +191,7 @@ public struct SupportModuleView: View {
 struct ProgramTurnView: View {
     public var arrayDemo =  MockInformation.cardListZonas
     @State var showAlert: Bool = false
+    @State var showWebKit: Bool = false
     @State public var textSearch: String = ""
     var body: some View {
         VStack {
@@ -204,8 +205,14 @@ struct ProgramTurnView: View {
             ForEach(arrayDemo, id: \.uniqueId) { article in
                 CardView(information: article) {
                     showAlert.toggle()
-                } .alert(CommonStrings.programTurn, isPresented: $showAlert) {}
+                } .alert(CommonStrings.programTurn, isPresented: $showAlert) {
+                    Button("Aceptar") {
+                        showWebKit = true
+                    }
+                }
                 
+                    .showNavigationLink(link: article.link!, show: $showWebKit)
+                    
             } .padding()
         }
         //.addSearchbar(textSearch: $textSearch, placeHolder: "Buscar por zona", title: nil, completion: {})
