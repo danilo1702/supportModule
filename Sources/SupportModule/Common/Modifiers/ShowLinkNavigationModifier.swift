@@ -12,6 +12,7 @@ public struct ShowLinkNavigationModifier: ViewModifier {
     
     public var link: String
     @Binding public var show: Bool
+    public var turn: Bool = false
     
     public func body(content: Content) -> some View {
         
@@ -19,6 +20,21 @@ public struct ShowLinkNavigationModifier: ViewModifier {
             .sheet(isPresented: $show, content: {
             VStack{
                 HStack{
+                    if turn {
+                        Button(action: { show.toggle()
+                            print(link)}, label: {
+                                
+                            HStack{
+                                Text(CommonStrings.turn).foregroundStyle(.white)
+                                Image(systemName: "calendar.badge.checkmark").foregroundStyle(.white)
+                            }
+                            .padding(3)
+                            .background(
+                                RoundedRectangle(cornerSize: CGSize(width: 20, height: 10))
+                                .background(.green))
+                            .cornerRadius(15)
+                        })
+                    }
                     Spacer()
                     Button(action: { show.toggle()
                         print(link)}, label: {
@@ -33,6 +49,7 @@ public struct ShowLinkNavigationModifier: ViewModifier {
                             .background(.blue))
                         .cornerRadius(15)
                     })
+                    
                 }
                 .padding()
                 WebViewContainer(url: link)

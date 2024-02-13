@@ -211,7 +211,7 @@ struct ProgramTurnView: View {
                     }
                 }
                 
-                    .showNavigationLink(link: article.link!, show: $showWebKit)
+                    .showNavigationLink(link: article.link!, show: $showWebKit, turn: true)
                     
             } .padding()
         }

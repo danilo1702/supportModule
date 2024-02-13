@@ -10,6 +10,7 @@ import Foundation
 public struct CommonStrings {
     
     public static let close: String = "Cerrar"
+    public static let turn: String = "Agendar turno"
     public static let emptyString: String = ""
     public static let programTurn: String = "Este turno no garantiza que seas atendido a la hora asignada, deberás esperar el llamado de este en la sucursal seleccionada"
     public static let chatSupport: String = "Chat Support"
