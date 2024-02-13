@@ -200,7 +200,7 @@ public class SupportMainViewModel: ObservableObject {
         }
     }
     func getRemoteConfig(completion: @escaping (Result<RemoteConfigModelMainView, Never>) ->() ) {
-        let cacheDuration: TimeInterval = 50
+        let cacheDuration: TimeInterval = 5
         let decoder = Firestore.Decoder()
         FirebaseManagerData.initialization.dbRemoteConfig.fetch(withExpirationDuration: cacheDuration) { status, error in
             if status == .success {
@@ -218,7 +218,7 @@ public class SupportMainViewModel: ObservableObject {
         }
     }
     func getActivateFeatures() {
-        let cacheDuration: TimeInterval = 50
+        let cacheDuration: TimeInterval = 5
         let decoder = Firestore.Decoder()
         FirebaseManagerData.initialization.dbRemoteConfig.fetch(withExpirationDuration: cacheDuration) { status, error in
             if status == .success {
