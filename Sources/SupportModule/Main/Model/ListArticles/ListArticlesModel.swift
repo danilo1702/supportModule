@@ -17,9 +17,9 @@ public struct InformationCardApi: Codable {
     public let dateFormat: TextViewModelInfoApi?
     public let designCard: ComponentDesignApi?
     public let action: String?
-    public let type: String
+    public let type: String?
     
-    public init(id: String, image: ImageModelApi? = nil, link: String? = nil, titleFormat: TextViewModelInfoApi, dateFormat: TextViewModelInfoApi? = nil, designCard: ComponentDesignApi? = nil, action: String? = nil, type: String) {
+    public init(id: String, image: ImageModelApi? = nil, link: String? = nil, titleFormat: TextViewModelInfoApi, dateFormat: TextViewModelInfoApi? = nil, designCard: ComponentDesignApi? = nil, action: String? = nil, type: String? = "text") {
         self.id = id
         self.image = image
         self.link = link
