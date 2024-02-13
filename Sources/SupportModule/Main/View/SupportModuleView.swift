@@ -43,32 +43,34 @@ public struct SupportModuleView: View {
                 }
                 
                 
-                if viewModel.recentMessage.count > 0 && viewModel.chats {
-                    VStack {
-                        HStack{
-                            TextView(informationModel: generalConfiguration.titleLastChat)
-                                .shadow(radius: 7)
-                            Spacer()
-                            Button(action: {chatHistory.toggle()}, label: {
-                                Text(CommonStrings.historial)
-                            })
+                if viewModel.chats {
+                    if viewModel.recentMessage.count > 0 {
+                        VStack {
+                            HStack{
+                                TextView(informationModel: generalConfiguration.titleLastChat)
+                                    .shadow(radius: 7)
+                                Spacer()
+                                Button(action: {chatHistory.toggle()}, label: {
+                                    Text(CommonStrings.historial)
+                                })
+                                
+                            }.padding(19)
                             
-                        }.padding(19)
-                        
-                        CardView(information: viewModel.recentMessage[0], activeNavigation: $navigationChat, view: CardRecentMessageView(information: viewModel.recentMessage[0]).toAnyView()) {
-                            toUUID = (viewModel.recentMessage.count > 0 ? viewModel.recentMessage[0].toUUID ?? "" ==  Auth.auth().currentUser?.uid ? viewModel.recentMessage[0].fromUUID ?? "" : viewModel.recentMessage[0].toUUID ?? "" : "")
-                            chatHistoryViewModel.updateToReadChat(toUUID: toUUID)
+                            CardView(information: viewModel.recentMessage[0], activeNavigation: $navigationChat, view: CardRecentMessageView(information: viewModel.recentMessage[0]).toAnyView()) {
+                                toUUID = (viewModel.recentMessage.count > 0 ? viewModel.recentMessage[0].toUUID ?? "" ==  Auth.auth().currentUser?.uid ? viewModel.recentMessage[0].fromUUID ?? "" : viewModel.recentMessage[0].toUUID ?? "" : "")
+                                chatHistoryViewModel.updateToReadChat(toUUID: toUUID)
+                            }
+                            .padding(.horizontal)
+                            
                         }
-                        .padding(.horizontal)
+                        ButtonView(informationButton: generalConfiguration.buttonInformationStartChat) {
+                            newConversacion.toggle()
+                        }
+                        .padding()
+                        .frame(alignment: .center)
                         
+                        .shadow(radius: 5)
                     }
-                    ButtonView(informationButton: generalConfiguration.buttonInformationStartChat) {
-                        newConversacion.toggle()
-                    }
-                    .padding()
-                    .frame(alignment: .center)
-                    
-                    .shadow(radius: 5)
                 }
                 Spacer()
                 if viewModel.turns {
