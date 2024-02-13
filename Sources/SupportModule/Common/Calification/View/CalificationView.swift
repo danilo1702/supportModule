@@ -123,7 +123,9 @@ struct CalificationView: View {
             .foregroundStyle(Color(hex: designView?.star.foregroundColor ?? "#0040FF"))
     }
     func allOk() -> Bool {
-        guard  let _ =  stairs.last(where: {$0.status == true}), optionSelected.name != "" else { return false }
+        guard  let _ =  stairs.last(where: {$0.status == true}) else { 
+            return false
+        }
         return true
     }
     func getInformationTosend() -> SendCalification {
