@@ -63,14 +63,15 @@ public struct SupportModuleView: View {
                             .padding(.horizontal)
                             
                         }
-                        ButtonView(informationButton: generalConfiguration.buttonInformationStartChat) {
-                            newConversacion.toggle()
-                        }
-                        .padding()
-                        .frame(alignment: .center)
                         
-                        .shadow(radius: 5)
                     }
+                    ButtonView(informationButton: generalConfiguration.buttonInformationStartChat) {
+                        newConversacion.toggle()
+                    }
+                    .padding()
+                    .frame(alignment: .center)
+                    
+                    .shadow(radius: 5)
                 }
                 Spacer()
                 if viewModel.turns {
