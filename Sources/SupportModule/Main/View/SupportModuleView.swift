@@ -36,11 +36,14 @@ public struct SupportModuleView: View {
         
        
             VStack {
-                showListArticles()
-                    .padding(.horizontal)
-                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.4, alignment: .center)
+                if viewModel.searchArticles {
+                    showListArticles()
+                        .padding(.horizontal)
+                        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.4, alignment: .center)
+                }
                 
-                if viewModel.recentMessage.count > 0 {
+                
+                if viewModel.recentMessage.count > 0 && viewModel.chats {
                     VStack {
                         HStack{
                             TextView(informationModel: generalConfiguration.titleLastChat)
@@ -59,23 +62,25 @@ public struct SupportModuleView: View {
                         .padding(.horizontal)
                         
                     }
+                    ButtonView(informationButton: generalConfiguration.buttonInformationStartChat) {
+                        newConversacion.toggle()
+                    }
+                    .padding()
+                    .frame(alignment: .center)
+                    
+                    .shadow(radius: 5)
                 }
                 Spacer()
+                if viewModel.turns {
                 ButtonView(informationButton:ButtonModel(designButton: ComponentDesign(backgroundColor: .blue, cornerRaiuds: 15), title: TextViewModel(text: "Agendar turno", foregroundColor: .white, font: .system(size: 14), expandable: false)) ) {
                     showAlert.toggle()
                 }
                 .sheet(isPresented: $showAlert, content: {
                     ProgramTurnView()
                 })
-                
-                
-                ButtonView(informationButton: generalConfiguration.buttonInformationStartChat) {
-                    newConversacion.toggle()
                 }
-                .padding()
-                .frame(alignment: .center)
                 
-                .shadow(radius: 5)
+               
                 navigationLinks()
             }
             .addSearchbar(remoteConfig: $configuration, textSearch: $textSearch, completion: {
@@ -101,6 +106,7 @@ public struct SupportModuleView: View {
                                                                 break
                                                         }
                                                     }
+                                                    viewModel.getActivateFeatures()
                                                     viewModel.getLastChats()
                                                     gettingArticles()
                                                 }

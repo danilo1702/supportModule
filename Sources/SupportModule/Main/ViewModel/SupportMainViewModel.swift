@@ -17,6 +17,9 @@ public class SupportMainViewModel: ObservableObject {
     
     @Published public var articles: [CardModel] = []
     @Published public var recentMessage: [CardModel] = []
+    @Published public var chats: Bool = false
+    @Published public var turns: Bool = false
+    @Published public var searchArticles: Bool = false
     @Published public var supportInformation = MessageModel(message: "", fromUUID: "", toUUID: "", fromName: "", type: "")
     var deviceInformation = InformationDevice()
     var arrayArticles: [InformationCardApi] = []
@@ -206,6 +209,27 @@ public class SupportMainViewModel: ObservableObject {
                         do {
                             let configInformation = try decoder.decode(RemoteConfigModelMainView.self, from: config)
                             completion(.success(configInformation))
+                        }catch {
+                            print(error)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    func getActivateFeatures() {
+        let cacheDuration: TimeInterval = 50
+        let decoder = Firestore.Decoder()
+        FirebaseManagerData.initialization.dbRemoteConfig.fetch(withExpirationDuration: cacheDuration) { status, error in
+            if status == .success {
+                FirebaseManagerData.initialization.dbRemoteConfig.activate { _, _ in
+                    if let config = FirebaseManagerData.initialization.dbRemoteConfig["activateFeatures"].jsonValue as? [String: Any] {
+                        do {
+                            let configFeatures = try decoder.decode(ActivateFeatures.self, from: config)
+                            self.turns = configFeatures.turns
+                            self.chats = configFeatures.chat
+                            self.searchArticles = configFeatures.searchArticles
+                           
                         }catch {
                             print(error)
                         }

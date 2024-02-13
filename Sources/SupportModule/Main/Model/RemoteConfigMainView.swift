@@ -31,3 +31,14 @@ public struct SearchBarModel: Codable {
 
 
 
+public struct ActivateFeatures: Codable {
+    let searchArticles: Bool
+    let chat: Bool
+    let turns: Bool
+    
+    public init(searchArticles: Bool, chat: Bool, turns: Bool) {
+        self.searchArticles = searchArticles
+        self.chat = chat
+        self.turns = turns
+    }
+}
