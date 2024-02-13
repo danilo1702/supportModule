@@ -22,9 +22,10 @@ public struct CardModel: Identifiable {
     public var fromUUID: String?
     public var toUUID: String?
     public var indicator: Bool?
+    public var type: String
     
     
-    public init(id: String, image: ImageModel? = nil, link: String? = nil, titleFormat: TextViewModel, dateFormat: TextViewModel? = nil, nameFormat: TextViewModel? = nil, designCard: ComponentDesign = ComponentDesign(backgroundColor: .gray.opacity(0.1), cornerRaiuds: 15.0), fromUUID: String? = nil, toUUID: String? = nil, indicator: Bool? = false, action: String = "") {
+    public init(id: String, image: ImageModel? = nil, link: String? = nil, titleFormat: TextViewModel, dateFormat: TextViewModel? = nil, nameFormat: TextViewModel? = nil, designCard: ComponentDesign = ComponentDesign(backgroundColor: .gray.opacity(0.1), cornerRaiuds: 15.0), fromUUID: String? = nil, toUUID: String? = nil, indicator: Bool? = false, action: String = "", type: String = "text" ) {
         self.id = id
         self.image = image
         self.link = link
@@ -36,6 +37,7 @@ public struct CardModel: Identifiable {
         self.toUUID = toUUID
         self.indicator = indicator
         self.action = action
+        self.type = type
     }
     
     public var imageUrl: URL?  {
